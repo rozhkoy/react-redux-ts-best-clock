@@ -1,6 +1,9 @@
 import TimerSectionItem from './TimerSectionItem';
 
 const Timer = () => {
+
+
+
     return (
         <div className="wrap-timer">
             <div className="timer__section-group">

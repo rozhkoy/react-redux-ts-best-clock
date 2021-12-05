@@ -1,12 +1,14 @@
 import {useState} from "react";
 import Timer from "../Timer/Timer";
+import {useTypedSelector} from "../../hooks/useTypedSelector";
 
 
 
 const TabsButton = () => {
-  const [selectedTab, setSelectedTab] = useState(2)
+  const [selectedTab, setSelectedTab] = useState(2);
 
-
+  const  store = useTypedSelector( state => state.setTimerTime);
+  console.log(store, 'sd')
   return (
     <div className="timer">
       <div className="tabs">
@@ -17,8 +19,8 @@ const TabsButton = () => {
           TIMER
         </button>
       </div>
-      
-      {selectedTab === 2 && <Timer />}
+
+        {selectedTab === 2 && <Timer />}
     </div>
   );
 };
