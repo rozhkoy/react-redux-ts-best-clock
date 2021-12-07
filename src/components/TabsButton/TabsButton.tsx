@@ -7,8 +7,10 @@ import {useTypedSelector} from "../../hooks/useTypedSelector";
 const TabsButton = () => {
   const [selectedTab, setSelectedTab] = useState(2);
 
-  const  store = useTypedSelector( state => state.setTimerTime);
-  console.log(store, 'sd')
+  const  store = useTypedSelector( state => state.testSlice);
+
+  console.log(store)
+
   return (
     <div className="timer">
       <div className="tabs">

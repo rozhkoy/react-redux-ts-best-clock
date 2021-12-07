@@ -1,9 +1,7 @@
 
-const storeDefault: typeStateTimerHoursMinutesSecond = {
-    Hours: 0,
-    Minutes: 0,
-    Second: 0,
-}
+import {createSlice} from "@reduxjs/toolkit";
+import {RootState} from "./store";
+
 
 interface typeStateTimerHoursMinutesSecond{
     Hours: number,
@@ -11,22 +9,28 @@ interface typeStateTimerHoursMinutesSecond{
     Second: number,
 }
 
-interface actionSetTimerState{
-    type: string,
 
+const initialState:typeStateTimerHoursMinutesSecond = {
+    Hours: 0,
+    Minutes: 0,
+    Second: 0,
 }
 
 
- export const setTimerTime = (state = storeDefault, action:actionSetTimerState): typeStateTimerHoursMinutesSecond  => {
-    switch (action.type){
-        case "plus":
-            console.log("plus")
-            return state
-        case "minus":
-            console.log("minus")
-            return state
-        default:
-            return state
-
+export const testSlice =  createSlice({
+    name: "test",
+    initialState,
+    reducers: {
+        increment: (state: RootState) => {
+            state.Minute++;
+        }
     }
-}
+
+})
+
+
+export const {increment } = testSlice.actions;
+// export default testSlice.reducer
+
+
+
