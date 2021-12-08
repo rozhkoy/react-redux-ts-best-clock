@@ -61,13 +61,23 @@ export const TimerDataSlice = createSlice({
             }else{
                 state.Second--
             }
+        },
+        upDateHours: (state, action: PayloadAction<number>) =>{
+            state.Hours = action.payload;
+        },
+        upDateMinutes: (state, action: PayloadAction<number>) =>{
+            state.Minutes = action.payload;
+        },
+        upDateSecond: (state, action: PayloadAction<number>) =>{
+            state.Second = action.payload;
         }
+
 
 
     }
 })
 
-export const {decrementMinutes, decrementHours, decrementSecond, incrementHours, incrementSecond, incrementMinutes}  =  TimerDataSlice.actions
+export const {decrementMinutes, decrementHours, decrementSecond, incrementHours, incrementSecond, incrementMinutes, upDateHours, upDateMinutes, upDateSecond}  =  TimerDataSlice.actions
 export default TimerDataSlice.reducer
 
 

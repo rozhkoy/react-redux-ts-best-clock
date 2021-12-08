@@ -1,11 +1,70 @@
-import {useState} from "react";
+import React, {useEffect, useState, useRef} from "react";
 import Timer from "../Timer/Timer";
+import {useAppDispatch, useAppSelector} from "../../hooks/useTypedSelector";
+import {upDateHours, upDateMinutes, upDateSecond} from "../../store/setTimerTime";
 
 
 
 
 const TabsButton = () => {
+  type NumberForTimer = {
+    hours: number,
+    minute: number,
+    second: number,
+    mili: number,
+    currentMili: number,
+  }
+  const dispatch = useAppDispatch()
   const [selectedTab, setSelectedTab] = useState(2);
+  const [stateTimer, setStateTimer] = useState(false);
+  const endDate = useRef<number>(0);
+  const startDate = useRef<Date>();
+  const timerData = useAppSelector((state) => state.TimerDataSlice)
+  let calculateMili: NumberForTimer = {
+    hours: 0,
+    minute: 0,
+    second: 0,
+    mili: 0,
+    currentMili: 0,
+  };
+
+  function calculationDate() {
+    startDate.current = new Date();
+    calculateMili.mili = timerData.Hours * 60 * 60 * 1000 + timerData.Minutes * 60 * 1000 + timerData.Second * 1000;
+    endDate.current = calculateMili.mili + Date.now();
+  }
+
+  function startTimer(){
+    calculationDate();
+    setStateTimer(true)
+  }
+
+
+  useEffect( () =>{
+    let interval: any;
+    if (stateTimer) {
+      interval = setInterval(() => {
+        let resudualTime:any = new Date(endDate.current);
+        calculateMili.currentMili = resudualTime - Date.now();
+        if (Math.floor(calculateMili.currentMili * 0.001) <= 0) {
+          clearInterval(interval);
+        }
+        calculateMili.hours = Math.floor(calculateMili.currentMili / (1000 * 60 * 60))
+        calculateMili.minute = Math.floor(calculateMili.currentMili / (1000 * 60)) - calculateMili.hours * 60;
+        calculateMili.second = Math.floor(calculateMili.currentMili / 1000) - Math.floor(calculateMili.currentMili / (1000 * 60)) * 60;
+        dispatch(upDateHours(calculateMili.hours))
+        dispatch(upDateMinutes(calculateMili.minute))
+        dispatch(upDateSecond(calculateMili.second))
+        // setTimerHours(calculateMili.hours);
+        // setTimerMinute(calculateMili.minute);
+        // setTimerSecond(calculateMili.second);
+      }, 250);
+    }
+    return () => {
+      clearInterval(interval);
+    };
+  })
+
 
   return (
     <div className="timer">
@@ -17,6 +76,7 @@ const TabsButton = () => {
           TIMER
         </button>
       </div>
+      <button onClick={startTimer}>start</button>
 
         {selectedTab === 2 && <Timer />}
     </div>

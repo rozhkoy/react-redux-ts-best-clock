@@ -4,8 +4,8 @@ import React from "react";
 
 type Props = {
     number: number,
-    incrementNumber: any,
-    decrementNumber: any,
+    incrementNumber: () => void,
+    decrementNumber: () => void,
 }
  const TimerSectionItem:React.FC<Props> = (props) :JSX.Element=> {
 
