@@ -1,19 +1,24 @@
 
 import arrow from './arrow.svg';
+import React from "react";
 
-const TimerSectionItem = () => {
+type Props = {
+    number: number,
+    incrementNumber: any,
+    decrementNumber: any,
+}
+ const TimerSectionItem:React.FC<Props> = (props) :JSX.Element=> {
 
     return (
         <div className="timer__section-item">
-            <button className=" timer__button button__plus" >
+            <button onClick={props.decrementNumber}  className="timer__button button__plus" >
                 <img src={arrow} alt="" />
             </button>
-            <span className="numer__item">
-                {/*{indicator < 10 ? '0' + indicator : indicator}*/}
-                10
+            <span className="number__item">
+                {props.number < 10 ? '0' + props.number : props.number}
             </span>
             <span className="number__desription">Hs</span>
-            <button className=" timer__button button__minus" >
+            <button onClick={props.decrementNumber} className="timer__button button__minus" >
                 <img src={arrow} alt="" />
             </button>
         </div>
