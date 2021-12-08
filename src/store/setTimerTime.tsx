@@ -21,17 +21,17 @@ export const TimerDataSlice = createSlice({
     initialState,
     reducers: {
         incrementHours: (state) => {
-            if(state.Minutes >= 24 ){
-                state.Minutes = 0;
+            if(state.Hours >= 24 ){
+                state.Hours = 0;
             }else{
-                state.Minutes++
+                state.Hours++
             }
         },
         decrementHours: (state) => {
-            if(state.Minutes <= 0 ){
-                state.Minutes = 24;
+            if(state.Hours <= 0 ){
+                state.Hours = 24;
             }else{
-                state.Minutes--
+                state.Hours--
             }
         },
         incrementMinutes: (state) => {
@@ -49,17 +49,17 @@ export const TimerDataSlice = createSlice({
             }
         },
         incrementSecond: (state) => {
-            if(state.Minutes >= 60 ){
-                state.Minutes = 0;
+            if(state.Second >= 60 ){
+                state.Second = 0;
             }else{
-                state.Minutes++
+                state.Second++
             }
         },
         decrementSecond: (state) => {
-            if(state.Minutes <= 0 ){
-                state.Minutes = 60;
+            if(state.Second <= 0 ){
+                state.Second = 60;
             }else{
-                state.Minutes--
+                state.Second--
             }
         }
 
