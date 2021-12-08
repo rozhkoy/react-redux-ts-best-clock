@@ -1,9 +1,15 @@
 import TimerSectionItem from './TimerSectionItem';
 import {useAppDispatch, useAppSelector} from "../../hooks/useTypedSelector";
 import {decrementMinutes, decrementHours, decrementSecond, incrementHours, incrementSecond, incrementMinutes} from "../../store/setTimerTime";
+import React from "react";
 
 
-const Timer = () => {
+type Props = {
+    startTimer: () => void,
+    stopTimer: () => void,
+}
+
+const Timer:React.FC<Props> = (props):JSX.Element => {
     const timerData = useAppSelector((state) => state.TimerDataSlice)
     const dispatch = useAppDispatch()
 
@@ -41,10 +47,10 @@ const Timer = () => {
                 <TimerSectionItem incrementNumber={incrementSecondFunction} decrementNumber={decrementSecondFunction} number={timerData.Second}/>
             </div>
             <div className="timer-button__group">
-                <button className="timer__button timer__button--start">
+                <button onClick={props.startTimer} className="timer__button timer__button--start">
                     Start
                 </button>
-                <button className="timer__button timer__button--stop">
+                <button onClick={props.stopTimer} className="timer__button timer__button--stop">
                     Stop
                 </button>
                 <button className="timer__button timer__button--reset">

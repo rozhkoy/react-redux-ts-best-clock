@@ -38,6 +38,9 @@ const TabsButton = () => {
     calculationDate();
     setStateTimer(true)
   }
+  function stopTimer(){
+    setStateTimer(false)
+  }
 
 
   useEffect( () =>{
@@ -46,6 +49,7 @@ const TabsButton = () => {
       interval = setInterval(() => {
         let resudualTime:any = new Date(endDate.current);
         calculateMili.currentMili = resudualTime - Date.now();
+        console.log(calculateMili.currentMili);
         if (Math.floor(calculateMili.currentMili * 0.001) <= 0) {
           clearInterval(interval);
         }
@@ -55,9 +59,6 @@ const TabsButton = () => {
         dispatch(upDateHours(calculateMili.hours))
         dispatch(upDateMinutes(calculateMili.minute))
         dispatch(upDateSecond(calculateMili.second))
-        // setTimerHours(calculateMili.hours);
-        // setTimerMinute(calculateMili.minute);
-        // setTimerSecond(calculateMili.second);
       }, 250);
     }
     return () => {
@@ -76,9 +77,7 @@ const TabsButton = () => {
           TIMER
         </button>
       </div>
-      <button onClick={startTimer}>start</button>
-
-        {selectedTab === 2 && <Timer />}
+        {selectedTab === 2 && <Timer startTimer={startTimer} stopTimer={stopTimer} />}
     </div>
   );
 };
