@@ -1,6 +1,7 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 
 
+
 interface typeStateTimerHoursMinutesSecond {
     value: any,
 
@@ -18,7 +19,7 @@ interface user {
     completed: boolean
 }
 
-export const fetchTodos = createAsyncThunk<user[]>(
+export const fetchTodos = createAsyncThunk<any>(
     "todos/fetch",
     async () => {
         const response = await fetch(
@@ -48,8 +49,8 @@ export const test = createSlice({
     }
 })
 
-export const {incrementValue} = test.actions;
-export default test.reducer;
+export const {} = test.actions;
+export default  test.reducer
 
 
 
