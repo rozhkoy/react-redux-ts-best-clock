@@ -34,12 +34,7 @@ export const test = createSlice({
     name: "tet",
     initialState,
     reducers: {
-        incrementValue: (state) => {
-            axios.get(`https://api.ipgeolocation.io/timezone?apiKey=1951161faacc41268be75b771f166a97&location=london`)
-                .then(res => {
-                    console.log(res)
-                })
-        }
+
     },
     extraReducers: (builder) => {
         builder.addCase(fetchTodos.pending, (state, {payload}) => {
