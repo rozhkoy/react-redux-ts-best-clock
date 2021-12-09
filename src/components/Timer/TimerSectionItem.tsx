@@ -21,6 +21,7 @@ type Props = {
             <button onClick={props.decrementNumber} className="timer__button button__minus" >
                 <img src={arrow} alt="" />
             </button>
+
         </div>
     );
 };

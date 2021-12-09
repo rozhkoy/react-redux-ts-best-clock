@@ -1,12 +1,14 @@
 import { configureStore} from "@reduxjs/toolkit";
 import TimerDataSlice from "./setTimerTime";
+import test from "./test";
 
 
 
 
 export const store =  configureStore({
     reducer: {
-        TimerDataSlice: TimerDataSlice
+        TimerDataSlice: TimerDataSlice,
+        test: test,
     }
 })
 

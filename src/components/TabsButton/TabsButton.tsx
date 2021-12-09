@@ -2,7 +2,7 @@ import React, {useEffect, useState, useRef} from "react";
 import Timer from "../Timer/Timer";
 import {useAppDispatch, useAppSelector} from "../../hooks/useTypedSelector";
 import {upDateHours, upDateMinutes, upDateSecond} from "../../store/setTimerTime";
-
+import {incrementValue, fetchTodos} from "../../store/test";
 
 
 
@@ -66,7 +66,11 @@ const TabsButton = () => {
     };
   })
 
+  function test(){
+    dispatch(incrementValue())
+  }
 
+  const handleClick = () => dispatch(fetchTodos());
   return (
     <div className="timer">
       <div className="tabs">
@@ -77,6 +81,7 @@ const TabsButton = () => {
           TIMER
         </button>
       </div>
+      <button onClick={handleClick}>ffff</button>
         {selectedTab === 2 && <Timer startTimer={startTimer} stopTimer={stopTimer} />}
     </div>
   );
