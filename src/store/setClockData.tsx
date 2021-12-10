@@ -1,11 +1,12 @@
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, current} from "@reduxjs/toolkit";
 
 // interface
 
 interface clockState {
     value: number,
-    cityListForHints: [],
+    cityListForHints: string[],
     cityListStatus: boolean,
+    cityArray:Array<assortedCityList>
 }
 
 interface assortedCityList {
@@ -15,10 +16,11 @@ interface assortedCityList {
 
 // state
 
-const initialClockState = {
+const initialClockState:clockState = {
     value: 20,
     cityListForHints: [],
     cityListStatus: false,
+    cityArray: []
 } as clockState
 
 
@@ -28,20 +30,8 @@ export const fetchCityList = createAsyncThunk<any>(
         const response = await fetch(
             `https://restcountries.com/v2/all`
         );
-        const data: any = await response.json();
-        const cityArray:Array<assortedCityList> = [];
-        let obj: assortedCityList  = {}
-        console.log(data);
-        for (let i = 0; i < 10; i++) {
-            if ('capital' in data[i]) {
-                obj.id = i;
-                obj.cityName = data[i].capital;
-                console.log(obj);
-                cityArray.push(obj)
-                console.log(cityArray);
-            }
-        }
-        return obj
+        const data: any = await  response.json();
+        return data;
     }
 )
 
@@ -49,12 +39,26 @@ export const fetchCityList = createAsyncThunk<any>(
 export const clock = createSlice({
     name: "clock",
     initialState: initialClockState,
-    reducers: {},
+    reducers: {
+        check: (state) => {
+            console.log(state.cityListForHints);
+        }
+
+    },
     extraReducers: (builder => {
         builder.addCase(fetchCityList.fulfilled, (state, {payload}) => {
-            
+            for (let i = 0; i < payload.length ; i++) {
+                let obj: assortedCityList  = {}
+                obj.id = state.cityArray.length;
+                obj.cityName = payload[i].capital;
+                if ('capital' in payload[i]) {
+                    console.log(obj);
+                    state.cityArray.push(obj)
+                }
+            }
+            console.table(current(state.cityArray));
         })
     })
 })
-
+export const {check} = clock.actions
 export default clock.reducer
