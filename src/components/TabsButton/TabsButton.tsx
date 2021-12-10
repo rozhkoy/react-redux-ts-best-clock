@@ -52,15 +52,17 @@ const TabsButton = () => {
         let resudualTime:any = new Date(endDate.current);
         calculateMili.currentMili = resudualTime - Date.now();
         console.log(calculateMili.currentMili);
-        if (Math.floor(calculateMili.currentMili * 0.001) <= 0) {
+        if (Math.floor(calculateMili.currentMili * 0.001) < 0) {
           clearInterval(interval);
+          setStateTimer(false)
+        }else {
+          calculateMili.hours = Math.floor(calculateMili.currentMili / (1000 * 60 * 60))
+          calculateMili.minute = Math.floor(calculateMili.currentMili / (1000 * 60)) - calculateMili.hours * 60;
+          calculateMili.second = Math.floor(calculateMili.currentMili / 1000) - Math.floor(calculateMili.currentMili / (1000 * 60)) * 60;
+          dispatch(upDateHours(calculateMili.hours))
+          dispatch(upDateMinutes(calculateMili.minute))
+          dispatch(upDateSecond(calculateMili.second))
         }
-        calculateMili.hours = Math.floor(calculateMili.currentMili / (1000 * 60 * 60))
-        calculateMili.minute = Math.floor(calculateMili.currentMili / (1000 * 60)) - calculateMili.hours * 60;
-        calculateMili.second = Math.floor(calculateMili.currentMili / 1000) - Math.floor(calculateMili.currentMili / (1000 * 60)) * 60;
-        dispatch(upDateHours(calculateMili.hours))
-        dispatch(upDateMinutes(calculateMili.minute))
-        dispatch(upDateSecond(calculateMili.second))
       }, 250);
     }
     return () => {
@@ -69,11 +71,12 @@ const TabsButton = () => {
   })
 
 
-  const handleClick = () => dispatch(fetchCityList());
-  function chec(){
-    dispatch(check())
-    console.log(clockStore.cityListForHints[3].cityName);
+  const apiRequest = () => dispatch(fetchCityList());
+
+  if(!clockStore.apiStatus){
+    apiRequest();
   }
+
   return (
     <div className="timer">
       <div className="tabs">
@@ -84,8 +87,7 @@ const TabsButton = () => {
           TIMER
         </button>
       </div>
-      <button onClick={handleClick}>ffff</button>
-      <button onClick={chec}>dddd</button>
+
         {selectedTab === 2 && <Timer startTimer={startTimer} stopTimer={stopTimer} />}
         {selectedTab ===1 && <Clock />}
     </div>

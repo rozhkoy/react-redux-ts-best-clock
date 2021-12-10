@@ -5,12 +5,12 @@ import {createAsyncThunk, createSlice, current} from "@reduxjs/toolkit";
 interface clockState {
     value: number,
     cityListForHints: Array<assortedCityList>,
-    cityListStatus: boolean,
+    apiStatus: boolean,
 }
 
 interface assortedCityList {
-    id?: number,
-    cityName?: string,
+    id: number,
+    cityName: string,
 }
 
 // state
@@ -18,7 +18,7 @@ interface assortedCityList {
 const initialClockState:clockState = {
     value: 20,
     cityListForHints: [],
-    cityListStatus: false,
+    apiStatus: false,
 
 } as clockState
 
@@ -46,16 +46,20 @@ export const clock = createSlice({
     },
     extraReducers: (builder => {
         builder.addCase(fetchCityList.fulfilled, (state, {payload}) => {
-            for (let i = 0; i < payload.length ; i++) {
-                let obj: assortedCityList  = {}
-                obj.id = state.cityListForHints.length;
-                obj.cityName = payload[i].capital!;
-                if ('capital' in payload[i]) {
-                    console.log(obj);
-                    state.cityListForHints.push(obj)
+            console.log("start");
+            if(!state.apiStatus) {
+                for (let i = 0; i < payload.length; i++) {
+                    if ('capital' in payload[i]) {
+                        state.cityListForHints.push({
+                            id: state.cityListForHints.length,
+                            cityName: payload[i].capital
+                        } as assortedCityList)
+                    }
                 }
             }
-            console.log(state.cityListForHints);
+            state.apiStatus = true;
+            console.log("go")
+            console.log(current(state.cityListForHints));
         })
     })
 })

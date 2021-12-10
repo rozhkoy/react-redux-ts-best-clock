@@ -18,7 +18,7 @@ type Props = {
                 {props.number < 10 ? '0' + props.number : props.number}
             </span>
             <span className="number__desription">Hs</span>
-            <button onClick={props.decrementNumber} className="timer__button button__minus" >
+            <button onClick={props.incrementNumber} className="timer__button button__minus" >
                 <img src={arrow} alt="" />
             </button>
 

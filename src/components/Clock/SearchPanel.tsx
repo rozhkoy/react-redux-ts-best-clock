@@ -1,10 +1,6 @@
 
 import {useAppDispatch, useAppSelector} from "../../hooks/useTypedSelector";
 import React, {ChangeEvent, useEffect, useRef, useState} from "react";
-
-import {findAllInRenderedTree} from "react-dom/test-utils";
-import internal from "stream";
-
 const SearchPanel = () => {
 
 
@@ -25,29 +21,12 @@ const SearchPanel = () => {
     ]);
     const refInput = useRef<any>();
     const [hintsListUpdate, setHintsListUpdate] = useState();
-    // const domNode = useRef();
+    const domNode = useRef<any>();
 
     interface KeyboardEvent {
         keyCode: number;
     }
 
-
-    // function updateHintsList() {
-    //     resultListArray.current.length = 0;
-    //     const hintsList:any = resultsList.map((Item: any, index: number) => (
-    //         <li
-    //             ref={(elRef) => {
-    //                 resultListArray.current[index] = elRef;
-    //             }}
-    //             onClick={() => changeInputDate(Item.id, false)}
-    //             key={Item.id}
-    //         >
-    //             {Item.text}
-    //         </li>
-    //     ));
-    //
-    //     setHintsListUpdate(hintsList);
-    // }
 
     function updateInput(event: ChangeEvent<HTMLInputElement> ) {
         let temporally = event.target.value;
@@ -90,8 +69,8 @@ const SearchPanel = () => {
                 if (resultListArray.current[counterRow.current]) {
                     resultListArray.current[counterRow.current].classList.add('active__list');
                     changeInputDate(counterRow.current, false);
-                    if (resultListArray.current[counterRow.current].previousSibling) {
-                        resultListArray.current[counterRow.current].previousSibling.classList.remove('active__list');
+                    if (resultListArray.current[counterRow.current - 1]) {
+                        resultListArray.current[counterRow.current - 1 ].classList.remove('active__list');
                     }
                 }
             }
@@ -124,7 +103,7 @@ const SearchPanel = () => {
         let newResultList = [];
         let listSize = 0;
         for (let i = 0; i < clockStore.cityListForHints.length; i++) {
-            if (regex.test(clockStore.cityListForHints[i].cityName!)  && listSize <= 10) {
+            if (regex.test(clockStore.cityListForHints[i].cityName)  && listSize <= 10) {
                 newResultList.push({id: newID, text: `${clockStore.cityListForHints[i].cityName}`});
                 newID++;
                 listSize++;
@@ -147,13 +126,13 @@ const SearchPanel = () => {
 
     }
 
-    function hideHintsResult() {
+    function hideHintsResult(event: any) {
 
-        // if (!domNode.current.contains(event.target)) {
-        //     hintsList.current.classList.remove('hintsList');
-        //     refInput.current.blur();
-        // }
-        // setSelectState(false)
+        if (!domNode.current.contains(event.target)) {
+            hintsList.current.classList.remove('hintsList');
+            refInput.current.blur();
+        }
+        setSelectState(false)
     }
 
     function apiRequestDate() {
@@ -180,11 +159,11 @@ const SearchPanel = () => {
             };
         }, [enteredText]);
     return (
-        <div className="search">
-            <input type="text" ref={refInput} onFocus={focusInput} className="search__input"
+        <div className="search"  ref={domNode}>
+            <input type="text" ref={refInput}  onFocus={focusInput} className="search__input"
                    placeholder="Search by city name" onKeyDown={selectionHints} value={enteredText}
                    onChange={updateInput}/>
-            <button className="search__bttn" onClick={apiRequestDate}>
+            <button  className="search__bttn" onClick={apiRequestDate}>
                 Search
             </button>
             <ul className="search__result" ref={hintsList}>
