@@ -21,6 +21,7 @@ const TabsButton = () => {
   const endDate = useRef<number>(0);
   const startDate = useRef<Date>();
   const timerData = useAppSelector((state) => state.TimerDataSlice)
+  const clockStore = useAppSelector((state) => state.clock);
   let calculateMili: NumberForTimer = {
     hours: 0,
     minute: 0,
@@ -71,6 +72,7 @@ const TabsButton = () => {
   const handleClick = () => dispatch(fetchCityList());
   function chec(){
     dispatch(check())
+    console.log(clockStore.cityListForHints[3].cityName);
   }
   return (
     <div className="timer">

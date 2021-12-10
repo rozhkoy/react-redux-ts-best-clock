@@ -1,5 +1,6 @@
+
 import {useAppDispatch, useAppSelector} from "../../hooks/useTypedSelector";
-import {useRef, useState} from "react";
+import React, {ChangeEvent, useEffect, useRef, useState} from "react";
 
 import {findAllInRenderedTree} from "react-dom/test-utils";
 import internal from "stream";
@@ -8,13 +9,13 @@ const SearchPanel = () => {
 
 
 
-    const cityListForHits = useAppSelector((state) => state.clock)
+    const clockStore = useAppSelector((state) => state.clock);
     const dispatch = useAppDispatch();
     const resultListArray = useRef<Array<HTMLElement>>([]);
     const counterRow = useRef<number>(-1);
     const searchDate = useRef<any>({enteredText: ''});
     const [enteredText, setEnteredText] = useState('');
-    const hitsList = useRef(null);
+    const hintsList = useRef<any>(null);
     const [selectState, setSelectState] = useState(true);
     const [resultsList, setResultList] = useState([
         {id: 0, text: 'Kyiv'},
@@ -22,10 +23,13 @@ const SearchPanel = () => {
         {id: 2, text: 'Tokyo'},
         {id: 3, text: 'Moscow'},
     ]);
-    const refInput = useRef();
+    const refInput = useRef<any>();
     const [hintsListUpdate, setHintsListUpdate] = useState();
-    const domNode = useRef();
+    // const domNode = useRef();
 
+    interface KeyboardEvent {
+        keyCode: number;
+    }
 
 
     // function updateHintsList() {
@@ -45,7 +49,7 @@ const SearchPanel = () => {
     //     setHintsListUpdate(hintsList);
     // }
 
-    function updateInput(event: React.SyntheticEvent) {
+    function updateInput(event: ChangeEvent<HTMLInputElement> ) {
         let temporally = event.target.value;
         searchDate.current.enteredText = temporally;
         createHintsList(temporally);
@@ -54,7 +58,7 @@ const SearchPanel = () => {
         setSelectState(true)
     }
 
-    function changeInputDate(index, last) {
+    function changeInputDate(index: number, last: boolean) {
         if (selectState) {
             counterRow.current = index;
             if (last === true && index === -1) {
@@ -69,7 +73,7 @@ const SearchPanel = () => {
         }
     }
 
-    function selectionHints(event) {
+    function selectionHints(event: KeyboardEvent) {
         // enter
         if (event.keyCode === 13) {
             apiRequestDate();
@@ -85,10 +89,10 @@ const SearchPanel = () => {
                 }
                 if (resultListArray.current[counterRow.current]) {
                     resultListArray.current[counterRow.current].classList.add('active__list');
-                    changeInputDate(counterRow.current, false, resultsList[counterRow.current].latlng);
-                    if (resultListArray.current[counterRow.current].previousSibling) {
-                        resultListArray.current[counterRow.current].previousSibling.classList.remove('active__list');
-                    }
+                    changeInputDate(counterRow.current, false);
+                    // if (resultListArray.current[counterRow.current].previousSibling) {
+                    //     resultListArray.current[counterRow.current].previousSibling.classList.remove('active__list');
+                    // }
                 }
             }
             // to top
@@ -105,7 +109,7 @@ const SearchPanel = () => {
                 }
                 if (resultListArray.current[counterRow.current]) {
                     resultListArray.current[counterRow.current].classList.add('active__list');
-                    changeInputDate(counterRow.current, false, resultsList[counterRow.current].latlng);
+                    changeInputDate(counterRow.current, false);
                     if (resultListArray.current[counterRow.current + 1]) {
                         resultListArray.current[counterRow.current + 1].classList.remove('active__list');
                     }
@@ -114,20 +118,20 @@ const SearchPanel = () => {
         }
     }
 
-    function createHintsList(text) {
-        let regex = new RegExp(`^${text}`, 'i', 'm');
+    function createHintsList(text: string) {
+        let regex = new RegExp(`^${text}`, 'im');
         let newID = 0;
         let newResultList = [];
         let listSize = 0;
-        for (let i = 0; i < listForHints.length; i++) {
-            if (listForHints[i].capital.match(regex) && listSize <= 10) {
-                newResultList.push({id: newID, text: `${listForHints[i].capital}`});
+        for (let i = 0; i < clockStore.cityListForHints.length; i++) {
+            if (clockStore.cityListForHints[i].cityName && listSize <= 10) {
+                newResultList.push({id: newID, text: `${clockStore.cityListForHints[i].cityName}`});
                 newID++;
                 listSize++;
             }
         }
         if (newResultList.length === 0) {
-            hitsList.current.classList.remove('hintsList');
+            hintsList.current.classList.remove('hintsList');
             newResultList.push({id: newID, text: 'No search results'});
             setSelectState(false);
         } else {
@@ -135,34 +139,34 @@ const SearchPanel = () => {
         }
         listSize = 0;
         setResultList(newResultList);
-        updateHintsList();
     }
 
     function focusInput() {
-        hitsList.current.classList.add('hintsList');
+        hintsList.current.classList.add('hintsList');
         setSelectState(true)
 
     }
 
-    function hideHintsResult(event) {
-        if (!domNode.current.contains(event.target)) {
-            hitsList.current.classList.remove('hintsList');
-            refInput.current.blur();
-        }
-        setSelectState(false)
+    function hideHintsResult() {
+
+        // if (!domNode.current.contains(event.target)) {
+        //     hintsList.current.classList.remove('hintsList');
+        //     refInput.current.blur();
+        // }
+        // setSelectState(false)
     }
 
     function apiRequestDate() {
-        hitsList.current.classList.remove('hintsList');
+        hintsList.current.classList.remove('hintsList');
         refInput.current.blur();
         fetch(`https://api.ipgeolocation.io/timezone?apiKey=1951161faacc41268be75b771f166a97&location=${enteredText}`)
             .then((response) => response.json())
             .then((commints) => {
                 console.log(commints)
                 if ('ip' in commints.geo) {
-                    showMessage('Oops, no such city found');
+                    // showMessage('Oops, no such city found');
                 } else {
-                    props.FunCalcDifferenceTime(commints, enteredText);
+                    // props.FunCalcDifferenceTime(commints, enteredText);
                 }
                 setSelectState(false)
             });
@@ -171,7 +175,6 @@ const SearchPanel = () => {
     useEffect(
         () => {
             document.addEventListener('mousedown', hideHintsResult);
-            updateHintsList();
             return () => {
                 document.removeEventListener('mousedown', hideHintsResult);
             };
@@ -184,29 +187,14 @@ const SearchPanel = () => {
             <button className="search__bttn" onClick={apiRequestDate}>
                 Search
             </button>
-            <ul className="search__result" ref={hitsList}>
-                resultsList.map((Item: any, index: number) => (<li
-                    ref={(elRef: HTMLLIElement) => {
-                        resultListArray.current[index] = elRef;
-                    }}
+            <ul className="search__result" ref={hintsList}>
+                {resultsList.map((Item: any, index: number) => (<li
+                    ref={(elRef: HTMLLIElement) => {resultListArray.current[index] = elRef;}}
                     onClick={() => changeInputDate(Item.id, false)}
-                    key={Item.id}
-                >
+                    key={Item.id}>
                     {Item.text}
-                </li>
+                </li>))}
             </ul>
-
-
-            {/*<input type="text" className="search__input" placeholder="Search by city name"*/}
-            {/*/>*/}
-            {/*<button className="search__bttn">*/}
-            {/*    Search*/}
-            {/*</button>*/}
-            {/*<ul className="search__result">*/}
-
-            {/*</ul>*/}
-
-
         </div>
     );
 };

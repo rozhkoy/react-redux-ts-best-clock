@@ -4,9 +4,8 @@ import {createAsyncThunk, createSlice, current} from "@reduxjs/toolkit";
 
 interface clockState {
     value: number,
-    cityListForHints: string[],
+    cityListForHints: Array<assortedCityList>,
     cityListStatus: boolean,
-    cityArray:Array<assortedCityList>
 }
 
 interface assortedCityList {
@@ -20,7 +19,7 @@ const initialClockState:clockState = {
     value: 20,
     cityListForHints: [],
     cityListStatus: false,
-    cityArray: []
+
 } as clockState
 
 
@@ -49,14 +48,14 @@ export const clock = createSlice({
         builder.addCase(fetchCityList.fulfilled, (state, {payload}) => {
             for (let i = 0; i < payload.length ; i++) {
                 let obj: assortedCityList  = {}
-                obj.id = state.cityArray.length;
+                obj.id = state.cityListForHints.length;
                 obj.cityName = payload[i].capital;
                 if ('capital' in payload[i]) {
                     console.log(obj);
-                    state.cityArray.push(obj)
+                    state.cityListForHints.push(obj)
                 }
             }
-            console.table(current(state.cityArray));
+            console.log(state.cityListForHints);
         })
     })
 })
