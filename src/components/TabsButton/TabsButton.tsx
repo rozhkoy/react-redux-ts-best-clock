@@ -3,6 +3,7 @@ import Timer from "../Timer/Timer";
 import {useAppDispatch, useAppSelector} from "../../hooks/useTypedSelector";
 import {upDateHours, upDateMinutes, upDateSecond} from "../../store/setTimerTime";
 import {fetchCityList , check} from "../../store/setClockData";
+import Clock from "../Clock/Clock";
 
 
 
@@ -15,7 +16,7 @@ const TabsButton = () => {
     currentMili: number,
   }
   const dispatch = useAppDispatch()
-  const [selectedTab, setSelectedTab] = useState(2);
+  const [selectedTab, setSelectedTab] = useState(1);
   const [stateTimer, setStateTimer] = useState(false);
   const endDate = useRef<number>(0);
   const startDate = useRef<Date>();
@@ -84,6 +85,7 @@ const TabsButton = () => {
       <button onClick={handleClick}>ffff</button>
       <button onClick={chec}>dddd</button>
         {selectedTab === 2 && <Timer startTimer={startTimer} stopTimer={stopTimer} />}
+        {selectedTab ===1 && <Clock />}
     </div>
   );
 };

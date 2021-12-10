@@ -10,7 +10,7 @@ export const store =  configureStore({
     reducer: {
         TimerDataSlice: TimerDataSlice,
         test: test,
-        clock: clock
+        clock: clock,
 
     }
 })
