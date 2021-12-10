@@ -49,7 +49,7 @@ export const clock = createSlice({
             for (let i = 0; i < payload.length ; i++) {
                 let obj: assortedCityList  = {}
                 obj.id = state.cityListForHints.length;
-                obj.cityName = payload[i].capital;
+                obj.cityName = payload[i].capital!;
                 if ('capital' in payload[i]) {
                     console.log(obj);
                     state.cityListForHints.push(obj)

@@ -90,9 +90,9 @@ const SearchPanel = () => {
                 if (resultListArray.current[counterRow.current]) {
                     resultListArray.current[counterRow.current].classList.add('active__list');
                     changeInputDate(counterRow.current, false);
-                    // if (resultListArray.current[counterRow.current].previousSibling) {
-                    //     resultListArray.current[counterRow.current].previousSibling.classList.remove('active__list');
-                    // }
+                    if (resultListArray.current[counterRow.current].previousSibling) {
+                        resultListArray.current[counterRow.current].previousSibling.classList.remove('active__list');
+                    }
                 }
             }
             // to top
@@ -124,7 +124,7 @@ const SearchPanel = () => {
         let newResultList = [];
         let listSize = 0;
         for (let i = 0; i < clockStore.cityListForHints.length; i++) {
-            if (clockStore.cityListForHints[i].cityName && listSize <= 10) {
+            if (regex.test(clockStore.cityListForHints[i].cityName!)  && listSize <= 10) {
                 newResultList.push({id: newID, text: `${clockStore.cityListForHints[i].cityName}`});
                 newID++;
                 listSize++;
