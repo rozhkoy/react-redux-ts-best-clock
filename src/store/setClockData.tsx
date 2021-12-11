@@ -7,12 +7,14 @@ interface clockState {
     cityListForHints: Array<assortedCityList>,
     apiStatus: boolean,
     mainClock: mainClocKI,
+
 }
 
 interface mainClocKI{
     time: TimeHoursMinutesSecond,
     dataInString: string,
-    mainClockCity: string
+    mainClockCity: string,
+    difference: number
 }
 
 interface TimeHoursMinutesSecond{
@@ -44,15 +46,27 @@ const initialClockState:clockState = {
         },
         dataInString: '',
         mainClockCity: '',
+        difference: 0
     }
 } as clockState
 
 
-export const fetchCityList = createAsyncThunk<any>(
+export const fetchCityList = createAsyncThunk(
     "cityList",
     async () => {
         const response = await fetch(
             `https://restcountries.com/v2/all`
+        );
+        const data: any = await  response.json();
+        return data;
+    }
+)
+
+export const dataRetrievalOnRequest = createAsyncThunk(
+    'dataRetrieval',
+    async (cityName:string) => {
+        const response = await fetch(
+            `https://api.ipgeolocation.io/timezone?apiKey=1951161faacc41268be75b771f166a97&location=${cityName}`
         );
         const data: any = await  response.json();
         return data;
@@ -88,6 +102,10 @@ export const clock = createSlice({
             console.log("go")
             console.log(current(state.cityListForHints));
         })
+        builder.addCase(dataRetrievalOnRequest.fulfilled, (state, {payload}) =>{
+            console.log(payload);
+        })
+
     })
 })
 export const {check, upDateClockDate} = clock.actions

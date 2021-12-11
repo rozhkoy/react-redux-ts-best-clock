@@ -1,10 +1,9 @@
 
-import {useAppSelector} from "../../hooks/useTypedSelector";
+import {useAppDispatch, useAppSelector} from "../../hooks/useTypedSelector";
 import React, {ChangeEvent, useEffect, useRef, useState} from "react";
+import {dataRetrievalOnRequest} from "../../store/setClockData";
 const SearchPanel = () => {
-
-
-
+    const dispatch = useAppDispatch();
     const clockStore = useAppSelector((state) => state.clock);
     const resultListArray = useRef<Array<HTMLElement>>([]);
     const currentRow = useRef<number>(-1);
@@ -20,12 +19,10 @@ const SearchPanel = () => {
     ]);
     const refInput = useRef<any>();
     const domNode = useRef<any>();
-
     interface KeyboardEvent {
         keyCode: number;
     }
-    
-    
+
     interface hintsListObj{
         id: number,
         text: string
@@ -38,9 +35,6 @@ const SearchPanel = () => {
     //     }
     //     setResultList(arr);
     // }
-
-
-
 
     function updateInput(event: ChangeEvent<HTMLInputElement> ) {
         let temporally = event.target.value;
@@ -123,7 +117,7 @@ const SearchPanel = () => {
             }
         }
         if (newResultList.length === 0) {
-            hintsList.current.classList.remove('hintsList');
+            // hintsList.current.classList.remove('hintsList');
             newResultList.push({id: newID, text: 'No search results'});
             setSelectState(false);
         } else {
@@ -150,17 +144,9 @@ const SearchPanel = () => {
     function apiRequestDate() {
         hintsList.current.classList.remove('hintsList');
         refInput.current.blur();
-        fetch(`https://api.ipgeolocation.io/timezone?apiKey=1951161faacc41268be75b771f166a97&location=${enteredText}`)
-            .then((response) => response.json())
-            .then((commits) => {
-                console.log(commits)
-                if ('ip' in commits.geo) {
-                    // showMessage('Oops, no such city found');
-                } else {
-                    // props.FunCalcDifferenceTime(commits, enteredText);
-                }
-                setSelectState(false)
-            });
+        dispatch(dataRetrievalOnRequest(enteredText))
+        setSelectState(false)
+
     }
 
     useEffect(

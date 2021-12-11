@@ -2,7 +2,7 @@ import React, {useEffect, useState, useRef} from "react";
 import Timer from "../Timer/Timer";
 import {useAppDispatch, useAppSelector} from "../../hooks/useTypedSelector";
 import {upDateHours, upDateMinutes, upDateSecond} from "../../store/setTimerTime";
-import {fetchCityList , check} from "../../store/setClockData";
+import {fetchCityList, check, dataRetrievalOnRequest} from "../../store/setClockData";
 import Clock from "../Clock/Clock";
 
 
@@ -30,6 +30,9 @@ const TabsButton = () => {
     currentMili: 0,
   };
 
+
+  // timer
+
   function calculationDate() {
     startDate.current = new Date();
     calculateMili.mili = timerData.Hours * 60 * 60 * 1000 + timerData.Minutes * 60 * 1000 + timerData.Second * 1000;
@@ -42,6 +45,25 @@ const TabsButton = () => {
   }
   function stopTimer(){
     setStateTimer(false)
+  }
+
+
+  const apiRequest = () => dispatch(fetchCityList());
+
+  if(!clockStore.apiStatus){
+    apiRequest();
+  }
+
+  // end timer
+
+  // clock
+  function gettingDate(){
+
+
+  }
+
+  function showTime(){
+
   }
 
 
@@ -69,13 +91,11 @@ const TabsButton = () => {
       clearInterval(interval);
     };
   })
-
-
-  const apiRequest = () => dispatch(fetchCityList());
-
-  if(!clockStore.apiStatus){
-    apiRequest();
+  function test(){
+    dispatch(dataRetrievalOnRequest("london"))
   }
+
+
 
   return (
     <div className="timer">
@@ -87,7 +107,7 @@ const TabsButton = () => {
           TIMER
         </button>
       </div>
-
+  <button onClick={test}>dfdfdf</button>
         {selectedTab === 2 && <Timer startTimer={startTimer} stopTimer={stopTimer} />}
         {selectedTab ===1 && <Clock />}
     </div>
