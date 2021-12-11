@@ -1,4 +1,4 @@
-import {createAsyncThunk, createSlice, current} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, current, PayloadAction} from "@reduxjs/toolkit";
 
 // interface
 
@@ -6,20 +6,45 @@ interface clockState {
     value: number,
     cityListForHints: Array<assortedCityList>,
     apiStatus: boolean,
+    mainClock: mainClocKI,
 }
 
-interface assortedCityList {
+interface mainClocKI{
+    time: TimeHoursMinutesSecond,
+    dataInString: string,
+    mainClockCity: string
+}
+
+interface TimeHoursMinutesSecond{
+    hours: number,
+    minutes: number,
+    seconds: number
+}
+
+interface mainClockAction{
+    time: string,
+    data: string,
+}
+
+export interface assortedCityList {
     id: number,
     cityName: string,
-}
 
-// state
+}
 
 const initialClockState:clockState = {
     value: 20,
     cityListForHints: [],
     apiStatus: false,
-
+    mainClock: {
+        time: {
+            hours: 0,
+            minutes: 0,
+            seconds: 0
+        },
+        dataInString: '',
+        mainClockCity: '',
+    }
 } as clockState
 
 
@@ -41,8 +66,10 @@ export const clock = createSlice({
     reducers: {
         check: (state) => {
             console.log(state.cityListForHints);
-        }
+        },
+        upDateClockDate: (state, action:PayloadAction<mainClockAction>) => {
 
+        }
     },
     extraReducers: (builder => {
         builder.addCase(fetchCityList.fulfilled, (state, {payload}) => {
@@ -63,5 +90,5 @@ export const clock = createSlice({
         })
     })
 })
-export const {check} = clock.actions
+export const {check, upDateClockDate} = clock.actions
 export default clock.reducer

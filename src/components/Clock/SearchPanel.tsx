@@ -1,49 +1,63 @@
 
-import {useAppDispatch, useAppSelector} from "../../hooks/useTypedSelector";
+import {useAppSelector} from "../../hooks/useTypedSelector";
 import React, {ChangeEvent, useEffect, useRef, useState} from "react";
 const SearchPanel = () => {
 
 
 
     const clockStore = useAppSelector((state) => state.clock);
-    const dispatch = useAppDispatch();
     const resultListArray = useRef<Array<HTMLElement>>([]);
-    const counterRow = useRef<number>(-1);
-    const searchDate = useRef<any>({enteredText: ''});
+    const currentRow = useRef<number>(-1);
+    const searchData = useRef<any>({enteredText: ''});
     const [enteredText, setEnteredText] = useState('');
     const hintsList = useRef<any>(null);
     const [selectState, setSelectState] = useState(true);
-    const [resultsList, setResultList] = useState([
+    const [resultsList, setResultList] = useState<Array<hintsListObj>>([
         {id: 0, text: 'Kyiv'},
         {id: 1, text: 'Minsk'},
         {id: 2, text: 'Tokyo'},
         {id: 3, text: 'Moscow'},
     ]);
     const refInput = useRef<any>();
-    const [hintsListUpdate, setHintsListUpdate] = useState();
     const domNode = useRef<any>();
 
     interface KeyboardEvent {
         keyCode: number;
     }
+    
+    
+    interface hintsListObj{
+        id: number,
+        text: string
+    }
+
+    // function hintsListDefault(){
+    //     let arr: Array<hintsListObj> = [];
+    //     for(let i = 0; i > 10; i++){
+    //         arr.push({id: i, text: clockStore.cityListForHints[i].cityName})
+    //     }
+    //     setResultList(arr);
+    // }
+
+
 
 
     function updateInput(event: ChangeEvent<HTMLInputElement> ) {
         let temporally = event.target.value;
-        searchDate.current.enteredText = temporally;
+        searchData.current.enteredText = temporally;
         createHintsList(temporally);
         setEnteredText(temporally);
-        counterRow.current = -1;
+        currentRow.current = -1;
         setSelectState(true)
     }
 
-    function changeInputDate(index: number, last: boolean) {
+    function changeInputData(index: number, last: boolean) {
         if (selectState) {
-            counterRow.current = index;
+            currentRow.current = index;
             if (last === true && index === -1) {
-                setEnteredText(searchDate.current.enteredText);
+                setEnteredText(searchData.current.enteredText);
             } else if (last === true && index === resultsList.length) {
-                setEnteredText(searchDate.current.enteredText);
+                setEnteredText(searchData.current.enteredText);
             } else {
                 let offerResult = resultsList[index].text;
                 setEnteredText(offerResult);
@@ -53,44 +67,43 @@ const SearchPanel = () => {
     }
 
     function selectionHints(event: KeyboardEvent) {
-        // enter
         if (event.keyCode === 13) {
             apiRequestDate();
         }
-        //  to bottom
+
         if (selectState) {
             if (event.keyCode === 40) {
                 resultListArray.current[resultsList.length - 1].classList.remove('active__list');
-                counterRow.current++;
-                if (counterRow.current >= resultsList.length) {
-                    counterRow.current = -1;
-                    changeInputDate(counterRow.current, true);
+                currentRow.current++;
+                if (currentRow.current >= resultsList.length) {
+                    currentRow.current = -1;
+                    changeInputData(currentRow.current, true);
                 }
-                if (resultListArray.current[counterRow.current]) {
-                    resultListArray.current[counterRow.current].classList.add('active__list');
-                    changeInputDate(counterRow.current, false);
-                    if (resultListArray.current[counterRow.current - 1]) {
-                        resultListArray.current[counterRow.current - 1 ].classList.remove('active__list');
+                if (resultListArray.current[currentRow.current]) {
+                    resultListArray.current[currentRow.current].classList.add('active__list');
+                    changeInputData(currentRow.current, false);
+                    if (resultListArray.current[currentRow.current - 1]) {
+                        resultListArray.current[currentRow.current - 1 ].classList.remove('active__list');
                     }
                 }
             }
-            // to top
+
             if (event.keyCode === 38) {
-                counterRow.current--;
-                if (counterRow.current < -1) {
-                    counterRow.current = resultsList.length - 1;
+                currentRow.current--;
+                if (currentRow.current < -1) {
+                    currentRow.current = resultsList.length - 1;
                     resultListArray.current[0].classList.remove('active__list');
                 }
-                if (counterRow.current === -1) {
-                    changeInputDate(counterRow.current, true);
-                    counterRow.current = resultsList.length;
+                if (currentRow.current === -1) {
+                    changeInputData(currentRow.current, true);
+                    currentRow.current = resultsList.length;
                     resultListArray.current[0].classList.remove('active__list');
                 }
-                if (resultListArray.current[counterRow.current]) {
-                    resultListArray.current[counterRow.current].classList.add('active__list');
-                    changeInputDate(counterRow.current, false);
-                    if (resultListArray.current[counterRow.current + 1]) {
-                        resultListArray.current[counterRow.current + 1].classList.remove('active__list');
+                if (resultListArray.current[currentRow.current]) {
+                    resultListArray.current[currentRow.current].classList.add('active__list');
+                    changeInputData(currentRow.current, false);
+                    if (resultListArray.current[currentRow.current + 1]) {
+                        resultListArray.current[currentRow.current + 1].classList.remove('active__list');
                     }
                 }
             }
@@ -116,7 +129,7 @@ const SearchPanel = () => {
         } else {
             setSelectState(true);
         }
-        listSize = 0;
+
         setResultList(newResultList);
     }
 
@@ -127,7 +140,6 @@ const SearchPanel = () => {
     }
 
     function hideHintsResult(event: any) {
-
         if (!domNode.current.contains(event.target)) {
             hintsList.current.classList.remove('hintsList');
             refInput.current.blur();
@@ -140,12 +152,12 @@ const SearchPanel = () => {
         refInput.current.blur();
         fetch(`https://api.ipgeolocation.io/timezone?apiKey=1951161faacc41268be75b771f166a97&location=${enteredText}`)
             .then((response) => response.json())
-            .then((commints) => {
-                console.log(commints)
-                if ('ip' in commints.geo) {
+            .then((commits) => {
+                console.log(commits)
+                if ('ip' in commits.geo) {
                     // showMessage('Oops, no such city found');
                 } else {
-                    // props.FunCalcDifferenceTime(commints, enteredText);
+                    // props.FunCalcDifferenceTime(commits, enteredText);
                 }
                 setSelectState(false)
             });
@@ -153,10 +165,14 @@ const SearchPanel = () => {
 
     useEffect(
         () => {
+            // if(resultsList.length === 0 ){
+            //     hintsListDefault();
+            // }
             document.addEventListener('mousedown', hideHintsResult);
             return () => {
                 document.removeEventListener('mousedown', hideHintsResult);
             };
+
         }, [enteredText]);
     return (
         <div className="search"  ref={domNode}>
@@ -169,7 +185,7 @@ const SearchPanel = () => {
             <ul className="search__result" ref={hintsList}>
                 {resultsList.map((Item: any, index: number) => (<li
                     ref={(elRef: HTMLLIElement) => {resultListArray.current[index] = elRef;}}
-                    onClick={() => changeInputDate(Item.id, false)}
+                    onClick={() => changeInputData(Item.id, false)}
                     key={Item.id}>
                     {Item.text}
                 </li>))}
