@@ -91,8 +91,6 @@ export const clock = createSlice({
 
         },
         setDefaultTime: (state) => {
-            // state.mainClock.dataInString =
-            console.log("check");
             if(state.mainClock.useLocalTime){
                    let time: string[] =  DateTime.local().toFormat('TT').split(':')
                     state.mainClock.time.hours =  Number(time[0])
@@ -106,8 +104,6 @@ export const clock = createSlice({
     },
     extraReducers: (builder => {
         builder.addCase(fetchCityList.fulfilled, (state, {payload}) => {
-            console.log("start");
-            console.log(DateTime.local().setLocale('en').toFormat('DDDD'));
             if(!state.apiStatus) {
                 for (let i = 0; i < payload.length; i++) {
                     if ('capital' in payload[i]) {
@@ -119,16 +115,22 @@ export const clock = createSlice({
                 }
             }
             state.apiStatus = true;
-            console.log("go")
-            console.log(current(state.cityListForHints));
         })
         builder.addCase(dataRetrievalOnRequest.fulfilled, (state, {payload}) =>{
             console.log(payload);
             if((payload.data.geo.state !== payload.cityNameForRequest) || (payload.data.timezone.split("/")[1] !== payload.cityNameForRequest)){
-
+                //if city not found
             }else{
+                //if city found
                 console.log("ok");
+
                 state.mainClock.mainClockCity = payload.cityNameForRequest;
+                // let DateNow: number  = Date.now();
+                // let selectedDate: number = Date.now("d")
+                //
+                // state.mainClock.difference = Math.round((DateNow - selectedDate) / (1000 * 60 * 60));
+
+                // dataDate.current.fullDate = dateObject.date_time_txt;
 
             }
 
