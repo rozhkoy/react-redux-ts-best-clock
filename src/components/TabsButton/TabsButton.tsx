@@ -2,7 +2,7 @@ import React, {useEffect, useState, useRef} from "react";
 import Timer from "../Timer/Timer";
 import {useAppDispatch, useAppSelector} from "../../hooks/useTypedSelector";
 import {upDateHours, upDateMinutes, upDateSecond} from "../../store/setTimerTime";
-import {fetchCityList, check, dataRetrievalOnRequest} from "../../store/setClockData";
+import {fetchCityList, check, dataRetrievalOnRequest, setDefaultTime} from "../../store/setClockData";
 import Clock from "../Clock/Clock";
 
 
@@ -69,6 +69,12 @@ const TabsButton = () => {
 
   useEffect( () =>{
     let interval: any;
+    let clockInterval: any;
+
+    clockInterval = setInterval(() =>{
+      dispatch(setDefaultTime())
+    }, 500)
+
     if (stateTimer) {
       interval = setInterval(() => {
         let resudualTime:any = new Date(endDate.current);
@@ -89,6 +95,7 @@ const TabsButton = () => {
     }
     return () => {
       clearInterval(interval);
+      clearInterval(clockInterval)
     };
   })
   function test(){

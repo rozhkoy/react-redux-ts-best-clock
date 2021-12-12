@@ -1,4 +1,5 @@
 import {createAsyncThunk, createSlice, current, PayloadAction} from "@reduxjs/toolkit";
+import {DateTime} from "luxon";
 
 // interface
 
@@ -14,7 +15,8 @@ interface mainClocKI{
     time: TimeHoursMinutesSecond,
     dataInString: string,
     mainClockCity: string,
-    difference: number
+    difference: number,
+    useLocalTime: boolean
 }
 
 interface TimeHoursMinutesSecond{
@@ -46,8 +48,11 @@ const initialClockState:clockState = {
         },
         dataInString: '',
         mainClockCity: '',
-        difference: 0
-    }
+        difference: 0,
+        useLocalTime: true,
+    },
+
+
 } as clockState
 
 
@@ -69,7 +74,8 @@ export const dataRetrievalOnRequest = createAsyncThunk(
             `https://api.ipgeolocation.io/timezone?apiKey=1951161faacc41268be75b771f166a97&location=${cityName}`
         );
         const data: any = await  response.json();
-        return data;
+        const cityNameForRequest: string = cityName;
+        return {data , cityNameForRequest};
     }
 )
 
@@ -83,11 +89,25 @@ export const clock = createSlice({
         },
         upDateClockDate: (state, action:PayloadAction<mainClockAction>) => {
 
+        },
+        setDefaultTime: (state) => {
+            // state.mainClock.dataInString =
+            console.log("check");
+            if(state.mainClock.useLocalTime){
+                   let time: string[] =  DateTime.local().toFormat('TT').split(':')
+                    state.mainClock.time.hours =  Number(time[0])
+                    state.mainClock.time.minutes =  Number(time[1])
+                    state.mainClock.time.seconds =  Number(time[2])
+            }else{
+
+            }
         }
+
     },
     extraReducers: (builder => {
         builder.addCase(fetchCityList.fulfilled, (state, {payload}) => {
             console.log("start");
+            console.log(DateTime.local().setLocale('en').toFormat('DDDD'));
             if(!state.apiStatus) {
                 for (let i = 0; i < payload.length; i++) {
                     if ('capital' in payload[i]) {
@@ -104,9 +124,18 @@ export const clock = createSlice({
         })
         builder.addCase(dataRetrievalOnRequest.fulfilled, (state, {payload}) =>{
             console.log(payload);
+            if((payload.data.geo.state !== payload.cityNameForRequest) || (payload.data.timezone.split("/")[1] !== payload.cityNameForRequest)){
+
+            }else{
+                console.log("ok");
+                state.mainClock.mainClockCity = payload.cityNameForRequest;
+
+            }
+
+
         })
 
     })
 })
-export const {check, upDateClockDate} = clock.actions
+export const {check, upDateClockDate, setDefaultTime} = clock.actions
 export default clock.reducer
