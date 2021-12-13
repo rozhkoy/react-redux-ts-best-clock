@@ -70,7 +70,6 @@ const TabsButton = () => {
   useEffect( () =>{
     let interval: any;
     let clockInterval: any;
-
     clockInterval = setInterval(() =>{
       dispatch(setDefaultTime())
     }, 500)

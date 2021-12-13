@@ -48,8 +48,8 @@ const initialClockState:clockState = {
             seconds: 0,
             fullTime: []
         },
-        dataInString: '',
-        mainClockCity: '',
+        dataInString: DateTime.local().setLocale('en').toFormat('DDDD'),
+        mainClockCity: 'Local',
         difference: 0,
         useLocalTime: true,
     },
@@ -132,19 +132,21 @@ export const clock = createSlice({
         })
         builder.addCase(dataRetrievalOnRequest.fulfilled, (state, {payload}) =>{
             console.log(payload);
-            if((payload.data.geo.state !== payload.cityNameForRequest) && (payload.data.timezone.split("/")[1] !== payload.cityNameForRequest) && (payload.data.geo.city !== payload.cityNameForRequest)){
-                //if city not found
-                console.log("no");
-            }else{
-                //if city found
+            // if((payload.data.geo.state !== payload.cityNameForRequest) && (payload.data.timezone.split("/")[1] !== payload.cityNameForRequest) && (payload.data.geo.city !== payload.cityNameForRequest)){
+            //     console.log("no");
+            // }else{
                 state.mainClock.useLocalTime = false;
-                console.log("ok");
                 state.mainClock.mainClockCity = payload.cityNameForRequest;
                 const date = +new Date();
                 const date2  = +new Date(payload.data.date_time_txt);
                 state.mainClock.difference = Math.round((date - date2) / (1000 * 60 * 60));
+                if (state.mainClock.difference < 0) {
+                  state.mainClock.dataInString = DateTime.local().plus({hours: state.mainClock.difference * -1, minutes: 0}).setLocale('en').toFormat('DDDD')
+                }else{
+                    state.mainClock.dataInString = DateTime.local().plus({hours: state.mainClock.difference, minutes: 0}).setLocale('en').toFormat('DDDD')
+                }
                 console.log(state.mainClock.difference , DateTime.local().plus({hours: state.mainClock.difference * -1, minutes: 0}).setLocale('en').toFormat('TT'));
-            }
+            // }
         })
     })
 })

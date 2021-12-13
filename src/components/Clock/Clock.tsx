@@ -1,17 +1,16 @@
 import SearchPanel from './SearchPanel';
 import MainClock from './MainClock';
-
-
+import CityName from "./CityName";
+import DateString from "./DateString";
 
 const Clock = () => {
 
     return (
         <div className="wrap-clock">
             <SearchPanel />
-            {/*<CityName cityName={props.cityName} addCityInList={props.addCityInList}*/}
-            {/*          comebackHouse={props.comebackHouse}/>*/}
+            <CityName />
             <MainClock />
-            {/*<DateString dateString={props.dateString}/>*/}
+            <DateString />
             {/*<SavedTimeZones deleteSavedCity={props.deleteSavedCity} savedCity={props.savedCity}*/}
             {/*                searchBySavedCity={props.searchBySavedCity}/>*/}
 
