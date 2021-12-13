@@ -22,7 +22,8 @@ interface mainClocKI{
 interface TimeHoursMinutesSecond{
     hours: number,
     minutes: number,
-    seconds: number
+    seconds: number,
+    fullTime: Array<string>
 }
 
 interface mainClockAction{
@@ -44,7 +45,8 @@ const initialClockState:clockState = {
         time: {
             hours: 0,
             minutes: 0,
-            seconds: 0
+            seconds: 0,
+            fullTime: []
         },
         dataInString: '',
         mainClockCity: '',
@@ -96,11 +98,23 @@ export const clock = createSlice({
                     state.mainClock.time.hours =  Number(time[0])
                     state.mainClock.time.minutes =  Number(time[1])
                     state.mainClock.time.seconds =  Number(time[2])
-            }else{
-
+            }else {
+                if (state.mainClock.difference < 0) {
+                    state.mainClock.time.fullTime = DateTime.local().plus({
+                        hours: state.mainClock.difference * -1,
+                        minutes: 0
+                    }).setLocale('en').toFormat('TT').split(":");
+                } else {
+                        state.mainClock.time.fullTime = DateTime.local().plus({
+                            hours: state.mainClock.difference,
+                            minutes: 0
+                        }).setLocale('en').toFormat('TT').split(":");
+                }
+                state.mainClock.time.hours = Number(state.mainClock.time.fullTime[0])
+                state.mainClock.time.minutes = Number(state.mainClock.time.fullTime[1])
+                state.mainClock.time.seconds = Number(state.mainClock.time.fullTime[2])
             }
         }
-
     },
     extraReducers: (builder => {
         builder.addCase(fetchCityList.fulfilled, (state, {payload}) => {
@@ -118,25 +132,20 @@ export const clock = createSlice({
         })
         builder.addCase(dataRetrievalOnRequest.fulfilled, (state, {payload}) =>{
             console.log(payload);
-            if((payload.data.geo.state !== payload.cityNameForRequest) || (payload.data.timezone.split("/")[1] !== payload.cityNameForRequest)){
+            if((payload.data.geo.state !== payload.cityNameForRequest) && (payload.data.timezone.split("/")[1] !== payload.cityNameForRequest) && (payload.data.geo.city !== payload.cityNameForRequest)){
                 //if city not found
+                console.log("no");
             }else{
                 //if city found
+                state.mainClock.useLocalTime = false;
                 console.log("ok");
-
                 state.mainClock.mainClockCity = payload.cityNameForRequest;
-                // let DateNow: number  = Date.now();
-                // let selectedDate: number = Date.now("d")
-                //
-                // state.mainClock.difference = Math.round((DateNow - selectedDate) / (1000 * 60 * 60));
-
-                // dataDate.current.fullDate = dateObject.date_time_txt;
-
+                const date = +new Date();
+                const date2  = +new Date(payload.data.date_time_txt);
+                state.mainClock.difference = Math.round((date - date2) / (1000 * 60 * 60));
+                console.log(state.mainClock.difference , DateTime.local().plus({hours: state.mainClock.difference * -1, minutes: 0}).setLocale('en').toFormat('TT'));
             }
-
-
         })
-
     })
 })
 export const {check, upDateClockDate, setDefaultTime} = clock.actions
