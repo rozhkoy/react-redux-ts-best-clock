@@ -75,6 +75,7 @@ const SearchPanel = () => {
                 }
                 if (resultListArray.current[currentRow.current]) {
                     resultListArray.current[currentRow.current].classList.add('active__list');
+                    resultListArray.current[currentRow.current].scrollIntoView(false)
                     changeInputData(currentRow.current, false);
                     if (resultListArray.current[currentRow.current - 1]) {
                         resultListArray.current[currentRow.current - 1 ].classList.remove('active__list');
@@ -95,6 +96,7 @@ const SearchPanel = () => {
                 }
                 if (resultListArray.current[currentRow.current]) {
                     resultListArray.current[currentRow.current].classList.add('active__list');
+                    resultListArray.current[currentRow.current].scrollIntoView(true)
                     changeInputData(currentRow.current, false);
                     if (resultListArray.current[currentRow.current + 1]) {
                         resultListArray.current[currentRow.current + 1].classList.remove('active__list');
