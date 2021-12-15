@@ -8,12 +8,13 @@ const Clock = () => {
     return (
         <div className="wrap-clock">
             <SearchPanel />
-            <CityName />
-            <MainClock />
-            <DateString />
-            {/*<SavedTimeZones deleteSavedCity={props.deleteSavedCity} savedCity={props.savedCity}*/}
-            {/*                searchBySavedCity={props.searchBySavedCity}/>*/}
-
+            <div className="clock__show-info">
+                <CityName />
+                <MainClock />
+                <DateString />
+                {/*<SavedTimeZones deleteSavedCity={props.deleteSavedCity} savedCity={props.savedCity}*/}
+                {/*                searchBySavedCity={props.searchBySavedCity}/>*/}
+            </div>
         </div>
     );
 };

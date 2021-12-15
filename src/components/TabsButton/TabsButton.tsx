@@ -113,7 +113,7 @@ const TabsButton = () => {
           TIMER
         </button>
       </div>
-  <button onClick={test}>dfdfdf</button>
+  {/*<button onClick={test}>dfdfdf</button>*/}
         {selectedTab === 2 && <Timer startTimer={startTimer} stopTimer={stopTimer} />}
         {selectedTab ===1 && <Clock />}
     </div>

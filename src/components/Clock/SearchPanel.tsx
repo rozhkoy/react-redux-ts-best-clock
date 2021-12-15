@@ -162,12 +162,14 @@ const SearchPanel = () => {
         }, [enteredText]);
     return (
         <div className="search"  ref={domNode}>
+            <div className="input__wrap">
             <input type="text" ref={refInput}  onFocus={focusInput} className="search__input"
                    placeholder="Search by city name" onKeyDown={selectionHints} value={enteredText}
                    onChange={updateInput}/>
             <button  className="search__bttn" onClick={apiRequestDate}>
                 Search
             </button>
+            </div>
             <ul className="search__result" ref={hintsList}>
                 {resultsList.map((Item: any, index: number) => (<li
                     ref={(elRef: HTMLLIElement) => {resultListArray.current[index] = elRef;}}
