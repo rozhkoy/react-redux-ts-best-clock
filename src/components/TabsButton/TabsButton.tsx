@@ -31,7 +31,6 @@ const TabsButton = () => {
   };
 
 
-  // timer
 
   function calculationDate() {
     startDate.current = new Date();
@@ -53,10 +52,6 @@ const TabsButton = () => {
   if(!clockStore.apiStatus){
     apiRequest();
   }
-
-  // end timer
-
-  // clock
   function gettingDate(){
 
 
@@ -113,7 +108,7 @@ const TabsButton = () => {
           TIMER
         </button>
       </div>
-  {/*<button onClick={test}>dfdfdf</button>*/}
+
         {selectedTab === 2 && <Timer startTimer={startTimer} stopTimer={stopTimer} />}
         {selectedTab ===1 && <Clock />}
     </div>

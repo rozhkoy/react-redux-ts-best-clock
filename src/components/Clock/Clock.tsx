@@ -12,8 +12,7 @@ const Clock = () => {
                 <CityName />
                 <MainClock />
                 <DateString />
-                {/*<SavedTimeZones deleteSavedCity={props.deleteSavedCity} savedCity={props.savedCity}*/}
-                {/*                searchBySavedCity={props.searchBySavedCity}/>*/}
+
             </div>
         </div>
     );
