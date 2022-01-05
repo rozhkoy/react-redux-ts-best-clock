@@ -94,6 +94,7 @@ const SearchPanel = () => {
                     currentRow.current = resultsList.length;
                     resultListArray.current[0].classList.remove('active__list');
                 }
+
                 if (resultListArray.current[currentRow.current]) {
                     resultListArray.current[currentRow.current].classList.add('active__list');
                     resultListArray.current[currentRow.current].scrollIntoView(true)

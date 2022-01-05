@@ -277,6 +277,7 @@ body {
 .wrap-clock {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
+    padding: 20px 0 0 0;
 }
 .clock__show-info{
     grid-column: 5/13;
