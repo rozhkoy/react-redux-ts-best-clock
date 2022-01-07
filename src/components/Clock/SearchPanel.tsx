@@ -31,6 +31,7 @@ const SearchPanel = () => {
     }
 
     function changeInputData(index: number, last: boolean) {
+        console.log(index, selectState);
         if (selectState && resultsList.length > 0) {
             currentRow.current = index;
             if (last === true && index === -1) {
@@ -112,13 +113,6 @@ const SearchPanel = () => {
                     listSize++;
                 }
             }
-            if (newResultList.length === 0) {
-
-                setSelectState(false);
-            } else {
-                setSelectState(true);
-            }
-
             setResultList(newResultList);
         }
     }
@@ -129,13 +123,6 @@ const SearchPanel = () => {
 
     }
 
-    function hideHintsResult(event: any) {
-        if (!domNode.current.contains(event.target)) {
-            hintsList.current.classList.remove('hintsList');
-            refInput.current.blur();
-        }
-        setSelectState(false)
-    }
 
     function apiRequestDate() {
         hintsList.current.classList.remove('hintsList');
@@ -152,10 +139,11 @@ const SearchPanel = () => {
         console.log(resultsList)
         if (enteredText.length <= 0) {
             createHintsList("");
+            setSelectState(true);
         }
-            document.addEventListener('mousedown', hideHintsResult);
+
             return () => {
-                document.removeEventListener('mousedown', hideHintsResult);
+                
             };
 
         }, [enteredText, clockStore.apiStatus]);
@@ -173,7 +161,10 @@ const SearchPanel = () => {
             <ul className="search__result" ref={hintsList}>
                 {resultsList.map((Item: any, index: number) => (<li
                     ref={(elRef: HTMLLIElement) => {resultListArray.current[index] = elRef;}}
-                    onClick={() => changeInputData(Item.id, false)}
+                    onClick={() =>{
+                        setSelectState(true)
+                        changeInputData(Item.id, false)
+                    }}
                     key={Item.id}>
                     {Item.city}
                 </li>))}
