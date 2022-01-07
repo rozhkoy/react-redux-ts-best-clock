@@ -121,9 +121,7 @@ const SearchPanel = () => {
         dispatch(dataRetrievalOnRequest(text))
 
     }
-    function up(){
-        createHintsList("");
-    }
+
 
     useEffect(() => {
         console.log(resultsList)
@@ -148,6 +146,8 @@ const SearchPanel = () => {
                 {resultsList.map((Item: any, index: number) => (<li
                     ref={(elRef: HTMLLIElement) => {resultListArray.current[index] = elRef;}}
                     onClick={() =>{
+
+                        resultListArray.current[currentRow.current].classList.remove('active__list');
                         changeInputData(Item.id, false)
                         apiRequestDate(Item.city);
                     }}
@@ -157,7 +157,7 @@ const SearchPanel = () => {
                     <span className="search__region"> {Item.region}</span>
                 </li>))}
             </ul>
-            <button onClick={up}>dddd</button>
+
         </div>
     );
 };

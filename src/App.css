@@ -279,7 +279,8 @@ body {
 .wrap-clock {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
-    padding: 20px 0 0 0;
+    margin: 20px 0 0 0;
+    border-top: 1px solid #ccc;
 }
 .clock__show-info{
     grid-column: 5/13;
@@ -291,7 +292,7 @@ body {
     grid-column: 1/5;
     grid-row: 1;
     display: grid;
-    grid-template-rows: 32px 1fr;
+    grid-template-rows: 38px 1fr;
     justify-content: stretch;
     border-right: 1px solid #ccc;
 
@@ -301,17 +302,11 @@ body {
     /*width: 100%;*/
     border: 0;
     border-radius: 0;
-    border: 1px solid #fff;
-    padding: 7px 5px;
+    padding: 10px 5px;
+
 }
 
-.search__bttn {
-    padding: 5px 15px;
-    border-radius: 0px;
-    border: 1px solid #0fdfc3;
-    background: #0fdfc3;
-    color: #fff;
-}
+
 
 .search__result li{
     display: grid;
@@ -324,9 +319,10 @@ body {
 
 .input__wrap{
     display: grid;
-    grid-template-columns: 1fr 70px;
+    grid-template-columns: 1fr ;
     width: 100%;
     align-content: start;
+    border-bottom: 1px solid #ccc;
 }
 .search__result {
     background: white;
