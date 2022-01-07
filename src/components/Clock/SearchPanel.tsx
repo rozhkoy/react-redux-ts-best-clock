@@ -12,7 +12,6 @@ const SearchPanel = () => {
     const hintsList = useRef<any>(null);
     const [selectState, setSelectState] = useState(true);
     const [resultsList, setResultList] = useState<Array<timezoneList>>([]);
-
     const refInput = useRef<any>();
     const domNode = useRef<any>();
     interface KeyboardEvent {
@@ -48,7 +47,7 @@ const SearchPanel = () => {
 
     function selectionHints(event: KeyboardEvent) {
         if (event.keyCode === 13) {
-            apiRequestDate();
+            apiRequestDate(enteredText);
         }
 
         if (selectState) {
@@ -94,7 +93,6 @@ const SearchPanel = () => {
     }
 
     function createHintsList(text: string) {
-
         if (enteredText.length <= 0) {
             setResultList(clockStore.cityListForHints)
         } else {
@@ -117,18 +115,10 @@ const SearchPanel = () => {
         }
     }
 
-    function focusInput() {
-        hintsList.current.classList.add('hintsList');
-        setSelectState(true)
-
-    }
 
 
-    function apiRequestDate() {
-        hintsList.current.classList.remove('hintsList');
-        refInput.current.blur();
-        dispatch(dataRetrievalOnRequest(enteredText))
-        setSelectState(false)
+    function apiRequestDate(text: string) {
+        dispatch(dataRetrievalOnRequest(text))
 
     }
     function up(){
@@ -141,32 +131,30 @@ const SearchPanel = () => {
             createHintsList("");
             setSelectState(true);
         }
-
             return () => {
-                
+
             };
 
-        }, [enteredText, clockStore.apiStatus]);
+        }, [enteredText, resultsList, clockStore.apiStatus]);
     return (
 
         <div className="search"  ref={domNode}>
             <div className="input__wrap">
-            <input type="text" ref={refInput}  onFocus={focusInput} className="search__input"
+            <input type="text" ref={refInput} className="search__input"
                    placeholder="Search by city name" onKeyDown={selectionHints} value={enteredText}
                    onChange={updateInput}/>
-            <button  className="search__bttn" onClick={apiRequestDate}>
-                Search
-            </button>
             </div>
             <ul className="search__result" ref={hintsList}>
                 {resultsList.map((Item: any, index: number) => (<li
                     ref={(elRef: HTMLLIElement) => {resultListArray.current[index] = elRef;}}
                     onClick={() =>{
-                        setSelectState(true)
                         changeInputData(Item.id, false)
+                        apiRequestDate(Item.city);
                     }}
                     key={Item.id}>
-                    {Item.city}
+
+                    <span className="search__city"> {Item.city}</span>
+                    <span className="search__region"> {Item.region}</span>
                 </li>))}
             </ul>
             <button onClick={up}>dddd</button>

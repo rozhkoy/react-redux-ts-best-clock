@@ -313,6 +313,14 @@ body {
     color: #fff;
 }
 
+.search__result li{
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+.search__region{
+    font-size: 13px;
+}
 
 .input__wrap{
     display: grid;
@@ -333,7 +341,7 @@ body {
 }
 
 .search__result li {
-    padding: 8px 5px;
+    padding: 4px 5px;
 }
 
 .search__result li:hover {
