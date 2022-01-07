@@ -1,7 +1,7 @@
 
 import {useAppDispatch, useAppSelector} from "../../hooks/useTypedSelector";
 import React, {ChangeEvent, useEffect, useRef, useState} from "react";
-import {dataRetrievalOnRequest} from "../../store/setClockData";
+import {dataRetrievalOnRequest, timezoneList} from "../../store/setClockData";
 const SearchPanel = () => {
     const dispatch = useAppDispatch();
     const clockStore = useAppSelector((state) => state.clock);
@@ -11,30 +11,15 @@ const SearchPanel = () => {
     const [enteredText, setEnteredText] = useState('');
     const hintsList = useRef<any>(null);
     const [selectState, setSelectState] = useState(true);
-    const [resultsList, setResultList] = useState<Array<hintsListObj>>([
-        {id: 0, text: 'Kyiv'},
-        {id: 1, text: 'Minsk'},
-        {id: 2, text: 'Tokyo'},
-        {id: 3, text: 'Moscow'},
-    ]);
+    const [resultsList, setResultList] = useState<Array<timezoneList>>([]);
+
     const refInput = useRef<any>();
     const domNode = useRef<any>();
     interface KeyboardEvent {
         keyCode: number;
     }
 
-    interface hintsListObj{
-        id: number,
-        text: string
-    }
 
-    // function hintsListDefault(){
-    //     let arr: Array<hintsListObj> = [];
-    //     for(let i = 0; i > 10; i++){
-    //         arr.push({id: i, text: clockStore.cityListForHints[i].cityName})
-    //     }
-    //     setResultList(arr);
-    // }
 
     function updateInput(event: ChangeEvent<HTMLInputElement> ) {
         let temporally = event.target.value;
@@ -46,14 +31,14 @@ const SearchPanel = () => {
     }
 
     function changeInputData(index: number, last: boolean) {
-        if (selectState) {
+        if (selectState && resultsList.length > 0) {
             currentRow.current = index;
             if (last === true && index === -1) {
                 setEnteredText(searchData.current.enteredText);
             } else if (last === true && index === resultsList.length) {
                 setEnteredText(searchData.current.enteredText);
             } else {
-                let offerResult = resultsList[index].text;
+                let offerResult = resultsList[index].city;
                 setEnteredText(offerResult);
             }
             setSelectState(true);
@@ -108,26 +93,34 @@ const SearchPanel = () => {
     }
 
     function createHintsList(text: string) {
-        let regex = new RegExp(`^${text}`, 'im');
-        let newID = 0;
-        let newResultList = [];
-        let listSize = 0;
-        for (let i = 0; i < clockStore.cityListForHints.length; i++) {
-            if (regex.test(clockStore.cityListForHints[i].cityName)  && listSize <= 10) {
-                newResultList.push({id: newID, text: `${clockStore.cityListForHints[i].cityName}`});
-                newID++;
-                listSize++;
-            }
-        }
-        if (newResultList.length === 0) {
-            // hintsList.current.classList.remove('hintsList');
-            newResultList.push({id: newID, text: 'No search results'});
-            setSelectState(false);
-        } else {
-            setSelectState(true);
-        }
 
-        setResultList(newResultList);
+        if (enteredText.length <= 0) {
+            setResultList(clockStore.cityListForHints)
+        } else {
+            let regex = new RegExp(`^${text}`, 'im');
+            let newID = 0;
+            let newResultList: timezoneList[] = [];
+            let listSize = 0;
+            for (let i = 0; i < clockStore.cityListForHints.length; i++) {
+                if (regex.test(clockStore.cityListForHints[i].city) && listSize <= 10) {
+                    newResultList.push({
+                        id: newID,
+                        city: `${clockStore.cityListForHints[i].city}`,
+                        region: `${clockStore.cityListForHints[i].region}`
+                    });
+                    newID++;
+                    listSize++;
+                }
+            }
+            if (newResultList.length === 0) {
+
+                setSelectState(false);
+            } else {
+                setSelectState(true);
+            }
+
+            setResultList(newResultList);
+        }
     }
 
     function focusInput() {
@@ -151,19 +144,23 @@ const SearchPanel = () => {
         setSelectState(false)
 
     }
+    function up(){
+        createHintsList("");
+    }
 
-    useEffect(
-        () => {
-            // if(resultsList.length === 0 ){
-            //     hintsListDefault();
-            // }
+    useEffect(() => {
+        console.log(resultsList)
+        if (enteredText.length <= 0) {
+            createHintsList("");
+        }
             document.addEventListener('mousedown', hideHintsResult);
             return () => {
                 document.removeEventListener('mousedown', hideHintsResult);
             };
 
-        }, [enteredText]);
+        }, [enteredText, clockStore.apiStatus]);
     return (
+
         <div className="search"  ref={domNode}>
             <div className="input__wrap">
             <input type="text" ref={refInput}  onFocus={focusInput} className="search__input"
@@ -178,9 +175,10 @@ const SearchPanel = () => {
                     ref={(elRef: HTMLLIElement) => {resultListArray.current[index] = elRef;}}
                     onClick={() => changeInputData(Item.id, false)}
                     key={Item.id}>
-                    {Item.text}
+                    {Item.city}
                 </li>))}
             </ul>
+            <button onClick={up}>dddd</button>
         </div>
     );
 };

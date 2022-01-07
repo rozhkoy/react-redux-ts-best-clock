@@ -5,7 +5,7 @@ import {DateTime} from "luxon";
 
 interface clockState {
     value: number,
-    cityListForHints: Array<assortedCityList>,
+    cityListForHints: Array<timezoneList>,
     apiStatus: boolean,
     mainClock: mainClocKI,
 
@@ -31,11 +31,12 @@ interface mainClockAction{
     data: string,
 }
 
-export interface assortedCityList {
+ export interface timezoneList{
     id: number,
-    cityName: string,
-
+    city: string,
+    region: string
 }
+
 
 const initialClockState:clockState = {
     value: 20,
@@ -62,7 +63,7 @@ export const fetchCityList = createAsyncThunk(
     "cityList",
     async () => {
         const response = await fetch(
-            `https://restcountries.com/v2/all`
+            `http://worldtimeapi.org/api/timezone`
         );
         const data: any = await  response.json();
         return data;
@@ -119,16 +120,21 @@ export const clock = createSlice({
     extraReducers: (builder => {
         builder.addCase(fetchCityList.fulfilled, (state, {payload}) => {
             if(!state.apiStatus) {
-                for (let i = 0; i < payload.length; i++) {
-                    if ('capital' in payload[i]) {
+                console.log(payload)
+                for(let i = 0; i < payload.length; i++){
+                    payload[i] = payload[i].split("/");
+                    if(payload[i].length == 2 && (payload[i][0] !== "Etc")){
+                        payload[i][1] = payload[i][1].split("_");
+                        payload[i][1] = payload[i][1].join(" ");
                         state.cityListForHints.push({
-                            id: state.cityListForHints.length,
-                            cityName: payload[i].capital
-                        } as assortedCityList)
+                            id: i, city: payload[i][1], region: payload[i][0] })
+
                     }
                 }
+
+                state.apiStatus = true;
             }
-            state.apiStatus = true;
+
         })
         builder.addCase(dataRetrievalOnRequest.fulfilled, (state, {payload}) =>{
             console.log(payload);
