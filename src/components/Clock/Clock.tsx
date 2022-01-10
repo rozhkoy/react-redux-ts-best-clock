@@ -12,7 +12,6 @@ const Clock = () => {
                 <CityName />
                 <MainClock />
                 <DateString />
-
             </div>
         </div>
     );

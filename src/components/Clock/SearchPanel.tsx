@@ -46,9 +46,9 @@ const SearchPanel = () => {
     }
 
     function selectionHints(event: KeyboardEvent) {
-        if (event.keyCode === 13) {
-            apiRequestDate(enteredText);
-        }
+        // if (event.keyCode === 13) {
+        //     apiRequestDate(resultsList[currentRow.current][0],resultsList[currentRow.current + 1][1]);
+        // }
 
         if (selectState) {
             if (event.keyCode === 40) {
@@ -82,7 +82,7 @@ const SearchPanel = () => {
 
                 if (resultListArray.current[currentRow.current]) {
                     resultListArray.current[currentRow.current].classList.add('active__list');
-                    resultListArray.current[currentRow.current].scrollIntoView(true)
+                    resultListArray.current[currentRow.current].scrollIntoView(false)
                     changeInputData(currentRow.current, false);
                     if (resultListArray.current[currentRow.current + 1]) {
                         resultListArray.current[currentRow.current + 1].classList.remove('active__list');
@@ -117,8 +117,8 @@ const SearchPanel = () => {
 
 
 
-    function apiRequestDate(text: string) {
-        dispatch(dataRetrievalOnRequest(text))
+    function apiRequestDate(city: string, region: string) {
+        dispatch(dataRetrievalOnRequest(city))
 
     }
 
@@ -146,10 +146,9 @@ const SearchPanel = () => {
                 {resultsList.map((Item: any, index: number) => (<li
                     ref={(elRef: HTMLLIElement) => {resultListArray.current[index] = elRef;}}
                     onClick={() =>{
-
-                        resultListArray.current[currentRow.current].classList.remove('active__list');
+                        // resultListArray.current[currentRow.current].classList.remove('active__list');
                         changeInputData(Item.id, false)
-                        apiRequestDate(Item.city);
+                        // apiRequestDate(Item.city, Item.region);
                     }}
                     key={Item.id}>
 

@@ -72,9 +72,9 @@ export const fetchCityList = createAsyncThunk(
 
 export const dataRetrievalOnRequest = createAsyncThunk(
     'dataRetrieval',
-    async (cityName:string) => {
+    async (cityName: string, region) => {
         const response = await fetch(
-            `https://api.ipgeolocation.io/timezone?apiKey=1951161faacc41268be75b771f166a97&location=${cityName}`
+            `http://worldtimeapi.org/api/timezone/${region}/${cityName}`
         );
         const data: any = await  response.json();
         const cityNameForRequest: string = cityName;
@@ -138,9 +138,6 @@ export const clock = createSlice({
         })
         builder.addCase(dataRetrievalOnRequest.fulfilled, (state, {payload}) =>{
             console.log(payload);
-            // if((payload.data.geo.state !== payload.cityNameForRequest) && (payload.data.timezone.split("/")[1] !== payload.cityNameForRequest) && (payload.data.geo.city !== payload.cityNameForRequest)){
-            //     console.log("no");
-            // }else{
                 state.mainClock.useLocalTime = false;
                 state.mainClock.mainClockCity = payload.cityNameForRequest;
                 const date = +new Date();
