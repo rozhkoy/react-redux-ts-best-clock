@@ -112,7 +112,7 @@ export const clock = createSlice({
                     }).setLocale('en').toFormat('TT').split(":");
                 } else {
                         state.mainClock.time.fullTime = DateTime.local().plus({
-                            hours: state.mainClock.difference,
+                            hours: state.mainClock.difference * -1,
                             minutes: 0
                         }).setLocale('en').toFormat('TT').split(":");
                 }
@@ -149,11 +149,13 @@ export const clock = createSlice({
             state.mainClock.difference = Math.round((date - date2) / (1000 * 60 * 60));
             if (state.mainClock.difference < 0) {
                   state.mainClock.dataInString = DateTime.local().plus({hours: state.mainClock.difference * -1, minutes: 0}).setLocale('en').toFormat('DDDD')
+                console.log(state.mainClock.difference , DateTime.local().plus({hours: state.mainClock.difference * -1, minutes: 0}).setLocale('en').toFormat('TT'));
             }else{
-                state.mainClock.dataInString = DateTime.local().plus({hours: state.mainClock.difference, minutes: 0}).setLocale('en').toFormat('DDDD')
+                console.log(state.mainClock.difference , DateTime.local().plus({hours: state.mainClock.difference * -1, minutes: 0}).setLocale('en').toFormat('TT'));
+                state.mainClock.dataInString = DateTime.local().plus({hours: state.mainClock.difference * -1, minutes: 0}).setLocale('en').toFormat('DDDD')
             }
 
-            console.log(state.mainClock.difference , DateTime.local().plus({hours: state.mainClock.difference * -1, minutes: 0}).setLocale('en').toFormat('TT'));
+
 
         })
     })
