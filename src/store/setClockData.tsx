@@ -79,7 +79,7 @@ export const dataRetrievalOnRequest = createAsyncThunk(
     'dataRetrieval',
     async (someInfo: data ) => {
         const response = await fetch(
-            `http://worldtimeapi.org/api/timezone/${someInfo.region}/${someInfo.timeZone}`
+                `http://worldtimeapi.org/api/timezone/${someInfo.region}/${someInfo.timeZone}`
         );
         const data: any = await  response.json();
         const cityNameForRequest: string = someInfo.timeZone;
@@ -133,28 +133,28 @@ export const clock = createSlice({
                         payload[i][1] = payload[i][1].join(" ");
                         state.cityListForHints.push({
                             id: i, city: payload[i][1], region: payload[i][0] })
-
                     }
                 }
-
                 state.apiStatus = true;
             }
 
         })
         builder.addCase(dataRetrievalOnRequest.fulfilled, (state, {payload}) =>{
             console.log(payload);
-                state.mainClock.useLocalTime = false;
-                state.mainClock.mainClockCity = payload.cityNameForRequest;
-                const date = +new Date();
-                const date2  = +new Date(payload.data.date_time_txt);
-                state.mainClock.difference = Math.round((date - date2) / (1000 * 60 * 60));
-                if (state.mainClock.difference < 0) {
+            state.mainClock.useLocalTime = false;
+            state.mainClock.mainClockCity = payload.cityNameForRequest;
+            const date = +new Date();
+            const date2  = +new Date(payload.data.datetime.split('.')[0]);
+            console.log(date, date2, (date - date2) / (1000 * 60 * 60));
+            state.mainClock.difference = Math.round((date - date2) / (1000 * 60 * 60));
+            if (state.mainClock.difference < 0) {
                   state.mainClock.dataInString = DateTime.local().plus({hours: state.mainClock.difference * -1, minutes: 0}).setLocale('en').toFormat('DDDD')
-                }else{
-                    state.mainClock.dataInString = DateTime.local().plus({hours: state.mainClock.difference, minutes: 0}).setLocale('en').toFormat('DDDD')
-                }
-                console.log(state.mainClock.difference , DateTime.local().plus({hours: state.mainClock.difference * -1, minutes: 0}).setLocale('en').toFormat('TT'));
-            // }
+            }else{
+                state.mainClock.dataInString = DateTime.local().plus({hours: state.mainClock.difference, minutes: 0}).setLocale('en').toFormat('DDDD')
+            }
+
+            console.log(state.mainClock.difference , DateTime.local().plus({hours: state.mainClock.difference * -1, minutes: 0}).setLocale('en').toFormat('TT'));
+
         })
     })
 })

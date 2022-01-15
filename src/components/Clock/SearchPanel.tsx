@@ -126,7 +126,7 @@ const SearchPanel = () => {
 
     useEffect(() => {
         console.log(resultsList)
-        if (enteredText.length <= 0) {
+        if (enteredText.length <= 0 && clockStore.apiStatus) {
             createHintsList("");
             setSelectState(true);
         }
