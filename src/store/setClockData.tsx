@@ -31,6 +31,11 @@ interface mainClockAction{
     data: string,
 }
 
+interface data{
+    timeZone: string,
+    region: string,
+}
+
  export interface timezoneList{
     id: number,
     city: string,
@@ -72,12 +77,12 @@ export const fetchCityList = createAsyncThunk(
 
 export const dataRetrievalOnRequest = createAsyncThunk(
     'dataRetrieval',
-    async (cityName: string, region) => {
+    async (someInfo: data ) => {
         const response = await fetch(
-            `http://worldtimeapi.org/api/timezone/${region}/${cityName}`
+            `http://worldtimeapi.org/api/timezone/${someInfo.region}/${someInfo.timeZone}`
         );
         const data: any = await  response.json();
-        const cityNameForRequest: string = cityName;
+        const cityNameForRequest: string = someInfo.timeZone;
         return {data , cityNameForRequest};
     }
 )

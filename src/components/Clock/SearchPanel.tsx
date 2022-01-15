@@ -118,7 +118,8 @@ const SearchPanel = () => {
 
 
     function apiRequestDate(city: string, region: string) {
-        dispatch(dataRetrievalOnRequest(city))
+
+        dispatch(dataRetrievalOnRequest({timeZone: city, region: region}))
 
     }
 
@@ -146,9 +147,12 @@ const SearchPanel = () => {
                 {resultsList.map((Item: any, index: number) => (<li
                     ref={(elRef: HTMLLIElement) => {resultListArray.current[index] = elRef;}}
                     onClick={() =>{
-                        // resultListArray.current[currentRow.current].classList.remove('active__list');
+                        // if(currentRow.current && resultListArray.current[currentRow.current].classList.contains('active__list')){
+                        //     resultListArray.current[currentRow.current].classList.remove('active__list');
+                        // }
+
                         changeInputData(Item.id, false)
-                        // apiRequestDate(Item.city, Item.region);
+                        apiRequestDate(Item.city, Item.region);
                     }}
                     key={Item.id}>
 

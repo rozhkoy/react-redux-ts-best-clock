@@ -52,14 +52,7 @@ const TabsButton = () => {
   if(!clockStore.apiStatus){
     apiRequest();
   }
-  function gettingDate(){
 
-
-  }
-
-  function showTime(){
-
-  }
 
 
   useEffect( () =>{
@@ -92,9 +85,6 @@ const TabsButton = () => {
       clearInterval(clockInterval)
     };
   })
-  function test(){
-    dispatch(dataRetrievalOnRequest("london"))
-  }
 
 
 
