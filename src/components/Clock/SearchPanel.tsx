@@ -14,11 +14,10 @@ const SearchPanel = () => {
     const [resultsList, setResultList] = useState<Array<timezoneList>>([]);
     const refInput = useRef<any>();
     const domNode = useRef<any>();
+    const [statusApi, setStatusApi] = useState(false)
     interface KeyboardEvent {
         keyCode: number;
     }
-
-
 
     function updateInput(event: ChangeEvent<HTMLInputElement> ) {
         let temporally = event.target.value;
@@ -115,26 +114,25 @@ const SearchPanel = () => {
         }
     }
 
-
-
     function apiRequestDate(city: string, region: string) {
         dispatch(dataRetrievalOnRequest({timeZone: city, region: region}))
 
     }
 
-
     useEffect(() => {
-        console.log(resultsList)
-        if (enteredText.length <= 0 && clockStore.apiStatus) {
+        if (!statusApi && clockStore.apiStatus) {
             console.log(resultsList)
             createHintsList("");
             setSelectState(true);
+            if(resultsList.length >= 0 ){
+                setStatusApi(true);
+            }
         }
-            return () => {
+        return () => {
 
-            };
-
+        };
         }, [enteredText, resultsList, clockStore.apiStatus]);
+    
     return (
         <div className="search"  ref={domNode}>
             <div className="input__wrap">

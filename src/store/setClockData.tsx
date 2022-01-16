@@ -120,12 +120,12 @@ export const clock = createSlice({
                 state.mainClock.time.minutes = Number(state.mainClock.time.fullTime[1])
                 state.mainClock.time.seconds = Number(state.mainClock.time.fullTime[2])
             }
-        }
+        },
+
     },
     extraReducers: (builder => {
         builder.addCase(fetchCityList.fulfilled, (state, {payload}) => {
             if(!state.apiStatus) {
-                console.log(payload)
                 for(let i = 0; i < payload.length; i++){
                     payload[i] = payload[i].split("/");
                     if(payload[i].length == 2 && (payload[i][0] !== "Etc")){
@@ -140,23 +140,16 @@ export const clock = createSlice({
 
         })
         builder.addCase(dataRetrievalOnRequest.fulfilled, (state, {payload}) =>{
-            console.log(payload);
             state.mainClock.useLocalTime = false;
             state.mainClock.mainClockCity = payload.cityNameForRequest;
             const date = +new Date();
             const date2  = +new Date(payload.data.datetime.split('.')[0]);
-            console.log(date, date2, (date - date2) / (1000 * 60 * 60));
             state.mainClock.difference = Math.round((date - date2) / (1000 * 60 * 60));
             if (state.mainClock.difference < 0) {
                   state.mainClock.dataInString = DateTime.local().plus({hours: state.mainClock.difference * -1, minutes: 0}).setLocale('en').toFormat('DDDD')
-                console.log(state.mainClock.difference , DateTime.local().plus({hours: state.mainClock.difference * -1, minutes: 0}).setLocale('en').toFormat('TT'));
             }else{
-                console.log(state.mainClock.difference , DateTime.local().plus({hours: state.mainClock.difference * -1, minutes: 0}).setLocale('en').toFormat('TT'));
                 state.mainClock.dataInString = DateTime.local().plus({hours: state.mainClock.difference * -1, minutes: 0}).setLocale('en').toFormat('DDDD')
             }
-
-
-
         })
     })
 })

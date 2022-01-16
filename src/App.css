@@ -1,30 +1,25 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;500&display=swap');
-
+@import url(https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;500&display=swap);
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Montserrat', sans-serif;
+    font-family: Montserrat, sans-serif
 }
 
-/* 0cc1aa  green*/
-
-/* 0e0e0e  black*/
 ::-webkit-scrollbar {
-    width: 0;
+    width: 0
 }
 
 body {
     background: #dad8d8;
-
-    font-weight: 300;
+    font-weight: 300
 }
 
 .wrap {
     min-width: 100%;
     min-height: 100vh;
     position: relative;
-    padding: 150px 0 0 0;
+    padding: 150px 0 0 0
 }
 
 .timer {
@@ -33,11 +28,11 @@ body {
     margin: 0 auto;
     display: grid;
     grid-template-columns: repeat(1, 1fr);
-    grid-auto-rows: auto;
+    grid-auto-rows: auto
 }
 
 .timer__button {
-    background: none;
+    background: 0 0;
     border: 0;
     color: inherit;
     line-height: normal;
@@ -46,74 +41,74 @@ body {
     -webkit-appearance: button;
     -webkit-user-select: none;
     -moz-user-select: none;
-    -ms-user-select: none;
+    -ms-user-select: none
 }
 
 .timer__section-group {
     display: grid;
     grid-template-columns: 1fr 20px 1fr 20px 1fr;
-    padding: 70px 90px;
+    padding: 70px 90px
 }
 
 .timer__section-item {
     text-align: center;
     font-size: 80px;
     display: grid;
-    grid-template-columns: repeat(1, 1fr);
+    grid-template-columns: repeat(1, 1fr)
 }
 
 .number__desription {
-    font-size: 25px;
+    font-size: 25px
 }
 
 .timer-colon {
     font-size: 70px;
     padding: 30px 0 0 0;
-    justify-self: center;
+    justify-self: center
 }
 
-.button__plus,
-.button__minus {
+.button__minus,
+.button__plus {
     justify-self: center;
     width: 30px;
     height: 30px;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: center
 }
 
-.button__plus:hover,
-.button__minus:hover {
+.button__minus:hover,
+.button__plus:hover {
     background: #f0efef;
-    transition: 0.2s;
+    transition: .2s
 }
 
-.button__plus:active,
-.button__minus:active {
+.button__minus:active,
+.button__plus:active {
     background: #c7c7c7;
-    transition: 0.2s;
+    transition: .2s
 }
 
 .button__minus {
-    margin: 10px 0 0 0;
+    margin: 10px 0 0 0
 }
 
 .button__plua {
-    margin: 0 0 10px 0;
+    margin: 0 0 10px 0
 }
 
 .button__plus img {
-    transform: rotate(90deg);
+    transform: rotate(90deg)
 }
 
 .button__minus img {
-    transform: rotate(-90deg);
+    transform: rotate(-90deg)
 }
 
 .timer-button__group {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    padding: 10px;
+    padding: 10px
 }
 
 .timer__button--start {
@@ -122,47 +117,45 @@ body {
     font-weight: 200;
     border-top: 2px solid #0e0e0e;
     border-bottom: 2px solid #0e0e0e;
-    border-left: 2px solid #0e0e0e;
+    border-left: 2px solid #0e0e0e
 }
 
 .timer__button--stop {
     padding: 20px;
-    /* background: #939695; */
     font-size: 18px;
     font-weight: 200;
     border-top: 2px solid #0e0e0e;
     border-bottom: 2px solid #0e0e0e;
-    border-left: 2px solid #0e0e0e;
+    border-left: 2px solid #0e0e0e
 }
 
 .timer__button--reset {
     padding: 20px;
-    /*   */
     font-size: 18px;
     font-weight: 200;
-    border: 2px solid #0e0e0e;
+    border: 2px solid #0e0e0e
 }
 
 .timer__button--start:hover,
 .timer__button--stop:hover {
-    background: #777777;
-    transition: 0.2s;
-    color: rgb(238, 238, 238);
+    background: #777;
+    transition: .2s;
+    color: #eee
 }
 
 .timer__button--start:active,
 .timer__button--stop:active {
-    background: rgb(75, 75, 75);
-    transition: 0.2s;
+    background: #4b4b4b;
+    transition: .2s
 }
 
 .timer__button--reset:hover {
     background: #0fdfc3;
-    color: #fff;
+    color: #fff
 }
 
 .timer__button--reset:active {
-    background: #07c4aa;
+    background: #07c4aa
 }
 
 .popup {
@@ -173,77 +166,76 @@ body {
     top: 20px;
     background: #0e0e0ed7;
     padding: 20px;
-    color: #fff;
+    color: #fff
 }
 
 .tabs {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr)
 }
 
 .tabs__button {
     padding: 20px 0;
-    /* background: #b6b6b6ff; */
     font-size: 20px;
-    border-bottom: 2px solid #fff;
+    border-bottom: 2px solid #fff
 }
 
 .tabs__button:hover {
     border-bottom: 2px solid #0fdfc3;
-    transition: 0.3s;
+    transition: .3s
 }
 
 .tabs__button--active {
-    border-bottom: 2px solid #0fdfc3;
+    border-bottom: 2px solid #0fdfc3
 }
 
 .stop-watch__section-group {
     display: grid;
     grid-template-columns: 1fr 20px 1fr 20px 1fr 20px 1fr;
-    padding: 70px 90px;
+    padding: 70px 90px
 }
 
 .stop-watch__section-item {
     text-align: center;
     font-size: 80px;
     display: grid;
-    grid-template-columns: repeat(1, 1fr);
+    grid-template-columns: repeat(1, 1fr)
 }
 
 .stop-watch-colon {
     font-size: 70px;
-    justify-self: center;
+    justify-self: center
 }
 
 .stop-watch-button__group {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    padding: 10px;
+    padding: 10px
 }
 
 .clock__section-group {
     display: grid;
     grid-template-columns: 1fr 20px 1fr 20px 1fr;
     padding: 10px 70px 30px 70px;
-    position: relative;
+    position: relative
 }
 
 .clock-colon {
     justify-self: center;
-    font-size: 70px;
+    font-size: 70px
 }
 
 .clock__section-item {
     font-size: 80px;
     display: grid;
     grid-template-columns: repeat(1, 1fr);
-    text-align: center;
+    text-align: center
 }
 
 .preview-time {
     display: flex;
     justify-content: end;
-    flex-wrap: wrap;
+    flex-wrap: wrap
 }
 
 .preview-time__item {
@@ -253,38 +245,37 @@ body {
     justify-content: center;
     width: fit-content;
     padding: 5px 10px;
-    border: 1px solid rgb(206, 198, 198);
+    border: 1px solid #cec6c6;
     margin: 10px 0 0 10px;
-    background: #ececec;
+    background: #ececec
 }
 
 .preview-time__capital {
     font-weight: 400;
-    font-size: 16px;
+    font-size: 16px
 }
 
 .preview-time__sub-timer {
     font-size: 14px;
-    font-weight: 300;
+    font-weight: 300
 }
 
 .clock__date {
     text-align: end;
-    padding: 0px 0px 20px 0px;
-    font-size: 26px;
+    padding: 0 0 20px 0;
+    font-size: 26px
 }
-
-.bem{}
 
 .wrap-clock {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     margin: 20px 0 0 0;
-    border-top: 1px solid #ccc;
+    border-top: 1px solid #ccc
 }
-.clock__show-info{
+
+.clock__show-info {
     grid-column: 5/13;
-    padding: 20px;
+    padding: 20px
 }
 
 .search {
@@ -294,260 +285,239 @@ body {
     display: grid;
     grid-template-rows: 38px 1fr;
     justify-content: stretch;
-    border-right: 1px solid #ccc;
-
+    border-right: 1px solid #ccc
 }
 
 .search__input {
-    /*width: 100%;*/
     border: 0;
     border-radius: 0;
-    padding: 10px 5px;
-
+    padding: 10px 5px
 }
 
+.search__result li {
+    display: grid;
+    grid-template-columns: 1fr
+}
 
+.search__region {
+    font-size: 13px
+}
 
-.search__result li{
+.input__wrap {
     display: grid;
     grid-template-columns: 1fr;
-}
-
-.search__region{
-    font-size: 13px;
-}
-
-.input__wrap{
-    display: grid;
-    grid-template-columns: 1fr ;
     width: 100%;
     align-content: start;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #ccc
 }
+
 .search__result {
-    background: white;
+    background: #fff;
     width: 100%;
     min-height: 100%;
     list-style: none;
     padding: 10px 0 0 0;
     border-top: none;
     max-height: 300px;
-    overflow-y: scroll;
-
+    overflow-y: scroll
 }
+
 .search__result li {
-    padding: 4px 5px;
+    padding: 4px 5px
 }
 
 .search__result li:hover {
-    transition: 0.3s;
-    background: #dcdbdb;
+    transition: .3s;
+    background: #dcdbdb
 }
+
 .active__list {
-    background: rgb(193, 193, 193);
-    color: #fff;
+    background: #c1c1c1;
+    color: #fff
 }
+
 .link_github {
     position: fixed;
     top: 50%;
-    right: 10px;
+    right: 10px
 }
+
 .link_github img {
     width: 50px;
-    height: 50px;
+    height: 50px
 }
-.city-name {
 
+.city-name {
     font-size: 25px;
     font-weight: 400;
-    text-transform: uppercase;
-
+    text-transform: uppercase
 }
-.first-level__remove-city{
-    background: transparent;
+
+.first-level__remove-city {
+    background: 0 0;
     border: none;
-    padding: 0px 2px;
+    padding: 0 2px
+}
 
+.first-level__remove-city:hover {
+    background: #c1c1c1
 }
-.first-level__remove-city:hover{
-    background: rgb(193, 193, 193); ;
-}
-.wrap-city-name{
+
+.wrap-city-name {
     position: relative;
     display: grid;
     padding: 0 0 20px 0;
     grid-template-columns: 1fr fit-content(100%);
-
-    width: 100%;
+    width: 100%
 }
-.bttn-group{
+
+.bttn-group {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 10px;
     justify-self: end;
-    align-self: center;
-}
-.button-add {
-    width: 20px;
-}
-.comeback-home img{
-    width: 22px;
+    align-self: center
 }
 
-.first-level{
-    font-size: 12px;
+.button-add {
+    width: 20px
 }
+
+.comeback-home img {
+    width: 22px
+}
+
+.first-level {
+    font-size: 12px
+}
+
 .second-level {
     font-size: 20px;
-    font-weight: 400;
+    font-weight: 400
 }
 
-.third-level{
-    font-size: 18px ;
+.third-level {
+    font-size: 18px
 }
-@media (max-width: 680px) {
+
+@media (max-width:680px) {
     .link_github {
         position: absolute;
         top: auto;
         bottom: 0;
-        right: 10px;
+        right: 10px
     }
-
     .timer__section-group {
-        padding: 70px 40px;
+        padding: 70px 40px
     }
-
     .stop-watch__section-group {
-        padding: 70px 30px;
+        padding: 70px 30px
     }
-
     .wrap {
-        padding: 0;
+        padding: 0
     }
 }
 
-@media (max-width: 560px) {
-    /* .stop-watch-button__group {
-        grid-template-columns: repeat(2, 1fr);
-    } */
+@media (max-width:560px) {
     .stop-watch__section-item {
-        font-size: 60px;
+        font-size: 60px
     }
-
     .stop-watch-colon {
-        font-size: 53px;
+        font-size: 53px
     }
-
     .number__desription {
-        font-size: 21px;
+        font-size: 21px
     }
-
     .clock__section-group {
-        padding: 70px 0px;
+        padding: 70px 0
     }
 }
 
-@media (max-width: 460px) {
+@media (max-width:460px) {
     .timer__section-group {
-        padding: 70px 20px;
+        padding: 70px 20px
     }
-
     .stop-watch__section-group {
-        padding: 70px 10px;
+        padding: 70px 10px
     }
-
     .stop-watch__section-item {
-        font-size: 50px;
+        font-size: 50px
     }
-
     .stop-watch-colon {
-        font-size: 44px;
+        font-size: 44px
     }
-
     .stop-watch-button__group {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, 1fr)
     }
-
     .timer__button--one {
         border: 0;
-        border: 2px solid #0e0e0e;
+        border: 2px solid #0e0e0e
     }
-
     .timer__button--two {
         border: 0;
         border-right: 2px solid #0e0e0e;
         border-top: 2px solid #0e0e0e;
-        border-bottom: 2px solid #0e0e0e;
+        border-bottom: 2px solid #0e0e0e
     }
-
     .timer__button--four {
         border: 0;
         border-right: 2px solid #0e0e0e;
-        border-bottom: 2px solid #0e0e0e;
+        border-bottom: 2px solid #0e0e0e
     }
-
     .timer__button--three {
         border: 0;
         border-right: 2px solid #0e0e0e;
         border-bottom: 2px solid #0e0e0e;
-        border-left: 2px solid #0e0e0e;
+        border-left: 2px solid #0e0e0e
     }
-
     .clock__section-item {
-        font-size: 60px;
+        font-size: 60px
     }
-
     .clock-colon {
-        font-size: 53px;
+        font-size: 53px
     }
 }
 
-@media (max-width: 420px) {
+@media (max-width:420px) {
     .timer__section-item {
-        font-size: 60px;
+        font-size: 60px
     }
-
     .tabs__button {
         font-size: 16px;
-        padding: 15px 0;
+        padding: 15px 0
     }
-
     .timer-colon {
-        font-size: 53px;
+        font-size: 53px
     }
-
     .stop-watch__section-item {
-        font-size: 40px;
+        font-size: 40px
     }
-
     .stop-watch-colon {
-        font-size: 34px;
+        font-size: 34px
     }
-
     .clock__section-group {
-        padding: 70px 15px;
+        padding: 70px 15px
     }
-
     .wrap-clock {
-        padding: 10px;
+        padding: 10px
     }
 }
 
 .visibal-block {
-    visibility: visible;
+    visibility: visible
 }
 
 .anima {
     animation-name: opasit;
-    animation-duration: 0.5s;
-    animation-fill-mode: both;
+    animation-duration: .5s;
+    animation-fill-mode: both
 }
 
 @keyframes opasit {
     0% {
-        opacity: 1;
+        opacity: 1
     }
     100% {
-        opacity: 0;
+        opacity: 0
     }
 }
