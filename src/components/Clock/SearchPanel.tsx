@@ -46,9 +46,9 @@ const SearchPanel = () => {
     }
 
     function selectionHints(event: KeyboardEvent) {
-        // if (event.keyCode === 13) {
-        //     apiRequestDate(resultsList[currentRow.current][0],resultsList[currentRow.current + 1][1]);
-        // }
+        if (event.keyCode === 13) {
+         apiRequestDate(resultsList[currentRow.current].city, resultsList[currentRow.current].region);
+        }
 
         if (selectState) {
             if (event.keyCode === 40) {
@@ -118,7 +118,6 @@ const SearchPanel = () => {
 
 
     function apiRequestDate(city: string, region: string) {
-
         dispatch(dataRetrievalOnRequest({timeZone: city, region: region}))
 
     }
@@ -127,6 +126,7 @@ const SearchPanel = () => {
     useEffect(() => {
         console.log(resultsList)
         if (enteredText.length <= 0 && clockStore.apiStatus) {
+            console.log(resultsList)
             createHintsList("");
             setSelectState(true);
         }
@@ -136,7 +136,6 @@ const SearchPanel = () => {
 
         }, [enteredText, resultsList, clockStore.apiStatus]);
     return (
-
         <div className="search"  ref={domNode}>
             <div className="input__wrap">
             <input type="text" ref={refInput} className="search__input"
@@ -147,20 +146,17 @@ const SearchPanel = () => {
                 {resultsList.map((Item: any, index: number) => (<li
                     ref={(elRef: HTMLLIElement) => {resultListArray.current[index] = elRef;}}
                     onClick={() =>{
-                        // if(currentRow.current && resultListArray.current[currentRow.current].classList.contains('active__list')){
-                        //     resultListArray.current[currentRow.current].classList.remove('active__list');
-                        // }
-
+                        if(currentRow.current >= 0 && resultListArray.current[currentRow.current].classList.contains('active__list')){
+                            resultListArray.current[currentRow.current].classList.remove('active__list');
+                        }
                         changeInputData(Item.id, false)
                         apiRequestDate(Item.city, Item.region);
                     }}
                     key={Item.id}>
-
                     <span className="search__city"> {Item.city}</span>
                     <span className="search__region"> {Item.region}</span>
                 </li>))}
             </ul>
-
         </div>
     );
 };

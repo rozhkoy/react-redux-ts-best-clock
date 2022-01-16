@@ -335,7 +335,6 @@ body {
     overflow-y: scroll;
 
 }
-
 .search__result li {
     padding: 4px 5px;
 }
@@ -344,33 +343,19 @@ body {
     transition: 0.3s;
     background: #dcdbdb;
 }
-
-
 .active__list {
     background: rgb(193, 193, 193);
     color: #fff;
 }
-
-/*.hintsList {*/
-/*    opacity: 1;*/
-/*    pointer-events: auto;*/
-/*    transition: 0.2s;*/
-/*    z-index: 1;*/
-/*}*/
-
 .link_github {
     position: fixed;
     top: 50%;
     right: 10px;
 }
-
 .link_github img {
     width: 50px;
     height: 50px;
 }
-
-
-
 .city-name {
 
     font-size: 25px;
@@ -384,14 +369,13 @@ body {
     padding: 0px 2px;
 
 }
-
 .first-level__remove-city:hover{
     background: rgb(193, 193, 193); ;
 }
 .wrap-city-name{
     position: relative;
     display: grid;
-    padding: 20px 0;
+    padding: 0 0 20px 0;
     grid-template-columns: 1fr fit-content(100%);
 
     width: 100%;
