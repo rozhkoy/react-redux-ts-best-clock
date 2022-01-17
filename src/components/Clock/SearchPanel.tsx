@@ -132,7 +132,7 @@ const SearchPanel = () => {
 
         };
         }, [enteredText, resultsList, clockStore.apiStatus]);
-    
+
     return (
         <div className="search"  ref={domNode}>
             <div className="input__wrap">

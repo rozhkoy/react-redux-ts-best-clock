@@ -121,6 +121,10 @@ export const clock = createSlice({
                 state.mainClock.time.seconds = Number(state.mainClock.time.fullTime[2])
             }
         },
+        switchToLocalTime: (state) => {
+            state.mainClock.useLocalTime = true;
+            state.mainClock.mainClockCity = "Local"
+        }
 
     },
     extraReducers: (builder => {
@@ -153,5 +157,5 @@ export const clock = createSlice({
         })
     })
 })
-export const {check, upDateClockDate, setDefaultTime} = clock.actions
+export const {check, upDateClockDate, setDefaultTime, switchToLocalTime} = clock.actions
 export default clock.reducer
