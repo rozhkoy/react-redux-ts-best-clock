@@ -125,6 +125,7 @@ const SearchPanel = () => {
     }
 
     useEffect(() => {
+        console.log(enteredText);
         if(!clockStore.apiStatusHintList){
             dispatch(fetchCityList())
         }
@@ -139,7 +140,7 @@ const SearchPanel = () => {
         return () => {
 
         };
-        }, [enteredText, resultsList, clockStore.apiStatusHintList ]);
+        }, [clockStore.apiStatusLocalTime, clockStore.apiStatusHintList, enteredText]);
 
     return (
         <div className="search"  ref={domNode}>
@@ -164,7 +165,7 @@ const SearchPanel = () => {
                     <span className="search__region"> {Item.region}</span>
                 </li>))}
             </ul>
-            <button onClick={() => dispatch(fetchLocalTimezona())}>fetch</button>
+            <button onClick={() => dispatch(fetchCityList())}>fetch</button>
         </div>
     );
 };
