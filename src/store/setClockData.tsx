@@ -80,10 +80,10 @@ export const dataRetrievalOnRequest = createAsyncThunk(
     'dataRetrieval',
     async (someInfo: data ) => {
         const response = await fetch(
-                `http://worldtimeapi.org/api/timezone/${someInfo.region}/${someInfo.timeZone}`
+                `http://worldtimeapi.org/api/timezone/${someInfo.region}/${someInfo.timeZone.split(" ").join("_")}`
         );
         const data: any = await  response.json();
-        const cityNameForRequest: string = someInfo.timeZone.split("_").join(" ");
+        const cityNameForRequest: string = someInfo.timeZone;
         return {data , cityNameForRequest};
     }
 )
