@@ -1,7 +1,13 @@
 
 import {useAppDispatch, useAppSelector} from "../../hooks/useTypedSelector";
 import React, {ChangeEvent, useEffect, useRef, useState} from "react";
-import {dataRetrievalOnRequest, fetchLocalTimezona, timezoneList} from "../../store/setClockData";
+import {
+    dataRetrievalOnRequest,
+    fetchCityList,
+    fetchLocalTimezona,
+    switchStateApiStatus,
+    timezoneList
+} from "../../store/setClockData";
 const SearchPanel = () => {
     const dispatch = useAppDispatch();
     const clockStore = useAppSelector((state) => state.clock);
@@ -14,7 +20,7 @@ const SearchPanel = () => {
     const [resultsList, setResultList] = useState<Array<timezoneList>>([]);
     const refInput = useRef<any>();
     const domNode = useRef<any>();
-    const [statusApi, setStatusApi] = useState(false)
+
     interface KeyboardEvent {
         keyCode: number;
     }
@@ -119,19 +125,21 @@ const SearchPanel = () => {
     }
 
     useEffect(() => {
-        if (!statusApi && clockStore.apiStatus) {
-            dispatch(fetchLocalTimezona())
-            console.log(resultsList)
-            createHintsList("");
-            setSelectState(true);
-            if(resultsList.length >= 0 ){
-                setStatusApi(true);
-            }
+        if(!clockStore.apiStatusHintList){
+            dispatch(fetchCityList())
         }
+        if(!clockStore.apiStatusLocalTime){
+            dispatch(fetchLocalTimezona())
+        }
+        if(clockStore.apiStatusHintList){
+            createHintsList("")
+        }
+
+
         return () => {
 
         };
-        }, [enteredText, resultsList, clockStore.apiStatus]);
+        }, [enteredText, resultsList, clockStore.apiStatusHintList ]);
 
     return (
         <div className="search"  ref={domNode}>

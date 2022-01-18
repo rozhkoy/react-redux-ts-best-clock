@@ -6,7 +6,8 @@ import {DateTime} from "luxon";
 interface clockState {
     value: number,
     cityListForHints: Array<timezoneList>,
-    apiStatus: boolean,
+    apiStatusHintList: boolean,
+    apiStatusLocalTime: boolean,
     mainClock: mainClocKI,
     addedTimezoneInList: Array<timezoneList>,
 }
@@ -28,11 +29,6 @@ interface TimeHoursMinutesSecond{
     fullTime: Array<string>
 }
 
-interface mainClockAction{
-    time: string,
-    data: string,
-}
-
 interface data{
     timeZone: string,
     region: string,
@@ -49,7 +45,8 @@ interface data{
 const initialClockState:clockState = {
     value: 20,
     cityListForHints: [],
-    apiStatus: false,
+    apiStatusHintList: false,
+    apiStatusLocalTime: false,
     mainClock: {
         time: {
             hours: 0,
@@ -143,11 +140,14 @@ export const clock = createSlice({
                 region: ""
             })
             console.log(current(state.addedTimezoneInList));
+        },
+        switchStateApiStatus: (state) => {
+            state.apiStatusHintList = false
         }
     },
     extraReducers: (builder => {
         builder.addCase(fetchCityList.fulfilled, (state, {payload}) => {
-            if(!state.apiStatus) {
+            if(!state.apiStatusHintList) {
                 for(let i = 0; i < payload.length; i++){
                     payload[i] = payload[i].split("/");
                     if(payload[i].length == 2 && (payload[i][0] !== "Etc")){
@@ -157,7 +157,7 @@ export const clock = createSlice({
                             id: i, city: payload[i][1], region: payload[i][0] })
                     }
                 }
-                state.apiStatus = true;
+                state.apiStatusHintList = true;
             }
         })
         builder.addCase(dataRetrievalOnRequest.fulfilled, (state, {payload}) =>{
@@ -176,8 +176,9 @@ export const clock = createSlice({
         builder.addCase(fetchLocalTimezona.fulfilled, (state, {payload}) =>{
             state.mainClock.useLocalTime = true;
             state.mainClock.mainClockCity = payload.timezone;
+            state.apiStatusLocalTime = true;
         })
     })
 })
-export const {check, upDateClockDate, setDefaultTime, addTimeZoneInList} = clock.actions
+export const {check, setDefaultTime, addTimeZoneInList, switchStateApiStatus} = clock.actions
 export default clock.reducer

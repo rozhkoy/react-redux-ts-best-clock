@@ -47,11 +47,6 @@ const TabsButton = () => {
   }
 
 
-  const apiRequest = () => dispatch(fetchCityList());
-
-  if(!clockStore.apiStatus){
-    apiRequest();
-  }
 
 
 
