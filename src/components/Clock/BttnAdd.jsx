@@ -1,5 +1,7 @@
 import ButtonAdd from "./bttnAdd.svg";
+import {useAppDispatch} from "../../hooks/useTypedSelector";
 
 export function BttnAdd() {
-    return <img src={ButtonAdd} alt="" className="button-add" />;
+    const dispatch = useAppDispatch();
+    return <img  src={ButtonAdd} alt="" className="button-add" />;
 }

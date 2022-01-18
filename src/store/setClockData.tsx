@@ -1,4 +1,4 @@
-import {createAsyncThunk, createSlice, current, PayloadAction} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {DateTime} from "luxon";
 
 // interface
@@ -8,7 +8,7 @@ interface clockState {
     cityListForHints: Array<timezoneList>,
     apiStatus: boolean,
     mainClock: mainClocKI,
-
+    addedTimezoneInList:Array<timezoneList>,
 }
 
 interface mainClocKI{
@@ -59,6 +59,7 @@ const initialClockState:clockState = {
         difference: 0,
         useLocalTime: true,
     },
+    addedTimezoneInList: []
 
 
 } as clockState
@@ -82,7 +83,7 @@ export const dataRetrievalOnRequest = createAsyncThunk(
                 `http://worldtimeapi.org/api/timezone/${someInfo.region}/${someInfo.timeZone}`
         );
         const data: any = await  response.json();
-        const cityNameForRequest: string = someInfo.timeZone;
+        const cityNameForRequest: string = someInfo.timeZone.split("_").join(" ");
         return {data , cityNameForRequest};
     }
 )
@@ -124,6 +125,14 @@ export const clock = createSlice({
         switchToLocalTime: (state) => {
             state.mainClock.useLocalTime = true;
             state.mainClock.mainClockCity = "Local"
+        },
+        addTimeZoneInList: () => {
+            // initialClockState.addedTimezoneInList.push({
+            //     id: 444,
+            //     city: "dd",
+            //     region: "dd"
+            // })
+            console.log(initialClockState.addedTimezoneInList);
         }
 
     },
@@ -157,5 +166,5 @@ export const clock = createSlice({
         })
     })
 })
-export const {check, upDateClockDate, setDefaultTime, switchToLocalTime} = clock.actions
+export const {check, upDateClockDate, setDefaultTime, switchToLocalTime, addTimeZoneInList} = clock.actions
 export default clock.reducer

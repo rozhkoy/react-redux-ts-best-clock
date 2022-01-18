@@ -115,7 +115,7 @@ const SearchPanel = () => {
     }
 
     function apiRequestDate(city: string, region: string) {
-        dispatch(dataRetrievalOnRequest({timeZone: city, region: region}))
+        dispatch(dataRetrievalOnRequest({timeZone: city.split(" ").join("_"), region: region}))
 
     }
 
