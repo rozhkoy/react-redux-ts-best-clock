@@ -18,7 +18,7 @@ interface mainClocKI{
     difference: number,
     useLocalTime: boolean,
     timezoneID: number,
-    region: string,
+    region: string
 }
 
 interface TimeHoursMinutesSecond{
@@ -62,11 +62,23 @@ const initialClockState:clockState = {
         difference: 0,
         useLocalTime: true,
         timezoneID: -1,
+        region: ""
     },
     addedTimezoneInList: []
 
 
 } as clockState
+
+export const fetchLocalTimezona = createAsyncThunk(
+    "fetchLocalTimezona",
+    async () => {
+        const response = await fetch(
+            "http://worldtimeapi.org/api/ip"
+        )
+        const data: any = await response.json();
+        return data;
+    }
+)
 
 
 export const fetchCityList = createAsyncThunk(
@@ -75,7 +87,7 @@ export const fetchCityList = createAsyncThunk(
         const response = await fetch(
             `http://worldtimeapi.org/api/timezone`
         );
-        const data: any = await  response.json();
+        const data: any = await response.json();
         return data;
     }
 )
@@ -127,15 +139,11 @@ export const clock = createSlice({
                 state.mainClock.time.seconds = Number(state.mainClock.time.fullTime[2])
             }
         },
-        switchToLocalTime: (state) => {
-            state.mainClock.useLocalTime = true;
-            state.mainClock.mainClockCity = "Local"
-        },
         addTimeZoneInList: (state) => {
             state.addedTimezoneInList.push({
                 id: state.mainClock.timezoneID,
                 city: state.mainClock.mainClockCity,
-                region: "
+                region: ""
             })
             console.log(current(state.addedTimezoneInList));
         }
@@ -154,7 +162,6 @@ export const clock = createSlice({
                 }
                 state.apiStatus = true;
             }
-
         })
         builder.addCase(dataRetrievalOnRequest.fulfilled, (state, {payload}) =>{
             state.mainClock.useLocalTime = false;
@@ -169,7 +176,11 @@ export const clock = createSlice({
                 state.mainClock.dataInString = DateTime.local().plus({hours: state.mainClock.difference * -1, minutes: 0}).setLocale('en').toFormat('DDDD')
             }
         })
+        builder.addCase(fetchLocalTimezona.fulfilled, (state, {payload}) =>{
+            state.mainClock.useLocalTime = true;
+            state.mainClock.mainClockCity = payload.timezone;
+        })
     })
 })
-export const {check, upDateClockDate, setDefaultTime, switchToLocalTime, addTimeZoneInList} = clock.actions
+export const {check, upDateClockDate, setDefaultTime, addTimeZoneInList} = clock.actions
 export default clock.reducer

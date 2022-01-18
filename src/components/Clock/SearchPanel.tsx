@@ -1,7 +1,7 @@
 
 import {useAppDispatch, useAppSelector} from "../../hooks/useTypedSelector";
 import React, {ChangeEvent, useEffect, useRef, useState} from "react";
-import {dataRetrievalOnRequest, timezoneList} from "../../store/setClockData";
+import {dataRetrievalOnRequest, fetchLocalTimezona, timezoneList} from "../../store/setClockData";
 const SearchPanel = () => {
     const dispatch = useAppDispatch();
     const clockStore = useAppSelector((state) => state.clock);
@@ -66,7 +66,6 @@ const SearchPanel = () => {
                     }
                 }
             }
-
             if (event.keyCode === 38) {
                 currentRow.current--;
                 if (currentRow.current < -1) {
@@ -121,6 +120,7 @@ const SearchPanel = () => {
 
     useEffect(() => {
         if (!statusApi && clockStore.apiStatus) {
+            dispatch(fetchLocalTimezona())
             console.log(resultsList)
             createHintsList("");
             setSelectState(true);
@@ -140,6 +140,7 @@ const SearchPanel = () => {
                    placeholder="Search by city name" onKeyDown={selectionHints} value={enteredText}
                    onChange={updateInput}/>
             </div>
+
             <ul className="search__result" ref={hintsList}>
                 {resultsList.map((Item: any, index: number) => (<li
                     ref={(elRef: HTMLLIElement) => {resultListArray.current[index] = elRef;}}
@@ -155,6 +156,7 @@ const SearchPanel = () => {
                     <span className="search__region"> {Item.region}</span>
                 </li>))}
             </ul>
+            <button onClick={() => dispatch(fetchLocalTimezona())}>fetch</button>
         </div>
     );
 };
