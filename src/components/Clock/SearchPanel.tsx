@@ -46,7 +46,7 @@ const SearchPanel = () => {
 
     function selectionHints(event: KeyboardEvent) {
         if (event.keyCode === 13) {
-         apiRequestDate(resultsList[currentRow.current].city, resultsList[currentRow.current].region);
+         apiRequestDate(resultsList[currentRow.current].city, resultsList[currentRow.current].region, resultsList[currentRow.current].id);
         }
 
         if (selectState) {
@@ -114,8 +114,8 @@ const SearchPanel = () => {
         }
     }
 
-    function apiRequestDate(city: string, region: string) {
-        dispatch(dataRetrievalOnRequest({timeZone: city, region: region}))
+    function apiRequestDate(city: string, region: string, regionID: number) {
+        dispatch(dataRetrievalOnRequest({timeZone: city, region: region, id: regionID}))
 
     }
 
@@ -148,7 +148,7 @@ const SearchPanel = () => {
                             resultListArray.current[currentRow.current].classList.remove('active__list');
                         }
                         changeInputData(Item.id, false)
-                        apiRequestDate(Item.city, Item.region);
+                        apiRequestDate(Item.city, Item.region, Item.id);
                     }}
                     key={Item.id}>
                     <span className="search__city"> {Item.city}</span>

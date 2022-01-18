@@ -1,4 +1,4 @@
-import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, current, PayloadAction} from "@reduxjs/toolkit";
 import {DateTime} from "luxon";
 
 // interface
@@ -8,7 +8,7 @@ interface clockState {
     cityListForHints: Array<timezoneList>,
     apiStatus: boolean,
     mainClock: mainClocKI,
-    addedTimezoneInList:Array<timezoneList>,
+    addedTimezoneInList: Array<timezoneList>,
 }
 
 interface mainClocKI{
@@ -16,7 +16,9 @@ interface mainClocKI{
     dataInString: string,
     mainClockCity: string,
     difference: number,
-    useLocalTime: boolean
+    useLocalTime: boolean,
+    timezoneID: number,
+    region: string,
 }
 
 interface TimeHoursMinutesSecond{
@@ -34,6 +36,7 @@ interface mainClockAction{
 interface data{
     timeZone: string,
     region: string,
+    id: number,
 }
 
  export interface timezoneList{
@@ -58,6 +61,7 @@ const initialClockState:clockState = {
         mainClockCity: 'Local',
         difference: 0,
         useLocalTime: true,
+        timezoneID: -1,
     },
     addedTimezoneInList: []
 
@@ -83,8 +87,9 @@ export const dataRetrievalOnRequest = createAsyncThunk(
                 `http://worldtimeapi.org/api/timezone/${someInfo.region}/${someInfo.timeZone.split(" ").join("_")}`
         );
         const data: any = await  response.json();
+        const timezoneID = someInfo.id;
         const cityNameForRequest: string = someInfo.timeZone;
-        return {data , cityNameForRequest};
+        return {data , cityNameForRequest, timezoneID};
     }
 )
 
@@ -126,15 +131,14 @@ export const clock = createSlice({
             state.mainClock.useLocalTime = true;
             state.mainClock.mainClockCity = "Local"
         },
-        addTimeZoneInList: () => {
-            // initialClockState.addedTimezoneInList.push({
-            //     id: 444,
-            //     city: "dd",
-            //     region: "dd"
-            // })
-            console.log(initialClockState.addedTimezoneInList);
+        addTimeZoneInList: (state) => {
+            state.addedTimezoneInList.push({
+                id: state.mainClock.timezoneID,
+                city: state.mainClock.mainClockCity,
+                region: "
+            })
+            console.log(current(state.addedTimezoneInList));
         }
-
     },
     extraReducers: (builder => {
         builder.addCase(fetchCityList.fulfilled, (state, {payload}) => {
@@ -155,6 +159,7 @@ export const clock = createSlice({
         builder.addCase(dataRetrievalOnRequest.fulfilled, (state, {payload}) =>{
             state.mainClock.useLocalTime = false;
             state.mainClock.mainClockCity = payload.cityNameForRequest;
+            state.mainClock.timezoneID = payload.timezoneID;
             const date = +new Date();
             const date2  = +new Date(payload.data.datetime.split('.')[0]);
             state.mainClock.difference = Math.round((date - date2) / (1000 * 60 * 60));
