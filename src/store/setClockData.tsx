@@ -113,9 +113,6 @@ export const clock = createSlice({
         check: (state) => {
             console.log(state.cityListForHints);
         },
-        upDateClockDate: (state, action:PayloadAction<mainClockAction>) => {
-
-        },
         setDefaultTime: (state) => {
             if(state.mainClock.useLocalTime){
                    let time: string[] =  DateTime.local().toFormat('TT').split(':')
