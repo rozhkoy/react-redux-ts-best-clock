@@ -2,6 +2,7 @@ import SearchPanel from './SearchPanel';
 import MainClock from './MainClock';
 import CityName from "./CityName";
 import DateString from "./DateString";
+import SavedTimeZones from "./SavedTimeZones";
 
 const Clock = () => {
 
@@ -12,6 +13,7 @@ const Clock = () => {
                 <CityName />
                 <MainClock />
                 <DateString />
+                <SavedTimeZones />
             </div>
         </div>
     );

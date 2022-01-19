@@ -2,6 +2,7 @@
 import {useAppDispatch, useAppSelector} from "../../hooks/useTypedSelector";
 import React, {ChangeEvent, useEffect, useRef, useState} from "react";
 import {
+    changeTimezoneFromSaved,
     dataRetrievalOnRequest,
     fetchCityList,
     fetchLocalTimezona,
@@ -10,7 +11,7 @@ import {
 } from "../../store/setClockData";
 const SearchPanel = () => {
     const dispatch = useAppDispatch();
-    const clockStore = useAppSelector((state) => state.clock);
+    const clockStore = useAppSelector((state) => state.Clock);
     const resultListArray = useRef<Array<HTMLElement>>([]);
     const currentRow = useRef<number>(-1);
     const [enteredText, setEnteredText] = useState('');
@@ -153,7 +154,7 @@ const SearchPanel = () => {
                     <span className="search__region"> {Item.region}</span>
                 </li>))}
             </ul>
-            <button onClick={() => dispatch(fetchCityList())}>fetch</button>
+
         </div>
     );
 };

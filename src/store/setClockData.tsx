@@ -1,6 +1,8 @@
 import {createAsyncThunk, createSlice, current, PayloadAction} from "@reduxjs/toolkit";
 import {DateTime} from "luxon";
 
+
+
 // interface
 
 interface clockState {
@@ -9,7 +11,7 @@ interface clockState {
     apiStatusHintList: boolean,
     apiStatusLocalTime: boolean,
     mainClock: mainClocKI,
-    addedTimezoneInList: Array<timezoneList>,
+    addedTimezoneInList: Array<savedTimezone>,
 }
 
 interface mainClocKI{
@@ -41,6 +43,13 @@ interface data{
     region: string
 }
 
+export interface savedTimezone{
+    id: number,
+    city: string,
+    region: string,
+    difference: number,
+    timeIn: string
+}
 
 const initialClockState:clockState = {
     value: 20,
@@ -62,9 +71,7 @@ const initialClockState:clockState = {
         region: ""
     },
     addedTimezoneInList: []
-
-
-} as clockState
+}
 
 export const fetchLocalTimezona = createAsyncThunk(
     "fetchLocalTimezona",
@@ -77,7 +84,6 @@ export const fetchLocalTimezona = createAsyncThunk(
         }
     }
 )
-
 
 export const fetchCityList = createAsyncThunk(
     "cityList",
@@ -116,39 +122,57 @@ export const clock = createSlice({
             console.log(state.cityListForHints);
         },
         setDefaultTime: (state) => {
-            if(state.mainClock.useLocalTime){
-                   let time: string[] =  DateTime.local().toFormat('TT').split(':')
-                    state.mainClock.time.hours =  Number(time[0])
-                    state.mainClock.time.minutes =  Number(time[1])
-                    state.mainClock.time.seconds =  Number(time[2])
-            }else {
-                if (state.mainClock.difference < 0) {
-                    state.mainClock.time.fullTime = DateTime.local().plus({
-                        hours: state.mainClock.difference * -1,
-                        minutes: 0
-                    }).setLocale('en').toFormat('TT').split(":");
-                } else {
-                        state.mainClock.time.fullTime = DateTime.local().plus({
-                            hours: state.mainClock.difference * -1,
-                            minutes: 0
-                        }).setLocale('en').toFormat('TT').split(":");
-                }
+                state.mainClock.time.fullTime = DateTime.local().plus({
+                    hours: state.mainClock.difference * -1,
+                    minutes: 0
+                }).setLocale('en').toFormat('TT').split(":");
                 state.mainClock.time.hours = Number(state.mainClock.time.fullTime[0])
                 state.mainClock.time.minutes = Number(state.mainClock.time.fullTime[1])
                 state.mainClock.time.seconds = Number(state.mainClock.time.fullTime[2])
-            }
         },
         addTimeZoneInList: (state) => {
-
-            state.addedTimezoneInList.push({
-                id: state.mainClock.timezoneID,
-                city: state.mainClock.mainClockCity,
-                region: state.mainClock.region
+            let check = state.addedTimezoneInList.find((elem, index ) => {
+                 return elem.id == state.mainClock.timezoneID
             })
+            if (check == undefined){
+                console.log(current(state.mainClock.time.fullTime));
+                state.addedTimezoneInList.push({
+                        id: state.mainClock.timezoneID,
+                        city: state.mainClock.mainClockCity,
+                        region: state.mainClock.region,
+                        difference: state.mainClock.difference,
+                        timeIn: `${state.mainClock.time.fullTime[0]}:${state.mainClock.time.fullTime[1]}`
+                })
+            } else {
+                console.log("this city in list")
+            }
             console.log(current(state.addedTimezoneInList));
         },
         switchStateApiStatus: (state) => {
             state.apiStatusHintList = false
+        },
+        removeFromInList: (state,action: any) => {
+            state.addedTimezoneInList = state.addedTimezoneInList.filter((elem) => {
+                console.log(action.payload)
+                return  elem.id !== action.payload
+            })
+        },
+        changeTimezoneFromSaved: (state, action: any) => {
+            // state.mainClock.mainClockCity = action.payload.
+            console.log(action)
+            state.mainClock.timezoneID = action.payload.id
+            state.mainClock.mainClockCity = action.payload.timezone
+            state.mainClock.region = action.payload.region
+            state.mainClock.difference = action.payload.diff
+        },
+        upDateTimeInSavedTimezone: (state) => {
+            for(let i =  0; i < state.addedTimezoneInList.length; i++){
+                let time = DateTime.local().plus({
+                    hours: state.addedTimezoneInList[i].difference * -1,
+                    minutes: 0
+                }).setLocale('en').toFormat('TT').split(":");
+                state.addedTimezoneInList[i].timeIn = `${time[0]}:${time[1]}`;
+            }
         }
     },
     extraReducers: (builder => {
@@ -184,9 +208,10 @@ export const clock = createSlice({
             state.mainClock.useLocalTime = true;
             state.mainClock.mainClockCity = payload.timezone.split("/")[1] ;
             state.mainClock.region = payload.timezone.split("/")[0];
+            state.mainClock.timezoneID = -1;
             state.apiStatusLocalTime = true;
         })
     })
 })
-export const {check, setDefaultTime, addTimeZoneInList, switchStateApiStatus} = clock.actions
+export const {check, setDefaultTime, addTimeZoneInList, switchStateApiStatus, removeFromInList, changeTimezoneFromSaved, upDateTimeInSavedTimezone} = clock.actions
 export default clock.reducer

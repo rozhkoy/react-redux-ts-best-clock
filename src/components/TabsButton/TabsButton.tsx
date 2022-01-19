@@ -2,7 +2,7 @@ import React, {useEffect, useState, useRef} from "react";
 import Timer from "../Timer/Timer";
 import {useAppDispatch, useAppSelector} from "../../hooks/useTypedSelector";
 import {upDateHours, upDateMinutes, upDateSecond} from "../../store/setTimerTime";
-import {fetchCityList, check, dataRetrievalOnRequest, setDefaultTime} from "../../store/setClockData";
+import {fetchCityList, check, dataRetrievalOnRequest, setDefaultTime, upDateTimeInSavedTimezone} from "../../store/setClockData";
 import Clock from "../Clock/Clock";
 
 
@@ -21,7 +21,7 @@ const TabsButton = () => {
   const endDate = useRef<number>(0);
   const startDate = useRef<Date>();
   const timerData = useAppSelector((state) => state.TimerDataSlice)
-  const clockStore = useAppSelector((state) => state.clock);
+  const clockStore = useAppSelector((state) => state.Clock);
   let calculateMili: NumberForTimer = {
     hours: 0,
     minute: 0,
@@ -55,6 +55,7 @@ const TabsButton = () => {
     let clockInterval: any;
     clockInterval = setInterval(() =>{
       dispatch(setDefaultTime())
+      dispatch(upDateTimeInSavedTimezone())
     }, 500)
 
     if (stateTimer) {

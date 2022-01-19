@@ -3,7 +3,7 @@ import {useAppDispatch, useAppSelector} from "../../hooks/useTypedSelector";
 
 
 const MainClock = () => {
-    const time = useAppSelector((state) => state.clock.mainClock.time)
+    const time = useAppSelector((state) => state.Clock.mainClock.time)
     const dispatch = useAppDispatch()
 
     return (
