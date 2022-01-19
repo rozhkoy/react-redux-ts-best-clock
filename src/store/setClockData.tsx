@@ -98,8 +98,9 @@ export const dataRetrievalOnRequest = createAsyncThunk(
             const response =  await fetch(`http://worldtimeapi.org/api/timezone/${someInfo.region}/${someInfo.timeZone.split(" ").join("_")}`);
             const data: any = await  response.json();
             const timezoneID = someInfo.id;
-            const cityNameForRequest: string = `${someInfo.region}/${someInfo.timeZone}`;
-            return {data , cityNameForRequest, timezoneID};
+            const cityNameForRequest: string = someInfo.timeZone;
+            const regionTimezone =  someInfo.region;
+            return {data , cityNameForRequest, timezoneID, regionTimezone};
         }catch (e){
             return foo(someInfo)
         }
@@ -138,10 +139,11 @@ export const clock = createSlice({
             }
         },
         addTimeZoneInList: (state) => {
+
             state.addedTimezoneInList.push({
                 id: state.mainClock.timezoneID,
                 city: state.mainClock.mainClockCity,
-                region: ""
+                region: state.mainClock.region
             })
             console.log(current(state.addedTimezoneInList));
         },
@@ -168,6 +170,7 @@ export const clock = createSlice({
             state.mainClock.useLocalTime = false;
             state.mainClock.mainClockCity = payload.cityNameForRequest;
             state.mainClock.timezoneID = payload.timezoneID;
+            state.mainClock.region = payload.regionTimezone;
             const date = +new Date();
             const date2  = +new Date(payload.data.datetime.split('.')[0]);
             state.mainClock.difference = Math.round((date - date2) / (1000 * 60 * 60));
@@ -179,7 +182,8 @@ export const clock = createSlice({
         })
         builder.addCase(fetchLocalTimezona.fulfilled, (state, {payload}) =>{
             state.mainClock.useLocalTime = true;
-            state.mainClock.mainClockCity = payload.timezone;
+            state.mainClock.mainClockCity = payload.timezone.split("/")[1] ;
+            state.mainClock.region = payload.timezone.split("/")[0];
             state.apiStatusLocalTime = true;
         })
     })

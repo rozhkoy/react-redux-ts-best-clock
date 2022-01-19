@@ -27,6 +27,9 @@ const SearchPanel = () => {
     function updateInput(event: ChangeEvent<HTMLInputElement> ) {
         setEnteredText(event.target.value);
         createHintsList(event.target.value);
+        if(currentRow.current >= 0 && resultListArray.current[currentRow.current].classList.contains('active__list')){
+            resultListArray.current[currentRow.current].classList.remove('active__list');
+        }
         currentRow.current = -1;
         setSelectState(true)
     }
@@ -49,7 +52,7 @@ const SearchPanel = () => {
          apiRequestDate(resultsList[currentRow.current].city, resultsList[currentRow.current].region, resultsList[currentRow.current].id);
         }
 
-        if (selectState) {
+        if (selectState && resultsList.length !== 0) {
             if (event.keyCode === 40) {
                 resultListArray.current[resultsList.length - 1].classList.remove('active__list');
                 currentRow.current++;

@@ -4,11 +4,11 @@ import {useAppSelector} from "../../hooks/useTypedSelector";
 
 
 function CityName() {
-    const cityName = useAppSelector((state) => state.clock.mainClock.mainClockCity)
+    const cityName = useAppSelector((state) => state.clock.mainClock)
 
     return (
         <div className='wrap-city-name'>
-            <p className="city-name">{cityName}</p>
+            <p className="city-name">{ cityName.region + '/' + cityName.mainClockCity}</p>
             <div className="bttn-group">
                 <ComebackHouse  />
                 <BttnAdd />
