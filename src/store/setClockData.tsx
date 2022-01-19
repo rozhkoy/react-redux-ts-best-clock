@@ -98,7 +98,7 @@ export const dataRetrievalOnRequest = createAsyncThunk(
             const response =  await fetch(`http://worldtimeapi.org/api/timezone/${someInfo.region}/${someInfo.timeZone.split(" ").join("_")}`);
             const data: any = await  response.json();
             const timezoneID = someInfo.id;
-            const cityNameForRequest: string = someInfo.timeZone;
+            const cityNameForRequest: string = `${someInfo.region}/${someInfo.timeZone}`;
             return {data , cityNameForRequest, timezoneID};
         }catch (e){
             return foo(someInfo)
