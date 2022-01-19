@@ -13,7 +13,6 @@ const SearchPanel = () => {
     const clockStore = useAppSelector((state) => state.clock);
     const resultListArray = useRef<Array<HTMLElement>>([]);
     const currentRow = useRef<number>(-1);
-    const searchData = useRef<any>({enteredText: ''});
     const [enteredText, setEnteredText] = useState('');
     const hintsList = useRef<any>(null);
     const [selectState, setSelectState] = useState(true);
@@ -26,10 +25,8 @@ const SearchPanel = () => {
     }
 
     function updateInput(event: ChangeEvent<HTMLInputElement> ) {
-        let temporally = event.target.value;
-        searchData.current.enteredText = temporally;
-        createHintsList(temporally);
-        setEnteredText(temporally);
+        setEnteredText(event.target.value);
+        createHintsList(event.target.value);
         currentRow.current = -1;
         setSelectState(true)
     }
@@ -39,12 +36,9 @@ const SearchPanel = () => {
         if (selectState && resultsList.length > 0) {
             currentRow.current = index;
             if (last === true && index === -1) {
-                setEnteredText(searchData.current.enteredText);
             } else if (last === true && index === resultsList.length) {
-                setEnteredText(searchData.current.enteredText);
             } else {
                 let offerResult = resultsList[index].city;
-                setEnteredText(offerResult);
             }
             setSelectState(true);
         }
@@ -97,9 +91,6 @@ const SearchPanel = () => {
     }
 
     function createHintsList(text: string) {
-        if (enteredText.length <= 0) {
-            setResultList(clockStore.cityListForHints)
-        } else {
             let regex = new RegExp(`^${text}`, 'im');
             let newID = 0;
             let newResultList: timezoneList[] = [];
@@ -117,30 +108,24 @@ const SearchPanel = () => {
             }
             setResultList(newResultList);
         }
-    }
+
 
     function apiRequestDate(city: string, region: string, regionID: number) {
         dispatch(dataRetrievalOnRequest({timeZone: city, region: region, id: regionID}))
-
     }
 
     useEffect(() => {
-        console.log(enteredText);
-        if(!clockStore.apiStatusHintList){
-            dispatch(fetchCityList())
-        }
-        if(!clockStore.apiStatusLocalTime){
-            dispatch(fetchLocalTimezona())
-        }
-        if(clockStore.apiStatusHintList){
-            createHintsList("")
-        }
+            if(!clockStore.apiStatusHintList){
+                dispatch(fetchCityList())
+            }
+            if(!clockStore.apiStatusLocalTime) {
+                dispatch(fetchLocalTimezona())
+            }
+            if(clockStore.apiStatusHintList && enteredText.length <= 0){
+                setResultList(clockStore.cityListForHints)
+            }
 
-
-        return () => {
-
-        };
-        }, [clockStore.apiStatusLocalTime, clockStore.apiStatusHintList, enteredText]);
+        });
 
     return (
         <div className="search"  ref={domNode}>
