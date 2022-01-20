@@ -20,7 +20,7 @@ const Wrap = (props) => {
         <ContextPopupMesseges.Provider value={showMesseges}>
             <div className="wrap">
                 {props.children}
-                <Popup ref={child} messeges={popupMesseges} />
+                <Popup />
                 <a href="https://github.com/zolir18" class="link_github">
                     <img src={github} alt="" />
                 </a>

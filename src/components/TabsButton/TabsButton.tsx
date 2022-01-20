@@ -56,7 +56,7 @@ const TabsButton = () => {
     clockInterval = setInterval(() =>{
       dispatch(setDefaultTime())
       dispatch(upDateTimeInSavedTimezone())
-    }, 500)
+    }, 1000)
 
     if (stateTimer) {
       interval = setInterval(() => {

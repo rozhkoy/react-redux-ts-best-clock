@@ -23,7 +23,7 @@ const Popup = forwardRef((props, ref) => {
 
     return (
         <div ref={controlPopup} className="popup">
-            <p className="popup__text">{props.messeges}</p>
+            <p className="popup__text">{}</p>
         </div>
     );
 });
