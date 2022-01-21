@@ -113,7 +113,6 @@ export const dataRetrievalOnRequest = createAsyncThunk(
     }
 )
 
-
 export const clock = createSlice({
     name: "clock",
     initialState: initialClockState,
@@ -158,8 +157,6 @@ export const clock = createSlice({
             })
         },
         changeTimezoneFromSaved: (state, action: any) => {
-            // state.mainClock.mainClockCity = action.payload.
-            console.log(action)
             state.mainClock.timezoneID = action.payload.id
             state.mainClock.mainClockCity = action.payload.timezone
             state.mainClock.region = action.payload.region
@@ -183,8 +180,7 @@ export const clock = createSlice({
                     if(payload[i].length == 2 && (payload[i][0] !== "Etc")){
                         payload[i][1] = payload[i][1].split("_");
                         payload[i][1] = payload[i][1].join(" ");
-                        state.cityListForHints.push({
-                            id: i, city: payload[i][1], region: payload[i][0] })
+                        state.cityListForHints.push({id: i, city: payload[i][1], region: payload[i][0]})
                     }
                 }
                 state.apiStatusHintList = true;
@@ -198,11 +194,7 @@ export const clock = createSlice({
             const date = +new Date();
             const date2  = +new Date(payload.data.datetime.split('.')[0]);
             state.mainClock.difference = Math.round((date - date2) / (1000 * 60 * 60));
-            if (state.mainClock.difference < 0) {
-                  state.mainClock.dataInString = DateTime.local().plus({hours: state.mainClock.difference * -1, minutes: 0}).setLocale('en').toFormat('DDDD')
-            }else{
-                state.mainClock.dataInString = DateTime.local().plus({hours: state.mainClock.difference * -1, minutes: 0}).setLocale('en').toFormat('DDDD')
-            }
+            state.mainClock.dataInString = DateTime.local().plus({hours: state.mainClock.difference * -1, minutes: 0}).setLocale('en').toFormat('DDDD')
         })
         builder.addCase(fetchLocalTimezona.fulfilled, (state, {payload}) =>{
             state.mainClock.useLocalTime = true;

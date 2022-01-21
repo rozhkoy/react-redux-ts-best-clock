@@ -6,14 +6,17 @@ interface typeStateTimerHoursMinutesSecond {
     Hours: number,
     Minutes: number,
     Second: number,
+    stateTimer: boolean,
+
 }
 
 
-const initialState = {
+const initialState: typeStateTimerHoursMinutesSecond = {
     Hours: 0,
     Minutes: 0,
     Second: 0,
-} as  typeStateTimerHoursMinutesSecond
+    stateTimer: false,
+}
 
 
 export const TimerDataSlice = createSlice({
@@ -70,14 +73,14 @@ export const TimerDataSlice = createSlice({
         },
         upDateSecond: (state, action: PayloadAction<number>) =>{
             state.Second = action.payload;
-        }
-
-
-
+        },
+        setStateTimer: (state, action) => {
+            state.stateTimer  = action.payload
+        },
     }
 })
 
-export const {decrementMinutes, decrementHours, decrementSecond, incrementHours, incrementSecond, incrementMinutes, upDateHours, upDateMinutes, upDateSecond}  =  TimerDataSlice.actions
+export const {setStateTimer, decrementMinutes, decrementHours, decrementSecond, incrementHours, incrementSecond, incrementMinutes, upDateHours, upDateMinutes, upDateSecond}  =  TimerDataSlice.actions
 export default TimerDataSlice.reducer
 
 

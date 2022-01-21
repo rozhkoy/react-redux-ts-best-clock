@@ -1,35 +1,21 @@
-import { useRef } from 'react';
+import {useRef} from 'react';
 import {useAppDispatch, useAppSelector} from "../../hooks/useTypedSelector";
 import {hidePopup} from "../../store/setPopupState";
 
 const Popup = () => {
     const dispatch = useAppDispatch();
     const popupStore = useAppSelector((state) => state.Popup);
-    const popupState = useRef<boolean>(false);
-    const controlPopup = useRef<any>();
-    let delayPopup: any;
-    let delayAnimation: any;
-    console.log(popupStore)
+    const refPopup = useRef<HTMLDivElement>(null);
     if(popupStore.show) {
-        clearTimeout(delayAnimation);
-        clearTimeout(delayPopup);
-        controlPopup.current.classList.add('visibal-block');
-        popupState.current = true;
-        delayAnimation = setTimeout(() => {
-            controlPopup.current.classList.add('anima');
-            delayPopup = setTimeout(() => {
-                controlPopup.current.classList.remove('visibal-block');
-                controlPopup.current.classList.remove('anima');
+        refPopup.current?.classList.add('visible-block');
+         setTimeout(() => {
+            refPopup.current?.classList.remove('visible-block');
                 dispatch(hidePopup())
-            }, 200);
         }, 1500);
     }
 
-
-
-
     return (
-        <div ref={controlPopup} className="popup">
+        <div ref={refPopup} className="popup">
             <p className="popup__text">{popupStore.message}</p>
         </div>
     );

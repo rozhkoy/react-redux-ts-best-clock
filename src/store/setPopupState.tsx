@@ -1,12 +1,11 @@
 import {createSlice} from "@reduxjs/toolkit";
 
-
 export interface popupStore {
     message: string,
     show: boolean,
 }
 
-const  initialPopupState:popupStore = {
+const initialPopupState:popupStore = {
     message: "",
     show: false,
 }
@@ -23,7 +22,6 @@ export const Popup = createSlice({
             state.show = false
             console.log("red")
         }
-
     }
 })
 

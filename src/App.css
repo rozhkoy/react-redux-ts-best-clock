@@ -166,7 +166,10 @@ body {
     top: 20px;
     background: #0e0e0ed7;
     padding: 20px;
-    color: #fff
+    color: #fff;
+    opacity: 0;
+    pointer-events: none;
+    transition: all .3s;
 }
 
 .tabs {
@@ -400,6 +403,13 @@ body {
     font-size: 18px
 }
 
+.visible-block {
+    visibility: visible;
+    pointer-events: auto;
+    opacity: 1;
+
+}
+
 @media (max-width:680px) {
     .link_github {
         position: absolute;
@@ -503,21 +513,3 @@ body {
     }
 }
 
-.visibal-block {
-    visibility: visible
-}
-
-.anima {
-    animation-name: opasit;
-    animation-duration: .5s;
-    animation-fill-mode: both
-}
-
-@keyframes opasit {
-    0% {
-        opacity: 1
-    }
-    100% {
-        opacity: 0
-    }
-}
