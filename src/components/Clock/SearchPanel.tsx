@@ -9,6 +9,7 @@ import {
     switchStateApiStatus,
     timezoneList
 } from "../../store/setClockData";
+import {showPopup} from "../../store/setPopupState";
 const SearchPanel = () => {
     const dispatch = useAppDispatch();
     const clockStore = useAppSelector((state) => state.Clock);
@@ -154,7 +155,7 @@ const SearchPanel = () => {
                     <span className="search__region"> {Item.region}</span>
                 </li>))}
             </ul>
-
+            <button onClick={() => dispatch(showPopup("herfert"))}>sdfghgewq</button>
         </div>
     );
 };
