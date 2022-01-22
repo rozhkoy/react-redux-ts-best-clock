@@ -129,30 +129,14 @@ export const clock = createSlice({
                 state.mainClock.time.minutes = Number(state.mainClock.time.fullTime[1])
                 state.mainClock.time.seconds = Number(state.mainClock.time.fullTime[2])
         },
-        addTimeZoneInList: (state) => {
-            let check = state.addedTimezoneInList.find((elem, index ) => {
-                 return elem.id == state.mainClock.timezoneID
-            })
-            if (check == undefined){
-                console.log(current(state.mainClock.time.fullTime));
-                state.addedTimezoneInList.push({
-                        id: state.mainClock.timezoneID,
-                        city: state.mainClock.mainClockCity,
-                        region: state.mainClock.region,
-                        difference: state.mainClock.difference,
-                        timeIn: `${state.mainClock.time.fullTime[0]}:${state.mainClock.time.fullTime[1]}`
-                })
-            } else {
-                console.log("this city in list")
-            }
-            console.log(current(state.addedTimezoneInList));
+        addTimeZoneInList: (state, action) => {
+            state.addedTimezoneInList.push(action.payload)
         },
         switchStateApiStatus: (state) => {
             state.apiStatusHintList = false
         },
-        removeFromInList: (state,action: any) => {
+        removeFromInList: (state,action: any ) => {
             state.addedTimezoneInList = state.addedTimezoneInList.filter((elem) => {
-                console.log(action.payload)
                 return  elem.id !== action.payload
             })
         },
@@ -201,6 +185,7 @@ export const clock = createSlice({
             state.mainClock.mainClockCity = payload.timezone.split("/")[1] ;
             state.mainClock.region = payload.timezone.split("/")[0];
             state.mainClock.timezoneID = -1;
+            state.mainClock.difference = 0;
             state.apiStatusLocalTime = true;
         })
     })

@@ -52,10 +52,9 @@ const TabsButton = () => {
     }, 1000)
     if(timerData.stateTimer) {
       if (timerData.stateTimer) {
-        interval = setInterval(() => {
+           interval = setInterval(() => {
           let resudualTime: any = new Date(endDate.current);
           calculateMili.currentMili = resudualTime - Date.now();
-          console.log(calculateMili.currentMili);
           if (Math.floor(calculateMili.currentMili * 0.001) < 0) {
             clearInterval(interval);
             dispatch(setStateTimer(false))

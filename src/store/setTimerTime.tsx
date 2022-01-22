@@ -1,7 +1,5 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
-
-
 interface typeStateTimerHoursMinutesSecond {
     Hours: number,
     Minutes: number,
@@ -10,14 +8,12 @@ interface typeStateTimerHoursMinutesSecond {
 
 }
 
-
 const initialState: typeStateTimerHoursMinutesSecond = {
     Hours: 0,
     Minutes: 0,
     Second: 0,
     stateTimer: false,
 }
-
 
 export const TimerDataSlice = createSlice({
     name: "testOne",

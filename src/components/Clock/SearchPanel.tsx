@@ -2,11 +2,9 @@
 import {useAppDispatch, useAppSelector} from "../../hooks/useTypedSelector";
 import React, {ChangeEvent, useEffect, useRef, useState} from "react";
 import {
-    changeTimezoneFromSaved,
     dataRetrievalOnRequest,
     fetchCityList,
     fetchLocalTimezona,
-    switchStateApiStatus,
     timezoneList
 } from "../../store/setClockData";
 import {showPopup} from "../../store/setPopupState";
@@ -16,11 +14,10 @@ const SearchPanel = () => {
     const resultListArray = useRef<Array<HTMLElement>>([]);
     const currentRow = useRef<number>(-1);
     const [enteredText, setEnteredText] = useState('');
-    const hintsList = useRef<any>(null);
+    const hintsList = useRef<HTMLUListElement>(null);
     const [selectState, setSelectState] = useState(true);
     const [resultsList, setResultList] = useState<Array<timezoneList>>([]);
-    const refInput = useRef<any>();
-    const domNode = useRef<any>();
+    const refInput = useRef<HTMLInputElement>(null);
 
     interface KeyboardEvent {
         keyCode: number;
@@ -50,7 +47,7 @@ const SearchPanel = () => {
     }
 
     function selectionHints(event: KeyboardEvent) {
-        if (event.keyCode === 13) {
+        if (event.keyCode === 13 && currentRow.current >= 0) {
          apiRequestDate(resultsList[currentRow.current].city, resultsList[currentRow.current].region, resultsList[currentRow.current].id);
         }
 
@@ -133,7 +130,7 @@ const SearchPanel = () => {
         });
 
     return (
-        <div className="search"  ref={domNode}>
+        <div className="search">
             <div className="input__wrap">
             <input type="text" ref={refInput} className="search__input"
                    placeholder="Search by city name" onKeyDown={selectionHints} value={enteredText}
