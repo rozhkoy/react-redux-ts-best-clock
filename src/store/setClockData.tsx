@@ -2,7 +2,6 @@ import {createAsyncThunk, createSlice, current, PayloadAction} from "@reduxjs/to
 import {DateTime} from "luxon";
 
 
-
 // interface
 
 interface clockState {
@@ -164,10 +163,11 @@ export const clock = createSlice({
                     if(payload[i].length == 2 && (payload[i][0] !== "Etc")){
                         payload[i][1] = payload[i][1].split("_");
                         payload[i][1] = payload[i][1].join(" ");
-                        state.cityListForHints.push({id: i, city: payload[i][1], region: payload[i][0]})
+                        state.cityListForHints.push({id: state.cityListForHints.length - 1, city: payload[i][1], region: payload[i][0]})
                     }
                 }
                 state.apiStatusHintList = true;
+                console.log(current(state.cityListForHints));
             }
         })
         builder.addCase(dataRetrievalOnRequest.fulfilled, (state, {payload}) =>{

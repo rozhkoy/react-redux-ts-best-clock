@@ -20,7 +20,6 @@ export const Popup = createSlice({
         },
         hidePopup: (state) => {
             state.show = false
-            console.log("red")
         }
     }
 })

@@ -113,7 +113,11 @@ const SearchPanel = () => {
 
 
     function apiRequestDate(city: string, region: string, regionID: number) {
-        dispatch(dataRetrievalOnRequest({timeZone: city, region: region, id: regionID}))
+        if(city === clockStore.mainClock.mainClockCity){
+            dispatch(showPopup("You have already selected this time zone"))
+        } else {
+            dispatch(dataRetrievalOnRequest({timeZone: city, region: region, id: regionID}))
+        }
     }
 
     useEffect(() => {
@@ -152,7 +156,7 @@ const SearchPanel = () => {
                     <span className="search__region"> {Item.region}</span>
                 </li>))}
             </ul>
-            <button onClick={() => dispatch(showPopup("herfert"))}>sdfghgewq</button>
+            <button onClick={() => alert("f")}>sdfghgewq</button>
         </div>
     );
 };
