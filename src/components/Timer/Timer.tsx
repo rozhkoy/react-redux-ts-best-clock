@@ -99,11 +99,11 @@ const Timer:React.FC<Props> = (props):JSX.Element => {
     return (
         <div className="wrap-timer">
             <div className="timer__section-group">
-                <TimerSectionItem incrementNumber={incrementHoursFunction} decrementNumber={decrementHoursFunction} number={timerData.Hours}/>
+                <TimerSectionItem incrementNumber={incrementHoursFunction} decrementNumber={decrementHoursFunction} description={"Hs"} number={timerData.Hours}/>
                 <span className="timer-colon">:</span>
-                <TimerSectionItem incrementNumber={incrementMinutesFunction} decrementNumber={decrementMinutesFunction} number={timerData.Minutes}/>
+                <TimerSectionItem incrementNumber={incrementMinutesFunction} decrementNumber={decrementMinutesFunction} description={"Min"} number={timerData.Minutes}/>
                 <span className="timer-colon">:</span>
-                <TimerSectionItem incrementNumber={incrementSecondFunction} decrementNumber={decrementSecondFunction} number={timerData.Second}/>
+                <TimerSectionItem incrementNumber={incrementSecondFunction} decrementNumber={decrementSecondFunction} description={"Sec"} number={timerData.Second}/>
             </div>
             <div className="timer-button__group">
                 <button onClick={startTimer} className="timer__button timer__button--start">

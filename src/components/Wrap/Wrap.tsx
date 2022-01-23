@@ -1,14 +1,14 @@
-import { createContext, useRef, useState } from 'react';
 import Popup from '../Popup/Popup';
 import github from './github.svg';
+import TabsButton from "../TabsButton/TabsButton";
 
-const Wrap = (props) => {
+const Wrap = () => {
 
     return (
           <div className="wrap">
-              {props.children}
+              <TabsButton />
               <Popup />
-              <a href="https://github.com/zolir18" class="link_github">
+              <a href="https://github.com/zolir18" className="link_github">
                   <img src={github} alt="" />
               </a>
           </div>

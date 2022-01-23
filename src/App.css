@@ -57,7 +57,7 @@ body {
     grid-template-columns: repeat(1, 1fr)
 }
 
-.number__desription {
+.number__description {
     font-size: 25px
 }
 
@@ -435,7 +435,7 @@ body {
     .stop-watch-colon {
         font-size: 53px
     }
-    .number__desription {
+    .number__description {
         font-size: 21px
     }
     .clock__section-group {

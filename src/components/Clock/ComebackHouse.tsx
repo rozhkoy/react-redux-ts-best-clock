@@ -5,9 +5,11 @@ import {fetchLocalTimezona} from "../../store/setClockData";
 function ComebackHouse() {
     const dispatch = useAppDispatch();
 
-    return (<div className="comeback-home">
-        <img onClick={() => dispatch(fetchLocalTimezona())} src={comebackHomeImg} alt=""/>
-    </div>)
+    return(
+        <div className="comeback-home">
+            <img onClick={() => dispatch(fetchLocalTimezona())} src={comebackHomeImg} alt=""/>
+        </div>
+    )
 }
 
 export default ComebackHouse;

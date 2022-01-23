@@ -19,9 +19,7 @@ const SavedTimeZones = () => {
             }
         </ul>
     )
-
 }
-
 
 export default SavedTimeZones;
 

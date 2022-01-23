@@ -8,6 +8,7 @@ import {
     timezoneList
 } from "../../store/setClockData";
 import {showPopup} from "../../store/setPopupState";
+
 const SearchPanel = () => {
     const dispatch = useAppDispatch();
     const clockStore = useAppSelector((state) => state.Clock);
@@ -33,15 +34,9 @@ const SearchPanel = () => {
         setSelectState(true)
     }
 
-    function changeInputData(index: number, last: boolean) {
-        console.log(index, selectState);
+    function changeInputData(index: number) {
         if (selectState && resultsList.length > 0) {
             currentRow.current = index;
-            if (last === true && index === -1) {
-            } else if (last === true && index === resultsList.length) {
-            } else {
-                let offerResult = resultsList[index].city;
-            }
             setSelectState(true);
         }
     }
@@ -57,12 +52,12 @@ const SearchPanel = () => {
                 currentRow.current++;
                 if (currentRow.current >= resultsList.length) {
                     currentRow.current = -1;
-                    changeInputData(currentRow.current, true);
+                    changeInputData(currentRow.current);
                 }
                 if (resultListArray.current[currentRow.current]) {
                     resultListArray.current[currentRow.current].classList.add('active__list');
                     resultListArray.current[currentRow.current].scrollIntoView(false)
-                    changeInputData(currentRow.current, false);
+                    changeInputData(currentRow.current);
                     if (resultListArray.current[currentRow.current - 1]) {
                         resultListArray.current[currentRow.current - 1 ].classList.remove('active__list');
                     }
@@ -75,15 +70,14 @@ const SearchPanel = () => {
                     resultListArray.current[0].classList.remove('active__list');
                 }
                 if (currentRow.current === -1) {
-                    changeInputData(currentRow.current, true);
+                    changeInputData(currentRow.current);
                     currentRow.current = resultsList.length;
                     resultListArray.current[0].classList.remove('active__list');
                 }
-
                 if (resultListArray.current[currentRow.current]) {
                     resultListArray.current[currentRow.current].classList.add('active__list');
                     resultListArray.current[currentRow.current].scrollIntoView(false)
-                    changeInputData(currentRow.current, false);
+                    changeInputData(currentRow.current);
                     if (resultListArray.current[currentRow.current + 1]) {
                         resultListArray.current[currentRow.current + 1].classList.remove('active__list');
                     }
@@ -111,7 +105,6 @@ const SearchPanel = () => {
             setResultList(newResultList);
         }
 
-
     function apiRequestDate(city: string, region: string, regionID: number) {
         if(city === clockStore.mainClock.mainClockCity){
             dispatch(showPopup("You have already selected this time zone"))
@@ -130,7 +123,6 @@ const SearchPanel = () => {
             if(clockStore.apiStatusHintList && enteredText.length <= 0){
                 setResultList(clockStore.cityListForHints)
             }
-
         });
 
     return (
@@ -142,13 +134,13 @@ const SearchPanel = () => {
             </div>
 
             <ul className="search__result" ref={hintsList}>
-                {resultsList.map((Item: any, index: number) => (<li
+                {resultsList.map((Item, index: number) => (<li
                     ref={(elRef: HTMLLIElement) => {resultListArray.current[index] = elRef;}}
                     onClick={() =>{
                         if(currentRow.current >= 0 && resultListArray.current[currentRow.current].classList.contains('active__list')){
                             resultListArray.current[currentRow.current].classList.remove('active__list');
                         }
-                        changeInputData(Item.id, false)
+                        changeInputData(Item.id)
                         apiRequestDate(Item.city, Item.region, Item.id);
                     }}
                     key={Item.id}>
@@ -156,7 +148,6 @@ const SearchPanel = () => {
                     <span className="search__region"> {Item.region}</span>
                 </li>))}
             </ul>
-            <button onClick={() => alert("f")}>sdfghgewq</button>
         </div>
     );
 };

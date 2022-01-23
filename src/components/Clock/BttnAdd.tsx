@@ -1,7 +1,6 @@
 import ButtonAdd from "./bttnAdd.svg";
 import {useAppDispatch, useAppSelector} from "../../hooks/useTypedSelector";
 import {addTimeZoneInList} from "../../store/setClockData";
-import {current} from "@reduxjs/toolkit";
 import {showPopup} from "../../store/setPopupState";
 
 export function BttnAdd() {
@@ -9,9 +8,9 @@ export function BttnAdd() {
     const clockState = useAppSelector((state) => state.Clock)
     function addTimezone(){
         let check = clockState.addedTimezoneInList.find((elem) => {
-            return elem.id == clockState.mainClock.timezoneID
+            return elem.id === clockState.mainClock.timezoneID
         })
-        if (check == undefined) {
+        if (check === undefined) {
             dispatch(addTimeZoneInList({
                 id: clockState.mainClock.timezoneID,
                 city: clockState.mainClock.mainClockCity,
@@ -23,7 +22,6 @@ export function BttnAdd() {
             dispatch(showPopup("This time zone in list"))
         }
     }
-
 
     return <img onClick={addTimezone} src={ButtonAdd} alt="" className="button-add" />;
 }
