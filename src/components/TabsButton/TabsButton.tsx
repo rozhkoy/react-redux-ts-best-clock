@@ -43,6 +43,10 @@ const TabsButton = () => {
     dispatch(setStateTimer(false))
   }
 
+  function set(){
+    
+  }
+
   useEffect( () =>{
     let interval: ReturnType<typeof setTimeout>;
     let clockInterval: ReturnType<typeof setTimeout>;
