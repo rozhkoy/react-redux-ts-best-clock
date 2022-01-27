@@ -17,8 +17,10 @@ const Clock = () => {
     const [searchParams, setSearchParams] = useSearchParams()
 
     function receiveCurrentLink(){
+        console.log("df");
         let returnedObject
-        if(searchParams.get("timezone")) {
+
+        if(searchParams.get("timezone") !== null) {
             returnedObject = clockDate.cityListForHints.find((element) => {
                 return element.city === searchParams.get("timezone")
             })
@@ -28,9 +30,9 @@ const Clock = () => {
                     region: returnedObject.region,
                     id: returnedObject.id
                 }))
+                dispatch(setDataGetTimezoneFromLink(false))
             } else {
-                // dispatch(showPopup("Time zone not found");
-                // dispatch(setDataGetTimezoneFromLink(false))
+                dispatch(setDataGetTimezoneFromLink(false))
             }
         }
         console.log(searchParams.get("timezone"))
@@ -44,8 +46,7 @@ const Clock = () => {
         if(!searchParams.get("timezone")){
             dispatch(setDataGetTimezoneFromLink(false))
         }
-        if(clockDate.cityListForHints.length > 0, clockDate.mainClock.getTimezoneFromLink){
-            console.log(clockDate.cityListForHints.length);
+        if(clockDate.cityListForHints.length > 0 && clockDate.mainClock.getTimezoneFromLink){
             receiveCurrentLink()
         }
     }, [clockDate.cityListForHints, clockDate.mainClock.getTimezoneFromLink])

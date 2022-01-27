@@ -119,6 +119,7 @@ const SearchPanel:React.FC<Props> = (props):JSX.Element  => {
     }
 
     useEffect(() => {
+        console.log("clockStore.mainClock.getTimezoneFromLink", clockStore.mainClock.getTimezoneFromLink)
             if(!clockStore.apiStatusHintList){
                 console.log("list")
                 dispatch(fetchCityList())
@@ -126,14 +127,11 @@ const SearchPanel:React.FC<Props> = (props):JSX.Element  => {
             if(!clockStore.apiStatusLocalTime && !clockStore.mainClock.getTimezoneFromLink) {
                 console.log("fetch")
                 dispatch(fetchLocalTimezona())
-            } else {
-                console.log("link");
-                dispatch(setDataGetTimezoneFromLink(true))
             }
             if(clockStore.apiStatusHintList && enteredText.length <= 0){
                 setResultList(clockStore.cityListForHints)
             }
-        }, [clockStore.mainClock.getTimezoneFromLink, clockStore.apiStatusLocalTime, clockStore.apiStatusHintList]);
+        }, [clockStore.mainClock.getTimezoneFromLink, clockStore.apiStatusLocalTime, clockStore.apiStatusHintList, clockStore.cityListForHints]);
 
     return (
         <div className="search">

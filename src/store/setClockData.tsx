@@ -161,7 +161,11 @@ export const clock = createSlice({
         }
     },
     extraReducers: (builder => {
+        builder.addCase(fetchCityList.pending, (state, {payload}) => {
+            console.log("pending")
+        })
         builder.addCase(fetchCityList.fulfilled, (state, {payload}) => {
+            console.log("je")
             if(!state.apiStatusHintList) {
                 for(let i = 0; i < payload.length; i++){
                     payload[i] = payload[i].split("/");
