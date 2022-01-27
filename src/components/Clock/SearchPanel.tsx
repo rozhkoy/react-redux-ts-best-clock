@@ -8,6 +8,7 @@ import {
     timezoneList
 } from "../../store/setClockData";
 import {showPopup} from "../../store/setPopupState";
+import {useLocation, useNavigate} from "react-router-dom";
 
 const SearchPanel = () => {
     const dispatch = useAppDispatch();
@@ -19,9 +20,17 @@ const SearchPanel = () => {
     const [selectState, setSelectState] = useState(true);
     const [resultsList, setResultList] = useState<Array<timezoneList>>([]);
     const refInput = useRef<HTMLInputElement>(null);
+    let history = useNavigate();
+    let location = useLocation()
 
     interface KeyboardEvent {
         keyCode: number;
+    }
+
+
+    function handleClick(timezone: string) {
+        console.log(location.pathname)
+        history(timezone.split(" ").join("_"))
     }
 
     function updateInput(event: ChangeEvent<HTMLInputElement> ) {
@@ -142,6 +151,7 @@ const SearchPanel = () => {
                         }
                         changeInputData(Item.id)
                         apiRequestDate(Item.city, Item.region, Item.id);
+                        handleClick(Item.city)
                     }}
                     key={Item.id}>
                     <span className="search__city"> {Item.city}</span>
