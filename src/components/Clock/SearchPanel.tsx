@@ -49,6 +49,7 @@ const SearchPanel:React.FC<Props> = (props):JSX.Element  => {
     function selectionHints(event: KeyboardEvent) {
         if (event.keyCode === 13 && currentRow.current >= 0) {
          apiRequestDate(resultsList[currentRow.current].city, resultsList[currentRow.current].region, resultsList[currentRow.current].id);
+         props.setLink(resultsList[currentRow.current].city)
         }
 
         if (selectState && resultsList.length !== 0) {
