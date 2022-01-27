@@ -10,7 +10,7 @@ import {
 } from "../../store/setClockData";
 import Clock from "../Clock/Clock";
 import {showPopup} from "../../store/setPopupState";
-import {useLocation, useNavigate} from "react-router-dom";
+import {Link, Route, Routes, useLocation, useNavigate} from "react-router-dom";
 import internal from "stream";
 import {createInterface} from "readline";
 
@@ -24,11 +24,9 @@ const TabsButton = () => {
     }
     let location = useLocation();
     const dispatch = useAppDispatch()
-    const [selectedTab, setSelectedTab] = useState(1);
     const endDate = useRef<number>(0);
     const startDate = useRef<Date>();
     const timerData = useAppSelector((state) => state.TimerDataSlice)
-    const clockDate = useAppSelector((state) => state.Clock)
     let calculateMili: NumberForTimer = {
         hours: 0,
         minute: 0,
@@ -38,24 +36,6 @@ const TabsButton = () => {
     };
 
 
-    function receiveCurrentLink(){
-        let  returnedObject
-        if (location.pathname.trim().split("/").join("").trim().length == 0){
-            console.log(location.pathname.trim().split("/").join("").trim())
-        } else {
-          returnedObject = clockDate.cityListForHints.find((element) => {
-                return element.city === location.pathname.trim().split("/").join("").split("_").join(" ").trim()
-            })
-            console.log(returnedObject);
-          if (returnedObject) {
-              dispatch(dataRetrievalOnRequest({
-                  timeZone: returnedObject.city,
-                  region: returnedObject.region,
-                  id: returnedObject.id
-              }))
-          }
-        }
-    }
 
     function calculationDate() {
         startDate.current = new Date();
@@ -110,16 +90,18 @@ const TabsButton = () => {
     return (
         <div className="timer">
             <div className="tabs">
-                <button  className="timer__button tabs__button " onClick={() => setSelectedTab(1)}>
-                    CLOCK
-                </button>
-                <button  className="timer__button tabs__button " onClick={() => setSelectedTab(2)}>
-                    TIMER
-                </button>
+                <Link className="timer__button tabs__button" to="/">Clock</Link>
+                <Link className="timer__button tabs__button" to="/timer">Timer</Link>
             </div>
-            <button onClick={receiveCurrentLink}>sdsdsds</button>
-            {selectedTab === 2 && <Timer startTimer={startTimer} stopTimer={stopTimer} />}
-            {selectedTab ===1 && <Clock />}
+
+
+            <Routes>
+                <Route path="/timer" element={<Timer startTimer={startTimer} stopTimer={stopTimer} />} />
+                <Route path="/" element={<Clock />} />
+            </Routes>
+
+            {/*// {selectedTab === 2 && <Timer startTimer={startTimer} stopTimer={stopTimer} />}*/}
+            {/*// {selectedTab ===1 && <Clock />}*/}
         </div>
     );
 };

@@ -32,6 +32,8 @@ body {
 }
 
 .timer__button {
+    text-align: center;
+    text-decoration: none;
     background: 0 0;
     border: 0;
     color: inherit;

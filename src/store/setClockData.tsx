@@ -20,7 +20,8 @@ interface mainClocKI{
     difference: number,
     useLocalTime: boolean,
     timezoneID: number,
-    region: string
+    region: string,
+    getTimezoneFromLink: boolean
 }
 
 interface TimeHoursMinutesSecond{
@@ -67,7 +68,8 @@ const initialClockState:clockState = {
         difference: 0,
         useLocalTime: true,
         timezoneID: -1,
-        region: ""
+        region: "",
+        getTimezoneFromLink: true
     },
     addedTimezoneInList: []
 }
@@ -153,6 +155,9 @@ export const clock = createSlice({
                 }).setLocale('en').toFormat('TT').split(":");
                 state.addedTimezoneInList[i].timeIn = `${time[0]}:${time[1]}`;
             }
+        },
+        setDataGetTimezoneFromLink: (state, action) => {
+            state.mainClock.getTimezoneFromLink = action.payload
         }
     },
     extraReducers: (builder => {
@@ -190,5 +195,5 @@ export const clock = createSlice({
         })
     })
 })
-export const {check, setDefaultTime, addTimeZoneInList, switchStateApiStatus, removeFromInList, changeTimezoneFromSaved, upDateTimeInSavedTimezone} = clock.actions
+export const {check, setDefaultTime, addTimeZoneInList, switchStateApiStatus, removeFromInList, changeTimezoneFromSaved, upDateTimeInSavedTimezone, setDataGetTimezoneFromLink} = clock.actions
 export default clock.reducer

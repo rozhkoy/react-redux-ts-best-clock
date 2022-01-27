@@ -4,13 +4,17 @@ import React, {ChangeEvent, useEffect, useRef, useState} from "react";
 import {
     dataRetrievalOnRequest,
     fetchCityList,
-    fetchLocalTimezona,
+    fetchLocalTimezona, setDataGetTimezoneFromLink,
     timezoneList
 } from "../../store/setClockData";
 import {showPopup} from "../../store/setPopupState";
 import {useLocation, useNavigate} from "react-router-dom";
 
-const SearchPanel = () => {
+type Props = {
+    setLink: any
+}
+
+const SearchPanel:React.FC<Props> = (props):JSX.Element  => {
     const dispatch = useAppDispatch();
     const clockStore = useAppSelector((state) => state.Clock);
     const resultListArray = useRef<Array<HTMLElement>>([]);
@@ -20,17 +24,9 @@ const SearchPanel = () => {
     const [selectState, setSelectState] = useState(true);
     const [resultsList, setResultList] = useState<Array<timezoneList>>([]);
     const refInput = useRef<HTMLInputElement>(null);
-    let history = useNavigate();
-    let location = useLocation()
 
     interface KeyboardEvent {
         keyCode: number;
-    }
-
-
-    function handleClick(timezone: string) {
-        console.log(location.pathname)
-        history(timezone.split(" ").join("_"))
     }
 
     function updateInput(event: ChangeEvent<HTMLInputElement> ) {
@@ -124,15 +120,20 @@ const SearchPanel = () => {
 
     useEffect(() => {
             if(!clockStore.apiStatusHintList){
+                console.log("list")
                 dispatch(fetchCityList())
             }
-            if(!clockStore.apiStatusLocalTime) {
+            if(!clockStore.apiStatusLocalTime && !clockStore.mainClock.getTimezoneFromLink) {
+                console.log("fetch")
                 dispatch(fetchLocalTimezona())
+            } else {
+                console.log("link");
+                dispatch(setDataGetTimezoneFromLink(true))
             }
             if(clockStore.apiStatusHintList && enteredText.length <= 0){
                 setResultList(clockStore.cityListForHints)
             }
-        });
+        }, [clockStore.mainClock.getTimezoneFromLink, clockStore.apiStatusLocalTime, clockStore.apiStatusHintList]);
 
     return (
         <div className="search">
@@ -151,7 +152,7 @@ const SearchPanel = () => {
                         }
                         changeInputData(Item.id)
                         apiRequestDate(Item.city, Item.region, Item.id);
-                        handleClick(Item.city)
+                        props.setLink(Item.city)
                     }}
                     key={Item.id}>
                     <span className="search__city"> {Item.city}</span>
