@@ -1,6 +1,6 @@
 import {useAppSelector} from "../../hooks/useTypedSelector";
 
-const DateString = () => {
+export const DateString = () => {
     const dateInString = useAppSelector((state) => state.Clock.mainClock.dataInString)
 
     return (
@@ -10,4 +10,3 @@ const DateString = () => {
     );
 };
 
-export default DateString;

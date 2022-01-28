@@ -1,6 +1,6 @@
 
 
-function NotFound() {
+export const NotFound = () => {
 	return(
 		<div className="page-not-found">
 
@@ -14,5 +14,4 @@ function NotFound() {
 	);
 }
 
-export default NotFound;
 

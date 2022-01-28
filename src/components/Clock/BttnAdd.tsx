@@ -3,7 +3,7 @@ import {useAppDispatch, useAppSelector} from "../../hooks/useTypedSelector";
 import {addTimeZoneInList} from "../../store/setClockData";
 import {showPopup} from "../../store/setPopupState";
 
-export function BttnAdd() {
+export  const BttnAdd = () => {
     const dispatch = useAppDispatch();
     const clockState = useAppSelector((state) => state.Clock)
     function addTimezone(){
@@ -25,3 +25,4 @@ export function BttnAdd() {
 
     return <img onClick={addTimezone} src={ButtonAdd} alt="" className="button-add" />;
 }
+

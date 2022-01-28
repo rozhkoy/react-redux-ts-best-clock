@@ -13,7 +13,7 @@ type Props = {
     setLink: any
 }
 
-const SearchPanel:React.FC<Props> = (props):JSX.Element  => {
+export const SearchPanel:React.FC<Props> = (props):JSX.Element  => {
     const dispatch = useAppDispatch();
     const clockStore = useAppSelector((state) => state.Clock);
     const resultListArray = useRef<Array<HTMLElement>>([]);
@@ -146,16 +146,15 @@ const SearchPanel:React.FC<Props> = (props):JSX.Element  => {
                     ref={(elRef: HTMLLIElement) => {resultListArray.current[index] = elRef;}}
                     onClick={() =>{
                         console.log(currentRow)
-                        if(currentRow.current >= 0){
+                        if(currentRow.current >= 0) {
                             console.log(currentRow)
-                            if(resultListArray.current[currentRow.current].classList.contains('active__list')){
+                            if (resultListArray.current[currentRow.current].classList.contains('active__list')) {
                                 resultListArray.current[currentRow.current].classList.remove('active__list');
                                 currentRow.current = -1
                             } else {
                                 currentRow.current = 0;
                             }
                         }
-                        
                         apiRequestDate(Item.city, Item.region, Item.id);
                         props.setLink(Item.city)
                     }}
@@ -167,5 +166,3 @@ const SearchPanel:React.FC<Props> = (props):JSX.Element  => {
         </div>
     );
 };
-
-export default SearchPanel;

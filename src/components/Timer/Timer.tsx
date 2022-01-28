@@ -1,4 +1,4 @@
-import TimerSectionItem from './TimerSectionItem';
+import {TimerSectionItem} from './TimerSectionItem';
 import {useAppDispatch, useAppSelector} from "../../hooks/useTypedSelector";
 import {
     decrementMinutes,

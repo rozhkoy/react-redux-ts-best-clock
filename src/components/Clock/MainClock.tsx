@@ -1,8 +1,7 @@
-import ClockSectionItem from './ClocksectionItem';
+import {ClockSectionItem} from './ClocksectionItem';
 import {useAppSelector} from "../../hooks/useTypedSelector";
 
-
-const MainClock = () => {
+export const MainClock = () => {
     const time = useAppSelector((state) => state.Clock.mainClock.time)
 
     return (
@@ -16,4 +15,3 @@ const MainClock = () => {
     );
 };
 
-export default MainClock;

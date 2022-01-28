@@ -1,8 +1,8 @@
-import Popup from '../Popup/Popup';
+import {Popup} from '../Popup/Popup';
 import github from './github.svg';
-import TabsButton from "../TabsButton/TabsButton";
+import {TabsButton} from "../TabsButton/TabsButton";
 
-const Wrap = () => {
+export const Wrap = () => {
 
     return (
           <div className="wrap">
@@ -14,4 +14,3 @@ const Wrap = () => {
           </div>
     );
 };
-export default Wrap;

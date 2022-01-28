@@ -1,8 +1,8 @@
 import {BttnAdd} from "./BttnAdd";
-import ComebackHouse from "./ComebackHouse";
+import {ComebackHouse} from "./ComebackHouse";
 import {useAppSelector} from "../../hooks/useTypedSelector";
 
-function CityName() {
+export const CityName = () => {
     const cityName = useAppSelector((state) => state.Clock.mainClock)
 
     return (
@@ -16,4 +16,3 @@ function CityName() {
     );
 }
 
-export default CityName;

@@ -5,7 +5,7 @@ type Props = {
     description: string
 }
 
-const ClockSectionItem:React.FC<Props>  = (props) :JSX.Element => {
+export const ClockSectionItem:React.FC<Props>  = (props) :JSX.Element => {
 
     return (
         <div className="clock__section-item">
@@ -14,5 +14,3 @@ const ClockSectionItem:React.FC<Props>  = (props) :JSX.Element => {
         </div>
     );
 };
-
-export default ClockSectionItem;

@@ -2,7 +2,7 @@ import {useRef} from 'react';
 import {useAppDispatch, useAppSelector} from "../../hooks/useTypedSelector";
 import {hidePopup} from "../../store/setPopupState";
 
-const Popup = () => {
+export const Popup = () => {
     const dispatch = useAppDispatch();
     const popupStore = useAppSelector((state) => state.Popup);
     const refPopup = useRef<HTMLDivElement>(null);
@@ -21,4 +21,3 @@ const Popup = () => {
     );
 };
 
-export default Popup;

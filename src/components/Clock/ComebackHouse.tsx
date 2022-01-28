@@ -2,7 +2,7 @@ import comebackHomeImg from "./come-back-home.svg";
 import {useAppDispatch} from "../../hooks/useTypedSelector";
 import {fetchLocalTimezona} from "../../store/setClockData";
 
-function ComebackHouse() {
+export  const ComebackHouse = () => {
     const dispatch = useAppDispatch();
 
     return(
@@ -11,5 +11,3 @@ function ComebackHouse() {
         </div>
     )
 }
-
-export default ComebackHouse;

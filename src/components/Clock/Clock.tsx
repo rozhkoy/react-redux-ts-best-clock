@@ -1,15 +1,15 @@
-import SearchPanel from './SearchPanel';
-import MainClock from './MainClock';
-import CityName from "./CityName";
-import DateString from "./DateString";
-import SavedTimeZones from "./SavedTimeZones";
+import {SearchPanel} from './SearchPanel';
+import {MainClock} from './MainClock';
+import {CityName} from "./CityName";
+import {DateString} from "./DateString";
+import {SavedTimeZones} from "./SavedTimeZones";
 import {dataRetrievalOnRequest, setDataGetTimezoneFromLink} from "../../store/setClockData";
 import React, {useEffect} from "react";
 import {useDispatch} from "react-redux";
 import {useSearchParams} from "react-router-dom";
 import {useAppSelector} from "../../hooks/useTypedSelector";
 
-const Clock = () => {
+export const Clock = () => {
     const dispatch = useDispatch()
     const clockDate = useAppSelector((state) => state.Clock)
     const [searchParams, setSearchParams] = useSearchParams()
@@ -61,4 +61,3 @@ const Clock = () => {
     );
 };
 
-export default Clock;

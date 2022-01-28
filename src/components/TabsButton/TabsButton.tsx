@@ -1,19 +1,17 @@
-import React, {useEffect, useState, useRef} from "react";
+import React, {useEffect, useRef} from "react";
 import Timer from "../Timer/Timer";
 import {useAppDispatch, useAppSelector} from "../../hooks/useTypedSelector";
 import {setStateTimer, upDateHours, upDateMinutes, upDateSecond} from "../../store/setTimerTime";
 import {
-    dataRetrievalOnRequest,
     setDefaultTime,
-    timezoneList,
     upDateTimeInSavedTimezone
 } from "../../store/setClockData";
-import Clock from "../Clock/Clock";
+import {Clock} from "../Clock/Clock";
 import {showPopup} from "../../store/setPopupState";
-import {Link, Navigate, Route, Routes, useLocation, useNavigate} from "react-router-dom";
-import NotFound from "../NotFound/NotFound";
+import {Link, Navigate, Route, Routes} from "react-router-dom";
+import {NotFound} from "../NotFound/NotFound";
 
-const TabsButton = () => {
+export const TabsButton = () => {
     type NumberForTimer = {
         hours: number,
         minute: number,
@@ -21,7 +19,6 @@ const TabsButton = () => {
         mili: number,
         currentMili: number,
     }
-    let location = useLocation();
     const dispatch = useAppDispatch()
     const endDate = useRef<number>(0);
     const startDate = useRef<Date>();
@@ -33,8 +30,6 @@ const TabsButton = () => {
         mili: 0,
         currentMili: 0,
     };
-
-
 
     function calculationDate() {
         startDate.current = new Date();
@@ -50,8 +45,6 @@ const TabsButton = () => {
     function stopTimer() {
         dispatch(setStateTimer(false))
     }
-
-
 
     useEffect( () =>{
         let interval: ReturnType<typeof setTimeout>;
@@ -91,7 +84,6 @@ const TabsButton = () => {
             <div className="tabs">
                 <Link className="timer__button tabs__button" to="/">Clock</Link>
                 <Link className="timer__button tabs__button" to="/timer">Timer</Link>
-
             </div>
 
             <Routes>
@@ -104,4 +96,3 @@ const TabsButton = () => {
     );
 };
 
-export default TabsButton;

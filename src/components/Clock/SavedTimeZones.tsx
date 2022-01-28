@@ -1,7 +1,7 @@
 import {useAppDispatch, useAppSelector} from "../../hooks/useTypedSelector";
 import {changeTimezoneFromSaved, removeFromInList } from "../../store/setClockData";
 
-const SavedTimeZones = () => {
+export const SavedTimeZones = () => {
     const savedTimezone = useAppSelector((state) => state.Clock.addedTimezoneInList);
     const dispatch = useAppDispatch();
     return (
@@ -20,6 +20,4 @@ const SavedTimeZones = () => {
         </ul>
     )
 }
-
-export default SavedTimeZones;
 
