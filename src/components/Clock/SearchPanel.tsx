@@ -42,7 +42,7 @@ const SearchPanel:React.FC<Props> = (props):JSX.Element  => {
 
     function changeInputData(index: number) {
         if (selectState && resultsList.length > 0) {
-            currentRow.current = -1;
+            currentRow.current = index;
             setSelectState(true);
         }
     }
@@ -155,7 +155,7 @@ const SearchPanel:React.FC<Props> = (props):JSX.Element  => {
                                 currentRow.current = 0;
                             }
                         }
-                        changeInputData(Item.id)
+                        
                         apiRequestDate(Item.city, Item.region, Item.id);
                         props.setLink(Item.city)
                     }}
