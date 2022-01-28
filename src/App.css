@@ -34,16 +34,14 @@ body {
 .timer__button {
     text-align: center;
     text-decoration: none;
-    background: 0 0;
+    background: #fff;
     border: 0;
     color: inherit;
     line-height: normal;
     overflow: visible;
     padding: 0;
-    -webkit-appearance: button;
+    -webkit-appearance: none;
     -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none
 }
 
 .timer__section-group {
@@ -182,7 +180,8 @@ body {
 .tabs__button {
     padding: 20px 0;
     font-size: 20px;
-    border-bottom: 2px solid #fff
+    border: none;
+    border-bottom: 2px solid #fff;
 }
 
 .tabs__button:hover {
@@ -317,7 +316,6 @@ body {
 }
 
 .search__result {
-    background: #fff;
     width: 100%;
     min-height: 100%;
     list-style: none;
@@ -410,6 +408,26 @@ body {
     pointer-events: auto;
     opacity: 1;
 
+}
+
+@media (max-width: 900px) {
+    .search {
+        grid-column: 1/13;
+        grid-row: 2;
+        border: none;
+    }
+    .clock__show-info {
+        grid-column: 1/13;
+    }
+    .wrap {
+        padding: 0px;
+    }
+    .input__wrap {
+        border: 1px solid #ccc;
+    }
+    .wrap-clock {
+        margin: 0;
+    }
 }
 
 @media (max-width:680px) {
@@ -510,8 +528,11 @@ body {
     .clock__section-group {
         padding: 70px 15px
     }
-    .wrap-clock {
-        padding: 10px
+    .city-name {
+        font-size: 20px;
+    }
+    .wrap-clock{
+     padding: 0 10px;
     }
 }
 

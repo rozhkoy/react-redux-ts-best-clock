@@ -120,13 +120,10 @@ const SearchPanel:React.FC<Props> = (props):JSX.Element  => {
     }
 
     useEffect(() => {
-        console.log("clockStore.mainClock.getTimezoneFromLink", clockStore.mainClock.getTimezoneFromLink)
             if(!clockStore.apiStatusHintList){
-                console.log("list")
                 dispatch(fetchCityList())
             }
             if(!clockStore.apiStatusLocalTime && !clockStore.mainClock.getTimezoneFromLink) {
-                console.log("fetch")
                 dispatch(fetchLocalTimezona())
             }
             if(clockStore.apiStatusHintList && enteredText.length <= 0){

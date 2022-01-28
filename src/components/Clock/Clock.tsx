@@ -6,9 +6,8 @@ import SavedTimeZones from "./SavedTimeZones";
 import {dataRetrievalOnRequest, setDataGetTimezoneFromLink} from "../../store/setClockData";
 import React, {useEffect} from "react";
 import {useDispatch} from "react-redux";
-import {createSearchParams, useLocation, useSearchParams} from "react-router-dom";
+import {useSearchParams} from "react-router-dom";
 import {useAppSelector} from "../../hooks/useTypedSelector";
-import {showPopup} from "../../store/setPopupState";
 
 const Clock = () => {
     const dispatch = useDispatch()
@@ -17,12 +16,13 @@ const Clock = () => {
     const [searchParams, setSearchParams] = useSearchParams()
 
     function receiveCurrentLink(){
-        console.log("df");
         let returnedObject
-        if(searchParams.get("timezone") !== null) {
+        console.log(searchParams.get("Timezone"));
+        if(searchParams.get("Timezone") !== null) {
             returnedObject = clockDate.cityListForHints.find((element) => {
-                return element.city === searchParams.get("timezone")
+                return element.city === searchParams.get("Timezone")
             })
+            console.log(returnedObject);
             if (returnedObject) {
                 dispatch(dataRetrievalOnRequest({
                     timeZone: returnedObject.city,
@@ -30,19 +30,19 @@ const Clock = () => {
                     id: returnedObject.id
                 }))
             } else {
+                console.log("error timezone")
                 dispatch(setDataGetTimezoneFromLink(false))
                 setSearchParams({})
             }
         }
-        console.log(searchParams.get("timezone"))
     }
 
     function setLink(timezone: string) {
-        setSearchParams({timezone: timezone})
+        setSearchParams({Timezone: timezone})
     }
 
     useEffect(() => {
-        if(!searchParams.get("timezone")){
+        if(!searchParams.get("Timezone")){
             dispatch(setDataGetTimezoneFromLink(false))
         }
         if(clockDate.cityListForHints.length > 0 && clockDate.mainClock.getTimezoneFromLink){
@@ -59,7 +59,6 @@ const Clock = () => {
                 <DateString />
                 <SavedTimeZones />
             </div>
-            <button onClick={receiveCurrentLink}>dfdf</button>
         </div>
     );
 };
