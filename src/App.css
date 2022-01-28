@@ -350,10 +350,11 @@ body {
     height: 50px
 }
 
-.city-name {
+.timezone-name {
     font-size: 25px;
     font-weight: 400;
-    text-transform: uppercase
+    text-transform: uppercase;
+    display: grid;
 }
 
 .first-level__remove-city {
@@ -366,12 +367,16 @@ body {
     background: #c1c1c1
 }
 
-.wrap-city-name {
+.timezone-name__wrap {
     position: relative;
     display: grid;
     padding: 0 0 20px 0;
     grid-template-columns: 1fr fit-content(100%);
     width: 100%
+}
+
+.timezone-name__region{
+    font-size: 16px;
 }
 
 .bttn-group {
@@ -524,9 +529,7 @@ body {
     .clock-colon {
         font-size: 53px
     }
-    .clock__show-info {
-        padding:  20px 0 20px 0;
-    }
+
 }
 
 @media (max-width:420px) {
@@ -549,7 +552,7 @@ body {
     .clock__section-group {
         padding: 20px 15px
     }
-    .city-name {
+    .timezone-name {
         font-size: 20px;
     }
     .wrap-clock{
