@@ -238,14 +238,14 @@ body {
 
 .preview-time {
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     flex-wrap: wrap
 }
 
 .preview-time__item {
     display: flex;
     flex-direction: column;
-    align-items: end;
+    align-items: flex-end;
     justify-content: center;
     width: fit-content;
     padding: 5px 10px;
@@ -395,19 +395,18 @@ body {
 }
 
 .second-level {
-    font-size: 20px;
-    font-weight: 400
+    font-size: 16px;
+    font-weight: 300
 }
 
 .third-level {
-    font-size: 18px
+    font-size: 14px
 }
 
 .visible-block {
     visibility: visible;
     pointer-events: auto;
     opacity: 1;
-
 }
 
 .not-found{
@@ -525,6 +524,9 @@ body {
     .clock-colon {
         font-size: 53px
     }
+    .clock__show-info {
+        padding:  20px 0 20px 0;
+    }
 }
 
 @media (max-width:420px) {
@@ -545,7 +547,7 @@ body {
         font-size: 34px
     }
     .clock__section-group {
-        padding: 70px 15px
+        padding: 20px 15px
     }
     .city-name {
         font-size: 20px;

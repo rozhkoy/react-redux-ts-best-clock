@@ -16,7 +16,6 @@ const Clock = () => {
 
     function receiveCurrentLink(){
         let returnedObject
-        console.log(searchParams.get("Timezone"));
         if(searchParams.get("Timezone") !== null) {
             returnedObject = clockDate.cityListForHints.find((element) => {
                 return element.city === searchParams.get("Timezone")
@@ -41,8 +40,6 @@ const Clock = () => {
     }
 
     useEffect(() => {
-        // setSearchParams({Timezone: ""})
-        console.log(searchParams.get("Timezone"));
         if(!searchParams.get("Timezone")){
             dispatch(setDataGetTimezoneFromLink(false))
         }

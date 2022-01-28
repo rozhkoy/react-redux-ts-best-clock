@@ -4,7 +4,7 @@ import React, {ChangeEvent, useEffect, useRef, useState} from "react";
 import {
     dataRetrievalOnRequest,
     fetchCityList,
-    fetchLocalTimezona, setDataGetTimezoneFromLink,
+    fetchLocalTimezona,
     timezoneList
 } from "../../store/setClockData";
 import {showPopup} from "../../store/setPopupState";
@@ -29,26 +29,33 @@ const SearchPanel:React.FC<Props> = (props):JSX.Element  => {
     }
 
     function updateInput(event: ChangeEvent<HTMLInputElement> ) {
+        if(currentRow.current >= 0){
+            if(resultListArray.current[currentRow.current].classList.contains('active__list')){
+                resultListArray.current[currentRow.current].classList.remove('active__list');
+            }
+        }
         setEnteredText(event.target.value);
         createHintsList(event.target.value);
-        if(currentRow.current >= 0 && resultListArray.current[currentRow.current].classList.contains('active__list')){
-            resultListArray.current[currentRow.current].classList.remove('active__list');
-        }
         currentRow.current = -1;
         setSelectState(true)
     }
 
     function changeInputData(index: number) {
         if (selectState && resultsList.length > 0) {
-            currentRow.current = index;
+            currentRow.current = -1;
             setSelectState(true);
         }
     }
 
     function selectionHints(event: KeyboardEvent) {
         if (event.keyCode === 13 && currentRow.current >= 0) {
-         apiRequestDate(resultsList[currentRow.current].city, resultsList[currentRow.current].region, resultsList[currentRow.current].id);
-         props.setLink(resultsList[currentRow.current].city)
+            apiRequestDate(resultsList[currentRow.current].city, resultsList[currentRow.current].region, resultsList[currentRow.current].id);
+            props.setLink(resultsList[currentRow.current].city)
+            if(currentRow.current >= 0){
+                if(resultListArray.current[currentRow.current].classList.contains('active__list')){
+                    resultListArray.current[currentRow.current].classList.remove('active__list');
+                }
+            }
         }
 
         if (selectState && resultsList.length !== 0) {
@@ -93,18 +100,14 @@ const SearchPanel:React.FC<Props> = (props):JSX.Element  => {
 
     function createHintsList(text: string) {
             let regex = new RegExp(`^${text}`, 'im');
-            let newID = 0;
             let newResultList: timezoneList[] = [];
-            let listSize = 0;
             for (let i = 0; i < clockStore.cityListForHints.length; i++) {
-                if (regex.test(clockStore.cityListForHints[i].city) && listSize <= 10) {
+                if (regex.test(clockStore.cityListForHints[i].city)) {
                     newResultList.push({
-                        id: newID,
+                        id: clockStore.cityListForHints[i].id,
                         city: `${clockStore.cityListForHints[i].city}`,
                         region: `${clockStore.cityListForHints[i].region}`
                     });
-                    newID++;
-                    listSize++;
                 }
             }
             setResultList(newResultList);
@@ -142,8 +145,15 @@ const SearchPanel:React.FC<Props> = (props):JSX.Element  => {
                 {resultsList.map((Item, index: number) => (<li
                     ref={(elRef: HTMLLIElement) => {resultListArray.current[index] = elRef;}}
                     onClick={() =>{
-                        if(currentRow.current >= 0 && resultListArray.current[currentRow.current].classList.contains('active__list')){
-                            resultListArray.current[currentRow.current].classList.remove('active__list');
+                        console.log(currentRow)
+                        if(currentRow.current >= 0){
+                            console.log(currentRow)
+                            if(resultListArray.current[currentRow.current].classList.contains('active__list')){
+                                resultListArray.current[currentRow.current].classList.remove('active__list');
+                                currentRow.current = -1
+                            } else {
+                                currentRow.current = 0;
+                            }
                         }
                         changeInputData(Item.id)
                         apiRequestDate(Item.city, Item.region, Item.id);

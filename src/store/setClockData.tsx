@@ -1,8 +1,5 @@
-import {createAsyncThunk, createSlice, current, PayloadAction} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {DateTime} from "luxon";
-
-
-// interface
 
 interface clockState {
     value: number,
@@ -11,9 +8,10 @@ interface clockState {
     apiStatusLocalTime: boolean,
     mainClock: mainClocKI,
     addedTimezoneInList: Array<savedTimezone>,
+    requestAttempts: number
 }
 
-interface mainClocKI{
+interface mainClocKI {
     time: TimeHoursMinutesSecond,
     dataInString: string,
     mainClockCity: string,
@@ -24,26 +22,26 @@ interface mainClocKI{
     getTimezoneFromLink: boolean
 }
 
-interface TimeHoursMinutesSecond{
+interface TimeHoursMinutesSecond {
     hours: number,
     minutes: number,
     seconds: number,
     fullTime: Array<string>
 }
 
-interface data{
+interface data {
     timeZone: string,
     region: string,
     id: number,
 }
 
- export interface timezoneList{
+ export interface timezoneList {
     id: number,
     city: string,
     region: string
 }
 
-export interface savedTimezone{
+export interface savedTimezone {
     id: number,
     city: string,
     region: string,
@@ -71,15 +69,16 @@ const initialClockState:clockState = {
         region: "",
         getTimezoneFromLink: true
     },
-    addedTimezoneInList: []
+    addedTimezoneInList: [],
+    requestAttempts: 0
 }
 
 export const fetchLocalTimezona = createAsyncThunk(
     "fetchLocalTimezona",
     async function foo(): Promise<any> {
         try{
-            const response =  await fetch(`http://worldtimeapi.org/api/ip`);
-            return  await  response.json();
+            const response = await fetch(`http://worldtimeapi.org/api/ip`);
+            return await response.json();
         }catch (e){
             return foo()
         }
@@ -118,9 +117,6 @@ export const clock = createSlice({
     name: "clock",
     initialState: initialClockState,
     reducers: {
-        check: (state) => {
-            console.log(state.cityListForHints);
-        },
         setDefaultTime: (state) => {
                 state.mainClock.time.fullTime = DateTime.local().plus({
                     hours: state.mainClock.difference * -1,
@@ -161,22 +157,21 @@ export const clock = createSlice({
         }
     },
     extraReducers: (builder => {
-        builder.addCase(fetchCityList.pending, (state, {payload}) => {
+        builder.addCase(fetchCityList.pending, () => {
             console.log("pending")
         })
         builder.addCase(fetchCityList.fulfilled, (state, {payload}) => {
-            console.log("je")
+            console.log("fulfilled")
             if(!state.apiStatusHintList) {
+                state.apiStatusHintList = true;
                 for(let i = 0; i < payload.length; i++){
                     payload[i] = payload[i].split("/");
-                    if(payload[i].length == 2 && (payload[i][0] !== "Etc")){
+                    if(payload[i].length === 2 && (payload[i][0] !== "Etc")){
                         payload[i][1] = payload[i][1].split("_");
                         payload[i][1] = payload[i][1].join(" ");
-                        state.cityListForHints.push({id: state.cityListForHints.length - 1, city: payload[i][1], region: payload[i][0]})
+                        state.cityListForHints.push({id: state.cityListForHints.length, city: payload[i][1], region: payload[i][0]})
                     }
                 }
-                state.apiStatusHintList = true;
-                console.log(current(state.cityListForHints));
             }
         })
         builder.addCase(dataRetrievalOnRequest.fulfilled, (state, {payload}) =>{
@@ -199,5 +194,5 @@ export const clock = createSlice({
         })
     })
 })
-export const {check, setDefaultTime, addTimeZoneInList, switchStateApiStatus, removeFromInList, changeTimezoneFromSaved, upDateTimeInSavedTimezone, setDataGetTimezoneFromLink} = clock.actions
+export const {setDefaultTime, addTimeZoneInList, switchStateApiStatus, removeFromInList, changeTimezoneFromSaved, upDateTimeInSavedTimezone, setDataGetTimezoneFromLink} = clock.actions
 export default clock.reducer
