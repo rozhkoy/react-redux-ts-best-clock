@@ -77,7 +77,7 @@ export const fetchLocalTimezona = createAsyncThunk(
     "fetchLocalTimezona",
     async function foo(): Promise<any> {
         try{
-            const response = await fetch(`http://worldtimeapi.org/api/ip`);
+            const response = await fetch(`https://worldtimeapi.org/api/ip`);
             return await response.json();
         }catch (e){
             return foo()
@@ -89,7 +89,7 @@ export const fetchCityList = createAsyncThunk(
     "cityList",
      async function foo(): Promise<any> {
          try{
-            const response =  await fetch(`http://worldtimeapi.org/api/timezone`);
+            const response =  await fetch(`https://worldtimeapi.org/api/timezone`);
             return  await  response.json();
          }catch (e){
              return foo()
@@ -101,7 +101,7 @@ export const dataRetrievalOnRequest = createAsyncThunk(
     'dataRetrieval',
     async function foo(someInfo: data):Promise<any> {
         try{
-            const response =  await fetch(`http://worldtimeapi.org/api/timezone/${someInfo.region}/${someInfo.timeZone.split(" ").join("_")}`);
+            const response =  await fetch(`https://worldtimeapi.org/api/timezone/${someInfo.region}/${someInfo.timeZone.split(" ").join("_")}`);
             const data: any = await  response.json();
             const timezoneID = someInfo.id;
             const cityNameForRequest: string = someInfo.timeZone;
