@@ -8,7 +8,6 @@ import {
     timezoneList
 } from "../../store/setClockData";
 import {showPopup} from "../../store/setPopupState";
-import {useLocation, useNavigate} from "react-router-dom";
 
 type Props = {
     setLink: any

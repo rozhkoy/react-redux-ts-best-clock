@@ -11,7 +11,6 @@ import {useAppSelector} from "../../hooks/useTypedSelector";
 
 const Clock = () => {
     const dispatch = useDispatch()
-
     const clockDate = useAppSelector((state) => state.Clock)
     const [searchParams, setSearchParams] = useSearchParams()
 
@@ -42,6 +41,8 @@ const Clock = () => {
     }
 
     useEffect(() => {
+        // setSearchParams({Timezone: ""})
+        console.log(searchParams.get("Timezone"));
         if(!searchParams.get("Timezone")){
             dispatch(setDataGetTimezoneFromLink(false))
         }

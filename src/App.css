@@ -93,7 +93,7 @@ body {
     margin: 10px 0 0 0
 }
 
-.button__plua {
+.button__plus {
     margin: 0 0 10px 0
 }
 
@@ -410,6 +410,25 @@ body {
 
 }
 
+.not-found{
+    display: flex;
+    justify-content: center;
+}
+
+.not-found span{
+    font-size: 13vw;
+    padding: 0 20px;
+    color: #484848;
+}
+
+.not-found span:nth-child(even){
+    color: #0fdfc3;
+}
+.not-found-text{
+    text-align: center;
+    padding: 20px;
+}
+
 @media (max-width: 900px) {
     .search {
         grid-column: 1/13;
@@ -420,7 +439,7 @@ body {
         grid-column: 1/13;
     }
     .wrap {
-        padding: 0px;
+        padding: 0;
     }
     .input__wrap {
         border: 1px solid #ccc;

@@ -10,9 +10,8 @@ import {
 } from "../../store/setClockData";
 import Clock from "../Clock/Clock";
 import {showPopup} from "../../store/setPopupState";
-import {Link, Route, Routes, useLocation, useNavigate} from "react-router-dom";
-import internal from "stream";
-import {createInterface} from "readline";
+import {Link, Navigate, Route, Routes, useLocation, useNavigate} from "react-router-dom";
+import NotFound from "../NotFound/NotFound";
 
 const TabsButton = () => {
     type NumberForTimer = {
@@ -92,16 +91,15 @@ const TabsButton = () => {
             <div className="tabs">
                 <Link className="timer__button tabs__button" to="/">Clock</Link>
                 <Link className="timer__button tabs__button" to="/timer">Timer</Link>
-            </div>
 
+            </div>
 
             <Routes>
                 <Route path="/timer" element={<Timer startTimer={startTimer} stopTimer={stopTimer} />} />
                 <Route path="/" element={<Clock />} />
+                <Route path="/not-found" element={<NotFound/>} />
+                <Route path="*" element={<Navigate to="/not-found"/>} />
             </Routes>
-
-            {/*// {selectedTab === 2 && <Timer startTimer={startTimer} stopTimer={stopTimer} />}*/}
-            {/*// {selectedTab ===1 && <Clock />}*/}
         </div>
     );
 };
