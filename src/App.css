@@ -358,9 +358,19 @@ body {
 }
 
 .first-level__remove-city {
-    background: 0 0;
+    border-radius: 50%;
+    position: relative;
+    right: -20px;
+    top: -23px;
+    padding: 3px;
+    background: transparent;
     border: none;
-    padding: 0 2px
+}
+
+.first-level__remove-city img {
+    width: 12px;
+    height: 12px;
+
 }
 
 .first-level__remove-city:hover {
@@ -396,7 +406,7 @@ body {
 }
 
 .first-level {
-    font-size: 12px
+    position: absolute;
 }
 
 .second-level {

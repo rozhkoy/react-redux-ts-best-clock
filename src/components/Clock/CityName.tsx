@@ -9,7 +9,8 @@ export const CityName = () => {
         <div className='timezone-name__wrap'>
             <p className="timezone-name">
                 <span className="timezone-name__region">{cityName.region}</span>
-                <span className="timezone-name__city">{cityName.mainClockCity}</span></p>
+                <span className="timezone-name__city">{cityName.mainClockCity}</span>
+            </p>
             <div className="bttn-group">
                 <ComebackHouse  />
                 <BttnAdd />
