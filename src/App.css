@@ -373,10 +373,6 @@ body {
 
 }
 
-.first-level__remove-city:hover {
-    background: #c1c1c1
-}
-
 .timezone-name__wrap {
     position: relative;
     display: grid;
