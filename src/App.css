@@ -322,7 +322,8 @@ body {
     padding: 10px 0 0 0;
     border-top: none;
     max-height: 300px;
-    overflow-y: scroll
+    overflow-y: scroll;
+    overscroll-behavior-y: contain;
 }
 
 .search__result li {
