@@ -1,6 +1,5 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {DateTime} from "luxon";
-import {log} from "util";
 
 interface clockState {
     value: number,
