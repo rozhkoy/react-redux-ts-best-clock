@@ -1,5 +1,6 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {DateTime} from "luxon";
+import {log} from "util";
 
 interface clockState {
     value: number,
@@ -158,10 +159,8 @@ export const clock = createSlice({
     },
     extraReducers: (builder => {
         builder.addCase(fetchCityList.pending, () => {
-            console.log("pending")
         })
         builder.addCase(fetchCityList.fulfilled, (state, {payload}) => {
-            console.log("fulfilled")
             if(!state.apiStatusHintList) {
                 state.apiStatusHintList = true;
                 for(let i = 0; i < payload.length; i++){
@@ -190,7 +189,7 @@ export const clock = createSlice({
             state.mainClock.region = payload.timezone.split("/")[0];
             state.mainClock.timezoneID = -1;
             const date = +new Date();
-            const date2  = +new Date(payload.data.datetime.split('.')[0]);
+            const date2  = +new Date(payload.datetime.split('.')[0]);
             state.mainClock.difference = Math.round((date - date2) / (1000 * 60 * 60));
             state.apiStatusLocalTime = true;
         })
