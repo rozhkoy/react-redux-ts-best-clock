@@ -189,7 +189,9 @@ export const clock = createSlice({
             state.mainClock.mainClockCity = payload.timezone.split("/")[1] ;
             state.mainClock.region = payload.timezone.split("/")[0];
             state.mainClock.timezoneID = -1;
-            state.mainClock.difference = 0;
+            const date = +new Date();
+            const date2  = +new Date(payload.data.datetime.split('.')[0]);
+            state.mainClock.difference = Math.round((date - date2) / (1000 * 60 * 60));
             state.apiStatusLocalTime = true;
         })
     })
